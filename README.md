@@ -25,7 +25,7 @@ npm run build
 ## git workflow
 
 * fetch (or clone) repo to local
-    * git clone 
+    * git clone https://github.com/HANU-GDSC/hanuoj-fe.git
     * git fetch
 * install dependencies *(if not installed)*
     * npm install
