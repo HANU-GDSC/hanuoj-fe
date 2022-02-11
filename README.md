@@ -25,8 +25,8 @@ npm run build
 ## git workflow
 
 * fetch (or clone) repo to local
-    * git clone https://github.com/HANU-GDSC/hanuoj-fe.git
-    * git fetch
+    * git clone -b develop https://github.com/HANU-GDSC/hanuoj-fe.git
+    * git pull origin develop
 * install dependencies *(if not installed)*
     * npm install
 * switch to develop branch
@@ -36,7 +36,5 @@ npm run build
 
 **when finished**
 
-* add remote origin
-    * git remote add origin
 * push
     * git push origin develop
