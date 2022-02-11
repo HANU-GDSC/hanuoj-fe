@@ -1,19 +1,42 @@
 # hanu_online_judge_client
 
-## Project setup
-```
-npm install
-```
+## requirements
+1. vue 3 extension [download](https://chrome.google.com/webstore/detail/vuejs-devtools/ljjemllljcmogpfapbkkighbhhppjdbg?hl=en)
+2. vue-cli [download](https://cli.vuejs.org/guide/installation.html)
+3. nodejs&npm [download](https://nodejs.org/en/download/)
+4. Prettier, download from vs code marketplace
 
-### Compiles and hot-reloads for development
+## setup
+create a file named `.env.local` in the root directory of the project, and paste the following content:
+```
+VUE_APP_API=https://lamlamlfakeapi.herokuapp.com
+```
+fake api list
+|des                |url            |
+|-------------------|---------------|
+|get all users      |/endUser       |
+## command
+
 ```
 npm run serve
-```
-
-### Compiles and minifies for production
-```
 npm run build
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## git workflow
+
+* fetch (or clone) repo to local
+    * git clone 
+    * git fetch
+* install dependencies *(if not installed)*
+    * npm install
+* switch to develop branch
+    * git checkout develop
+
+**working...**
+
+**when finished**
+
+* add remote origin
+    * git remote add origin
+* push
+    * git push origin develop

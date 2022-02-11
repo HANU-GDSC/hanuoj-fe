@@ -1,0 +1,162 @@
+// __________default element style__________
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    transition: all 0.3s; //animation everywhere ;)
+}
+
+// __________font-family define__________
+@font-face {
+    font-family: font1;
+    // src: url('./assets/font/example.ttf');
+}
+@font-face {
+    font-family: font2;
+    // src: url('./assets/font/example.ttf');
+}
+@font-face {
+    font-family: font3;
+    // src: url('./assets/font/example.ttf');
+}
+
+// __________root variable__________
+// mau sac chia lam 2 kieu: light va dark
+// nhung thuoc tinh: mau sac, font, font-size, bo cong, margin giua cac element chinh, do day line, ... nen dung cac bien css nay
+// han che dung property tu dinh nghia
+:root {
+    //color
+    --l-theme-1: red;
+    --l-theme-2: #ffffff;
+    --l-theme-3: #ffffff;
+    --l-theme-1-lighter: #ffffff;
+    --l-theme-2-lighter: #ffffff;
+    --l-theme-3-lighter: #ffffff;
+    --l-theme-1-darker: #ffffff;
+    --l-theme-2-darker: #ffffff;
+    --l-theme-3-darker: #ffffff;
+    --l-background-1: #ffffff;
+    --l-background-2: #ffffff;
+    --l-background-1-hover: #ffffff;
+    --l-background-2-hover: #ffffff;
+    --l-shadow: #ffffffff;
+    --d-theme-1: #000000;
+    --d-theme-2: #000000;
+    --d-theme-3: #000000;
+    --d-theme-1-lighter: #000000;
+    --d-theme-2-lighter: #000000;
+    --d-theme-3-lighter: #000000;
+    --d-theme-1-darker: #000000;
+    --d-background-1: #000000;
+    --d-background-2: #000000;
+    --d-background-1-hover: #000000;
+    --d-background-2-hover: #000000;
+    --d-shadow: #000000ff;
+    //other
+    --size-small: 14px; 
+    --size-normal: 18px;
+    --size-big: 24px;
+    --size-huge: 36px;
+    --size-giant: 48px;
+    --radius-1: 5px;
+    --radius-2: 10px;
+    --margin-1: 10px;
+    --margin-2: 20px;
+    --line-thickness-1: 1px;
+    --line-thickness-2: 2px;
+}
+
+// __________general element style__________
+h1, h2, h3, h4 {
+    font-family: font1;
+    color: var(--l-theme-1);
+}
+h1 {
+    font-size: var(--size-giant);
+}
+h2 {
+    font-size: var(--size-huge);
+}
+h3 {
+    font-size: var(--size-big);
+}
+h4 {
+    font-size: var(--size-normal);
+}
+p {
+    font-family: font2;
+    font-size: var(--size-normal);
+}
+a.theme-link { //cac the link voi class "link"
+    font-family: font2;
+    text-decoration: none;
+}
+a.theme-link:hover {
+    text-decoration: underline;
+}
+.light {
+    h1, h2, h3, h4 {
+        color: var(--l-theme-1);
+    }
+    p {
+        color: var(--l-theme-1);
+    }
+    a.theme-link { 
+        color: var(--l-theme-1);
+    }
+    a.theme-link:hover {
+        color: var(--l-theme-1-lighter);
+    }
+    a.link:visited {
+        color: var(--l-theme-1);
+    }
+    ::selection {
+        background: var(--l-background-1);
+        color: var(--d-theme-2);
+    }
+}
+.dark {
+    h1, h2, h3, h4 {
+        color: var(--d-theme-1);
+    }
+    p {
+        color: var(--d-theme-1);
+    }
+    a.theme-link { 
+        color: var(--d-theme-1);
+    }
+    a.theme-link:hover {
+        color: var(--d-theme-1-lighter);
+    }
+    a.link:visited {
+        color: var(--d-theme-1);
+    }
+    ::selection {
+        background: var(--d-background-1);
+        color: var(--l-theme-2);
+    }
+}
+
+// __________scroll bar__________
+::-webkit-scrollbar {
+    width: 7px;
+}
+::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+}
+.light {
+    ::-webkit-scrollbar-thumb {
+        background-color: rgba(200, 200, 200, 0.5);
+    }
+    ::-webkit-scrollbar-thumb:hover {
+        background-color: rgba(200, 200, 200, 0.8);
+    }
+}
+.dark {
+    ::-webkit-scrollbar-thumb {
+        background-color: rgba(61, 61, 61, 0.5);
+    }
+    ::-webkit-scrollbar-thumb:hover {
+        background-color: rgba(61, 61, 61, 0.8);
+    }
+}
