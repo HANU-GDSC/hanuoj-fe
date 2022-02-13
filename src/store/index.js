@@ -1,13 +1,13 @@
 import { createStore } from "vuex";
 import endUser from "./endUser";
-import exercise from "./exercise";
+import problem from "./problem";
 import general from "./general";
 
 export default createStore({
 	namespaced: true,
 	modules: {
 		endUser,
-		exercise,
+		problem,
 		general,
 	},
 });
