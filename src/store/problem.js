@@ -5,13 +5,16 @@ export default {
             allProblem: [],
             /*  problem: {
                 id: String,
-                difficulty: String,
                 name: String,
-                description: String,
-                author: String, //match to user id
+                tag: String,
+                status: String,
                 ACsCount: Number,
                 submissionsCount: Number,
+                difficulty: String,
+                description: String,
+                author: String, //match to user id
              */
+            currentProblem: "", // store id
         };
     },
     mutations: {
