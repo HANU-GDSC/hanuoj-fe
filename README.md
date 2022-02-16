@@ -15,6 +15,7 @@ fake api list
 |des                |url            |
 |-------------------|---------------|
 |get all users      |/endUser       |
+|get all problems   |/problem       |
 ## command
 
 ```
