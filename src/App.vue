@@ -1,8 +1,7 @@
-<template>
-    <!-- thẻ main có class là dark hoặc light, css màu sắc của các phần tử con đều phải dựa theo class chính này -->
+<template><!-- thẻ main có class là dark hoặc light, css màu sắc của các phần tử con đều phải dựa theo class chính này -->
     <div id="main" :class="$store.state.general.theme">
-        <Nav />  <!-- nav bar -->
-        <router-view /> <!-- nội dung của router -->
+        <Nav />
+        <router-view />
     </div>
 </template>
 <script>
@@ -20,12 +19,11 @@ export default {
         Nav,
     },
     created() {
-        // setup local storage
         this.$store.dispatch("general/initTheme");
 
         // fetch user data, chỉ khi có accessToken trong localStorage
         // lấy data của 1 user, xong lưu vào trong vuex store
-        // tạm thời chưa có api thì dùng fake api, lấy hết tất cả user
+        // tạm thời chưa có api thì dùng fake api, lấy hết tất cả user và problem
         if (localStorage.getItem("accessToken")) {
             apiService("GET", "/endUser")
                 .then((res) => {
@@ -45,7 +43,6 @@ export default {
         
     },
     mounted() {
-        // set background color, thằng này phải set riêng vì css selector không thể chọn từ trong ra
         const lightBackground = getComputedStyle(
             document.body
         ).getPropertyValue("--l-background-1");
@@ -58,7 +55,6 @@ export default {
                 : lightBackground;
     },
     watch: {
-        //xem sự thay đổi của route, nếu user đã authen thì không đc vào trang login nữa, nếu user chưa authen thì đẩy ng dùng vào trang login
         $route(to, from) {
             routerWatcher(to, from);
         },

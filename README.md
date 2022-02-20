@@ -6,7 +6,7 @@
 3. nodejs&npm [download](https://nodejs.org/en/download/)
 4. Prettier, download from vs code marketplace
 
-## setup
+## setup for development
 create a file named `.env.local` in the root directory of the project, and paste the following content:
 ```
 VUE_APP_API=https://lamlamlfakeapi.herokuapp.com
@@ -16,6 +16,9 @@ fake api list
 |-------------------|---------------|
 |get all users      |/endUser       |
 |get all problems   |/problem       |
+
+thêm accessToken vào localStorage để vào các protected route
+hoặc xóa accessToken đi để vào các auth route
 ## command
 
 ```
@@ -39,6 +42,3 @@ npm run build
 
 * push
     * git push origin develop
-
-*Viet 
-    *Viet da sua

@@ -3,7 +3,6 @@ import store from "../store/index";
 
 export default function(error) {
     console.log(error);
-    /// handle error từ sever response
     if (error.response) {
         const response = error.response;
         // unauthenticated

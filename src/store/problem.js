@@ -6,13 +6,15 @@ export default {
             /*  problem: {
                 id: String,
                 name: String,
-                tag: String,
-                status: String,
+                description: String,
+                author: String, //match to user id
                 ACsCount: Number,
                 submissionsCount: Number,
                 difficulty: String,
-                description: String,
-                author: String, //match to user id
+                memoryLimit: String,
+                timeLimit: String,
+                allowedProgrammingLanguage: [String],
+                status: String,
              */
             currentProblem: "", // store id
         };
