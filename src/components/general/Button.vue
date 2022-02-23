@@ -1,6 +1,6 @@
 <template>
-    <div id="btn">
-        <button :type="type" :title="des" :class="{btnDisable: disable}">{{ text }}</button>
+    <div class="btn">
+        <button :type="type" :title="des" :class="{btnDisable: disable}" @click="click()">{{ text }}</button>
     </div>
 </template>
 
@@ -23,6 +23,14 @@ export default {
         },
         des: {
             type: String,
+        }
+    },
+
+    methods: {
+        click() {
+            if (!this.disable) {
+                this.$emit('clicked');  // đặt là clicked để tránh trùng với @click
+            }
         }
     }
 }
