@@ -23,8 +23,8 @@ export default {
         initTheme(state) {
             const currentTheme = localStorage.getItem("theme");
             if (!currentTheme) {
-                state.commit("setTheme", "light");
-                localStorage.setItem("theme", "light");
+                state.commit("setTheme", "light-theme");
+                localStorage.setItem("theme", "light-theme");
             } else {
                 state.commit("setTheme", currentTheme);
             };
