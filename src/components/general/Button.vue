@@ -1,5 +1,5 @@
 <template>
-    <div id="btn">
+    <div class="btn">
         <button :type="type" :title="des" :class="{btnDisable: disable}">{{ text }}</button>
     </div>
 </template>
