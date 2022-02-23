@@ -7,6 +7,7 @@
 4. Prettier, download from vs code marketplace
 
 ## setup for development
+run npm i to update all dependencies
 create a file named `.env.local` in the root directory of the project, and paste the following content:
 ```
 VUE_APP_API=https://lamlamlfakeapi.herokuapp.com

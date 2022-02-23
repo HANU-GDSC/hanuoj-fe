@@ -33,6 +33,7 @@ const routes = [
 		meta: {
 			type: "protected",
 			navRender: true,
+			navIcon: "fa-solid fa-house-chimney"
 		}
 	},
 	{
@@ -42,6 +43,57 @@ const routes = [
 		meta: {
 			type: "protected",
 			navRender: true,
+			navIcon: "fa-solid fa-code"
+		}
+	},
+	{
+		path: "/contest",
+		name: "Contest",
+		component: () => import("../views/Contest"),
+		meta: {
+			type: "protected",
+			navRender: true,
+			navIcon: "fa-solid fa-trophy"
+		}
+	},
+	{
+		path: "/discussion",
+		name: "Discussion",
+		component: () => import("../views/Discussion"),
+		meta: {
+			type: "protected",
+			navRender: true,
+			navIcon: "fa-solid fa-comments"
+		}
+	},
+	{
+		path: "/ranking",
+		name: "Ranking",
+		component: () => import("../views/Ranking"),
+		meta: {
+			type: "protected",
+			navRender: true,
+			navIcon: "fa-solid fa-medal"
+		}
+	},
+	{
+		path: "/help",
+		name: "Help",
+		component: () => import("../views/Help"),
+		meta: {
+			type: "protected",
+			navRender: true,
+			navIcon: "fa-solid fa-question"
+		}
+	},
+	{
+		path: "/setting",
+		name: "Setting",
+		component: () => import("../views/Setting"),
+		meta: {
+			type: "protected",
+			navRender: true,
+			navIcon: "fa-solid fa-gear"
 		}
 	},
 	{

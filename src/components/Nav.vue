@@ -1,15 +1,27 @@
 <template>
-    <ul id="nav" v-if="routeCheck">
-        <router-link
-            v-for="(route, index) in routeList"
-            :key="index"
-            :to="route.path"
+    <div id="nav" v-if="routeCheck">
+        <div class="fixed-content">
+            <router-link to="/">
+                <img
+                    src="https://cdn.thukyluat.vn/nhch-images//CauHoi_Hinh/9eb6abaa-8cda-456c-ad66-26ba4da23ffe.jpg"
+                    alt="logo"
+                />
+                <h4>HANU Online Judge</h4></router-link
             >
-                <i>icon </i>
-                <a class="theme-link">{{ route.name }}</a> |
-            </router-link
-        >
-    </ul>
+            <div class="page-group">
+                <router-link
+                    v-for="(route, index) in routeList"
+                    :key="index"
+                    :to="route.path"
+                    class="page"
+                >
+                    <div class="ver-line"></div>
+                    <i :class="route.icon"></i>
+                    <a>{{ route.name }}</a>
+                </router-link>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -18,11 +30,14 @@ export default {
     data() {
         return {
             routeList: [],
+            // sample: {
+            //     path: "/",
+            //     name: "Home"
+            // }   icon: "fas fa-home"
+            // }
         };
     },
-
-    methods: {
-    },
+    methods: {},
 
     computed: {
         routeCheck() {
@@ -32,37 +47,77 @@ export default {
                 this.$route.meta.type === "public"
             );
         },
-        created() {
-            // Lấy danh sách route từ router
-            if (this.routeList.meta.navRender) {
-                this.routeList.push(this.$route);
-            }
-        },
     },
 
     created() {
-        this.routeList = this.$router.options.routes.filter(
-            (route) => route.meta.navRender
-        );
+        this.$router.options.routes.filter((route) => {
+            if (route.meta.navRender)
+                this.routeList.push({
+                    path: route.path,
+                    name: route.name,
+                    icon: route.meta.navIcon,
+                });
+        });
     },
 };
 </script>
 
 <style lang="scss" scoped>
 #nav {
+    position: relative;
+    flex: 0 0 15%;
 }
-.router-link-activate {
-
+.fixed-content {
+    position: sticky;
+    top: 0;
+    padding-top: 5px;
 }
-.light {
-    .router-link-activate {
-
+.fixed-content > a {
+    display: block;
+    margin: 0 var(--mb-0-25) var(--mb-1) var(--mb-0-25);
+    img {
+        display: inline-block;
+        vertical-align: top;
+        width: 30%;
+    }
+    h4 {
+        display: inline-block;
+        width: 70%;
+        font-size: var(--normal-font-size);
+        text-align: center;
+        color: var(--title-color);
     }
 }
-
-.dark {
-    .router-link-activate {
-
+.page-group {
+    margin: var(--mb-0-1) 0;
+    a.page {
+        position: relative;
+        display: block;
+        padding: 10px 8px 10px 10%;
+        color: var(--text-color-light);
+        font-size: var(--normal-font-size);
+        i {
+            margin-right: var(--mb-0-5);
+        }
+        a {
+        }
+        @media screen and (max-width: 900px) {
+            font-size: var(--smaller-font-size);
+        }
+    }
+    a.router-link-active {
+        color: var(--title-color);
+        .ver-line {
+            display: block;
+            position: absolute;
+            width: 3px;
+            height: 70%;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: var(--title-color);
+            clip-path: polygon(0 0, 100% 12%, 100% 89%, 0 100%, 0% 75%, 0% 25%);
+        }
     }
 }
 </style>

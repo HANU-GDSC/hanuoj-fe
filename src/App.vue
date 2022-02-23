@@ -1,7 +1,10 @@
-<template><!-- thẻ main có class là dark hoặc light, css màu sắc của các phần tử con đều phải dựa theo class chính này -->
+<template>
+    <!-- thẻ main có class là dark hoặc light, css màu sắc của các phần tử con đều phải dựa theo class chính này -->
     <div id="main" :class="$store.state.general.theme">
         <Nav />
-        <router-view />
+        <div class="content">
+            <router-view />
+        </div>
     </div>
 </template>
 <script>
@@ -40,19 +43,12 @@ export default {
                     errorHandler(error);
                 });
         }
-        
     },
     mounted() {
-        const lightBackground = getComputedStyle(
-            document.body
-        ).getPropertyValue("--l-background-1");
-        const darkBackground = getComputedStyle(document.body).getPropertyValue(
-            "--d-background-1"
-        );
         document.body.style.backgroundColor =
-            this.$store.state.general.theme === "dark"
-                ? darkBackground
-                : lightBackground;
+            this.$store.state.general.theme === "dark-theme"
+                ? "hsl(230, 28%, 12%)"
+                : "hsl(230, 60%, 99%)";
     },
     watch: {
         $route(to, from) {
@@ -63,4 +59,7 @@ export default {
 </script>
 <style lang="scss">
 @import "./App.scss";
+#main {
+    display: flex;
+}
 </style>
