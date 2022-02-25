@@ -9,7 +9,7 @@
         :disabled="disable"
         :required="require"
         :checked="checked == value.value"
-        @change="updateData()"
+        @change="updateData(inputData)"
       />
       <label :for="index">{{ value.value }}</label>
     </div>
@@ -47,14 +47,13 @@ export default {
   },
 
   created() {
-    this.inputData = this.checked; // ban đầu data của input bằng data của input được checked (mặc định)
-    return this.inputData;
+    // ban đầu data của input bằng data của input được checked (mặc định)
+    return this.inputData = this.checked;
   },
 
   methods: {
-    updateData() {
-      this.$emit("dataUpdated");
-      return this.inputData;
+    updateData(inputData) {
+      this.$emit("dataUpdated", inputData);
     },
   },
 };
