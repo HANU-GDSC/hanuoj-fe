@@ -41,7 +41,6 @@ export default {
   data() {
     return {
       inputData: [],
-      isChecked: false,
     };
   },
 
@@ -52,9 +51,6 @@ export default {
   methods: {
     updateData(inputData) {
       this.$emit("dataUpdated", inputData);
-    },
-    checked() {
-      return this.isChecked;
     },
   },
 };
