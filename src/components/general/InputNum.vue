@@ -21,7 +21,7 @@ export default {
     },
     disable: {
       type: Boolean,
-      default: true,
+      default: false,
     },
     require: {
       type: Boolean,
@@ -34,8 +34,8 @@ export default {
   },
   methods: {
     dataUpdated() {
+      this.$emit("dataUpdated", value);
       this.result = event.target.value;
-      console.log(this.result);
     },
   },
   data() {

@@ -4,7 +4,7 @@
       type="text"
       :disabled="disable"
       :required="require"
-      :placeholder="placeHolder"
+      :placeholder="placeholder"
       :value="value"
       @input="dataUpdated"
     />
@@ -21,21 +21,21 @@ export default {
     },
     disable: {
       type: Boolean,
-      default: true,
+      default: false,
     },
     require: {
       type: Boolean,
       default: true,
     },
-    placeHolder: {
+    placeholder: {
       type: String,
       default: "",
     },
   },
   methods: {
     dataUpdated() {
+      this.$emit("dataUpdated", value);
       this.result = event.target.value;
-      console.log(this.result);
     },
   },
   data() {

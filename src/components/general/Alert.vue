@@ -1,5 +1,5 @@
 <template>
-  <div class="content-alertbox" v-show="isShowtoUser">
+  <div class="content-alertbox" v-show="isShow">
     <div class="alert" :class = "type">
       {{ text }}
     </div>
@@ -25,15 +25,9 @@ export default {
       default: false,
     },
   },
-
-  data() {
-    return {
-      isShowtoUser: this.isShow,
-    };
-  },
   methods: {
     close() {
-      this.isShowtoUser = false;
+      this.$emit("isShowSet", isShow);
     },
   },
 };
