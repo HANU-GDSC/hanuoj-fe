@@ -6,6 +6,7 @@
       :required="require"
       :placeholder="placeHolder"
       :value="value"
+      @input="dataUpdated"
     />
   </div>
 </template>
@@ -30,6 +31,17 @@ export default {
       type: String,
       default: "",
     },
+  },
+  methods: {
+    dataUpdated() {
+      this.result = event.target.value;
+      console.log(this.result);
+    },
+  },
+  data() {
+    return {
+      result: this.value,
+    };
   },
 };
 </script>
