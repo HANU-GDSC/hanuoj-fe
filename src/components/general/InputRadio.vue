@@ -1,5 +1,6 @@
 <template>
-    <div class="input-form" v-for="(value, index) in values">
+  <div class="input-form">
+    <div v-for="(value, index) in values" :key="index">
       <input
         type="radio"
         :id="index"
@@ -12,6 +13,7 @@
       />
       <label :for="index">{{ value.value }}</label>
     </div>
+  </div>
 </template>
 
 <script>
@@ -36,7 +38,7 @@ export default {
       default: false,
     },
   },
-  
+
   data() {
     return {
       inputData: "",
@@ -44,7 +46,7 @@ export default {
   },
   created() {
     // ban đầu data của input bằng data của input được checked (mặc định)
-    return this.inputData = this.checked;
+    return (this.inputData = this.checked);
   },
   methods: {
     updateData(inputData) {
