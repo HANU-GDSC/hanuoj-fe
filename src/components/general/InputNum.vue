@@ -34,14 +34,8 @@ export default {
   },
   methods: {
     dataUpdated() {
-      this.$emit("dataUpdated", value);
-      this.result = event.target.value;
+      this.$emit("dataUpdated", this.value);
     },
-  },
-  data() {
-    return {
-      result: this.value,
-    };
   },
 };
 </script>

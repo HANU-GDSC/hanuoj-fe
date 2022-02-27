@@ -1,9 +1,9 @@
 <template>
-  <div class="content-alertbox" v-show="isShow">
+  <div class="content-alertbox" v-show="isShow && isShowAlert">
     <div class="alert" :class = "type">
       {{ text }}
     </div>
-    <button class="close" @click="close">X</button>
+    <button class="close" @click="close"><i class="fa-solid fa-xmark"></i></button>
   </div>
 </template>
 
@@ -25,11 +25,23 @@ export default {
       default: false,
     },
   },
-  methods: {
-    close() {
-      this.$emit("isShowSet", isShow);
-    },
+  data(){
+    return{
+      isShowAlert: this.isShow
+    }
   },
+  methods: {
+    close(){
+      this.isShowAlert = false
+    }
+  },
+  watch: {
+    isShow(){
+      if(this.isShow){
+        this.isShowAlert = true
+      }
+    }
+  }
 };
 </script>
 
