@@ -33,17 +33,11 @@ export default {
     },
   },
   methods: {
-    dataUpdated() {
-      this.$emit("dataUpdated", this.value);
-      this.result = event.target.value;
+    dataUpdated(event) {
+      this.$emit("dataUpdated", event.target.value);
     },
-  },
-  data() {
-    return {
-      result: this.value,
-    };
   },
 };
 </script>
 
-<style></style>
+<style scoped></style>
