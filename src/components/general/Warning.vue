@@ -1,5 +1,5 @@
 <template>
-  <div class="content-warning" v-show="isShow && isShowWarning">
+  <div class="content-warning" v-show="isShow">
     <div class="warning" :class="type">{{ text }}</div>
   </div>
 </template>
@@ -21,23 +21,14 @@ export default {
       default: false,
     },
   },
-  data() {
-    return {
-      isShowWarning: this.isShow,
-    };
-  },
   watch: {
     isShow() {
-      if (this.isShow) {
-        this.isShowWarning = true
-        setTimeout(() => (this.isShowWarning = false), 3000);
-      }
+      setTimeout(() => {
+        this.$emit("close");
+      }, 1000);
     },
   },
-  created(){
-    setTimeout(() => (this.isShowWarning = false), 3000);
-  }
 };
 </script>
 
-<style></style>
+<style scoped></style>

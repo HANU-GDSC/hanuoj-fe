@@ -26,7 +26,7 @@ methods:{
 }
 </script>
 
-<style>
+<style scoped>
 input{
 position: absolute;
 left: 0%;

@@ -1,5 +1,5 @@
 <template>
-  <div class="content-alertbox" v-show="isShow && isShowAlert">
+  <div class="content-alertbox" v-show="isShow">
     <div class="alert" :class = "type">
       {{ text }}
     </div>
@@ -25,27 +25,15 @@ export default {
       default: false,
     },
   },
-  data(){
-    return{
-      isShowAlert: this.isShow
-    }
-  },
   methods: {
     close(){
-      this.isShowAlert = false
+      this.$emit("close");
     }
   },
-  watch: {
-    isShow(){
-      if(this.isShow){
-        this.isShowAlert = true
-      }
-    }
-  }
 };
 </script>
 
-<style>
+<style scoped>
 .content-alertbox {
   width: 50%;
   height: 100px;
