@@ -33,8 +33,8 @@ export default {
     },
   },
   methods: {
-    dataUpdated() {
-      this.$emit("dataUpdated", this.value);
+    dataUpdated(event) {
+      this.$emit("dataUpdated", event.target.value);
     },
   },
 };
