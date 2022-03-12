@@ -47,6 +47,14 @@ const routes = [
 		}
 	},
 	{
+		path: "/problem/:id",
+		name: "ProblemDetail",
+		component: () => import("../components/problem/detail/Problem"),
+		meta: {
+			type: "detail",
+		}
+	},
+	{
 		path: "/contest",
 		name: "Contest",
 		component: () => import("../views/Contest"),

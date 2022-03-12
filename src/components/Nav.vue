@@ -41,10 +41,11 @@ export default {
 
     computed: {
         routeCheck() {
-            // Không hiển thị nav bar khi đang ở trong auth hoặc public pages
+            // Không hiển thị nav bar khi đang ở trong auth hoặc public hoặc problem detail pages
             return !(
                 this.$route.meta.type === "auth" ||
-                this.$route.meta.type === "public"
+                this.$route.meta.type === "public" || 
+                this.$route.meta.type === "detail"
             );
         },
     },
