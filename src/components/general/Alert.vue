@@ -1,8 +1,8 @@
 <template>
-  <div class="content-alertbox" v-show="isShow">
-    <div class="alert" :class = "type">
+  <div class="content-alertbox" v-show="isShow" :class="type">
+    <h3 class="alert" >
       {{ text }}
-    </div>
+    </h3>
     <button class="close" @click="close"><i class="fa-solid fa-xmark"></i></button>
   </div>
 </template>
@@ -33,7 +33,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .content-alertbox {
   width: 50%;
   height: 100px;
@@ -53,5 +53,8 @@ export default {
   position: absolute;
   top: 0px;
   right: 0px;
+}
+.error {
+  background: rgb(255, 91, 91);
 }
 </style>

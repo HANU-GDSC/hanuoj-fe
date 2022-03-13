@@ -1,6 +1,14 @@
 import router from "../router/index";
 import store from "../store/index";
 
+function showAlert(message) {
+    store.dispatch("general/setAlert", {
+        isAlert: true,
+        alertMessage: message,
+        alertType: "error",
+    })
+}
+
 export default function(error) {
     console.log(error);
     if (error.response) {
@@ -15,14 +23,9 @@ export default function(error) {
             localStorage.removeItem('accessToken')
             return router.push("/forbidden"); // chưa làm
         };
-        store.dispatch("general/setAlert", {
-            isAlert: true,
-            message: error.message,
-        });
+
+        showAlert(error.response.data.message);
     };
     // unknown error
-    store.dispatch("general/setAlert", {
-        isAlert: true,
-        message: error.message,
-    });
+    showAlert(error.message);
 };
