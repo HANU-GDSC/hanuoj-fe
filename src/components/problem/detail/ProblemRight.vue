@@ -1,6 +1,12 @@
 <template>
     <div class="problem-right">
-        <ProblemSetting class="setting" :editorSetting="editorSetting"/>
+        <ProblemSetting
+            class="setting"
+            :editorSetting="editorSetting"
+            :fullScreen="fullScreen"
+            @enterFullScreen="$emit('enterFullScreen')"
+            @exitFullScreen="$emit('exitFullScreen')"
+        />
         <MonacoEditor class="editor" :language="editorSetting.language" />
         <ProblemConsole class="console" />
     </div>
@@ -13,11 +19,14 @@ import MonacoEditor from "./MonacoEditor";
 
 export default {
     name: "ProblemRight",
+    props: {
+        fullScreen: Boolean,
+    },
     data() {
         return {
             editorSetting: {
                 language: "java",
-            }
+            },
         };
     },
     components: {

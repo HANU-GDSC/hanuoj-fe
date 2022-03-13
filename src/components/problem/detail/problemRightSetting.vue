@@ -7,11 +7,30 @@
                 @dataUpdated="languageChanged"
             />
         </div>
-        <div class="retrieve-to-last-submission" title="retrieve to the last submission">
+        <div
+            class="retrieve-to-last-submission"
+            title="retrieve to the last submission"
+        >
             <i class="fa-solid fa-right-from-bracket"></i>
         </div>
         <div class="reset" title="reset to default code">
             <i class="fa-solid fa-arrow-rotate-left"></i>
+        </div>
+        <div
+            class="enter-full-screen"
+            title="enter full screen"
+            v-if="!fullScreen"
+            @click="$emit('enterFullScreen')"
+        >
+            <i class="fa-solid fa-expand"></i>
+        </div>
+        <div
+            class="exit-full-screen"
+            title="exit full screen"
+            v-if="fullScreen"
+            @click="$emit('exitFullScreen')"
+        >
+            <i class="fa-solid fa-compress"></i>
         </div>
     </div>
 </template>
@@ -23,6 +42,7 @@ export default {
     name: "ProblemSetting",
     props: {
         editorSetting: Object,
+        fullScreen: Boolean,
     },
     data() {
         return {

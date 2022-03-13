@@ -2,14 +2,18 @@
     <div class="problem-detail">
         <Loading v-if="loading" />
         <div class="content" v-else>
-            <div class="header">
-                <ProblemHeader name="add two sum"/>
+            <div class="header" v-show="!fullScreen">
+                <ProblemHeader name="Bogo Sort" />
             </div>
-            <div class="left">
+            <div class="left" v-show="!fullScreen">
                 <ProblemLeft />
             </div>
-            <div class="right">
-                <ProblemRight />
+            <div :class="fullScreen ? 'right-full-screen' : 'right'">
+                <ProblemRight
+                    :fullScreen="fullScreen"
+                    @enterFullScreen="fullScreen = true"
+                    @exitFullScreen="fullScreen = false"
+                />
             </div>
         </div>
     </div>
@@ -20,12 +24,16 @@ import ProblemHeader from "./ProblemHeader";
 import ProblemLeft from "./ProblemLeft";
 import ProblemRight from "./ProblemRight";
 import Loading from "../../Loading";
+import apiService from "../../../helpers/apiService";
+import errorHandler from "../../../helpers/errorHandler";
 
 export default {
     name: "problem",
     data() {
         return {
             loading: false,
+            fullScreen: false,
+            problem: {},
         };
     },
     components: {
@@ -34,15 +42,17 @@ export default {
         ProblemRight,
         Loading,
     },
+    methods: {
+    },
     created() {
-        // current router id
-        console.log(this.$route.params.id);
+        let practiceProblemId = this.$route.params.id;
+        // const problem
     },
 };
 </script>
 <style lang="scss" scoped>
 $header-height: 40px;
-$left-width: 450px;
+$left-width: 500px;
 .problem-detail {
     position: fixed;
     width: 100%;
@@ -68,6 +78,11 @@ $left-width: 450px;
             width: calc(100% - $left-width - 20px);
             height: calc(100% - 50px);
             float: right;
+        }
+        .right-full-screen {
+            position: relative;
+            width: 100%;
+            height: 100%;
         }
     }
 }

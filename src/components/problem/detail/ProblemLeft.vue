@@ -12,11 +12,11 @@
             <template v-slot:description>
                 <div class="scroll">
                     <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Placeat, recusandae tempora! Obcaecati cum, natus
-                        tempore molestiae totam dolorum voluptas animi, quaerat
-                        incidunt sed sunt dolorem consectetur dicta architecto,
-                        sequi asperiores!
+                        BogoSort, also known stupid sort or monkey sort, is a
+                        particularly ineffective algorithm based on generate and
+                        test paradigm. The algorithm successively generates
+                        permutations of its input until it finds one that is
+                        sorted
                     </p>
                 </div>
             </template>
