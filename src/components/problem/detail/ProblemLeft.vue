@@ -8,17 +8,10 @@
                 'submission',
             ]"
             class="tab-bar"
+            notBorder="top"
         >
             <template v-slot:description>
-                <div class="scroll">
-                    <p>
-                        BogoSort, also known stupid sort or monkey sort, is a
-                        particularly ineffective algorithm based on generate and
-                        test paradigm. The algorithm successively generates
-                        permutations of its input until it finds one that is
-                        sorted
-                    </p>
-                </div>
+                <MarkdownRender :description="problem.description"/>
             </template>
             <template v-slot:solution>
                 <p>solution</p>
@@ -35,10 +28,16 @@
 
 <script>
 import TabBar from "./ProblemTabBar";
+import MarkdownRender from "../../general/MarkdownRender";
+
 export default {
     name: "ProblemLeft",
+    props: {
+        problem: Object,
+    },
     components: {
         TabBar,
+        MarkdownRender,
     },
 };
 </script>

@@ -1,11 +1,11 @@
 <template>
-    <div class="tab-bar">
+    <div :class="'tab-bar not-border-' + notBorder">
         <div class="nav">
             <div
                 v-for="(item, index) in tabBarList"
-                :class="'nav-item ' + (selected === item ? 'selected' : '')"
+                :class="'nav-item ' + (selected === index ? 'selected' : '')"
                 :key="index"
-                @click="selected = item"
+                @click="selected = index"
             >
                 <p>{{ item }}</p>
             </div>
@@ -15,7 +15,7 @@
                 v-for="(item, index) in tabBarList"
                 :key="index"
                 :class="'content-item ' + item"
-                v-show="item === selected"
+                v-show="index === selected"
             >
                 <slot :name="rmSpace(item)"></slot>
             </div>
@@ -28,18 +28,24 @@ import { removeSpace } from "../../../utils/removeSpace";
 
 export default {
     name: "TabBar",
-    data() {
-        return {
-            selected: this.tabBarList[0],
-        };
-    },
-    methods: {
-        rmSpace(str) { // remove space in string
-            return removeSpace(str);
-        },
-    },
     props: {
         tabBarList: Array,
+        notBorder: String,
+        selected: {
+            type: Number,
+            default: 0,
+        }
+    },
+    // data() {
+    //     return {
+    //         selected: this.tabBarList[0],
+    //     };
+    // },
+    methods: {
+        rmSpace(str) {
+            // remove space in string
+            return removeSpace(str);
+        },
     },
 };
 </script>
@@ -57,20 +63,34 @@ $nav-height: 40px;
             width: 2%;
             text-align: center;
             line-height: $nav-height;
-            border: 1px solid blue;
+            border-bottom: 1px solid var(--line-color);
+            border-top: 1px solid var(--line-color);
+            background-color: var(--container-color-darker);
+        }
+        .nav-item:not(:first-child) {
+            border-left: 1px solid var(--line-color);
         }
         .nav-item:hover {
             cursor: pointer;
         }
         .selected {
-            background-color: #b6b1ff;
+            border-bottom: none;
+            background-color: var(--container-color) !important;
         }
     }
     .content {
         height: calc(100% - $nav-height);
+        background-color: var(--container-color);
         .content-item {
             overflow-y: auto;
             height: 100%;
+        }
+    }
+}
+.tab-bar.not-border-top {
+    .nav {
+        .nav-item {
+            border-top: none;
         }
     }
 }
