@@ -2,7 +2,7 @@
     <div class="problem-setting">
         <div class="choose-language">
             <Select
-                :selectList="languages"
+                :selectList="languageList ? languageList : defaultLanguages"
                 :selected="editorSetting.language"
                 @dataUpdated="languageChanged"
             />
@@ -13,7 +13,7 @@
         >
             <i class="fa-solid fa-right-from-bracket"></i>
         </div>
-        <div class="reset" title="reset to default code">
+        <div class="switch-mode" title="reset to default code">
             <i class="fa-solid fa-arrow-rotate-left"></i>
         </div>
         <div
@@ -36,18 +36,19 @@
 </template>
 
 <script>
-import Select from "../../general/Select";
+import Select from "./ProblemRightSettingSelect";
 
 export default {
     name: "ProblemSetting",
     props: {
         editorSetting: Object,
         fullScreen: Boolean,
+        languageList: Array,
     },
     data() {
         return {
             loading: false,
-            languages: [
+            defaultLanguages: [
                 "html",
                 "css",
                 "typescript",
@@ -88,12 +89,16 @@ export default {
 .problem-setting {
     display: flex;
     flex-direction: row;
-    justify-content: right;
+    justify-content: space-between;
     align-items: center;
     font-size: var(--normal-font-size);
+    .choose-language {
+        margin-right: auto;
+        margin-left: 4px;
+    }
 }
 .problem-setting > * {
-    margin: 0 6px;
+    margin: 0 10px;
 }
 .problem-setting:hover {
     cursor: pointer;

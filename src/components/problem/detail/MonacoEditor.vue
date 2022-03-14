@@ -69,5 +69,6 @@ export default {
 </script>
 <style scoped>
 .monaco-editor {
+    transition: all 0s;
 }
 </style>

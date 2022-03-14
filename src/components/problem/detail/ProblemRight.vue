@@ -4,11 +4,12 @@
             class="setting"
             :editorSetting="editorSetting"
             :fullScreen="fullScreen"
+            :languageList="['java', 'javascript', 'python', 'c', 'c++']"
             @enterFullScreen="$emit('enterFullScreen')"
             @exitFullScreen="$emit('exitFullScreen')"
         />
         <MonacoEditor class="editor" :language="editorSetting.language" />
-        <ProblemConsole class="console" />
+        <ProblemConsole class="console" :runCodeResult="runCodeResult" />
     </div>
 </template>
 
@@ -21,6 +22,7 @@ export default {
     name: "ProblemRight",
     props: {
         fullScreen: Boolean,
+        runCodeResult: Object,
     },
     data() {
         return {
@@ -45,6 +47,7 @@ export default {
     .setting {
         width: 100%;
         height: 40px;
+        border-bottom: 1px solid var(--line-color);
     }
     .editor {
         width: 100%;
@@ -56,6 +59,7 @@ export default {
         width: 100%;
         height: 40px;
         vertical-align: bottom;
+        border-top: 1px solid var(--line-color);
     }
 }
 </style>
