@@ -1,5 +1,5 @@
 <template>
-  <input type="password" :value="value" placeholder="enter your pass" />
+  <input type="password" :value="value" :placeholder="placeholder" :required="require"/>
 </template>
 
 <script>
