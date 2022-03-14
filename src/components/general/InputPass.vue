@@ -1,5 +1,5 @@
 <template>
-  <input type="password" :value="value" :placeholder="placeholder" :required="require"/>
+  <input type="password" :value="value" :placeholder="placeholder" :required="require" :disabled="disable" @input="dataUpdated"/>
 </template>
 
 <script>
