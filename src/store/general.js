@@ -7,7 +7,9 @@ export default {
                 isAlert: false,
                 alertMessage: "",
                 alertType: "",
-            }
+            },
+            // settingName: settingValue
+            editorSettings: {},
         };
     },
     mutations: {
@@ -18,6 +20,9 @@ export default {
         setAlert(state, alert) {
             state.alert = alert;
         },
+        setEditorSettings(state, editorSettings) {
+            state.editorSettings = editorSettings;
+        }
     },
     actions: {
         initTheme(state) {
@@ -41,8 +46,18 @@ export default {
                 isAlert: false,
                 alertMessage: "",
                 alertType: "",
-            })
-        }
+            });
+        },
+        setEditorSettings(state, editorSettings) {
+            let settingsToSave = JSON.parse(localStorage.getItem("editorSettings"));
+            if (!settingsToSave)
+                settingsToSave = {}
+            Object.keys(editorSettings).forEach(name => {
+                settingsToSave[name] = editorSettings[name];
+            });
+            state.commit("setEditorSettings", settingsToSave);
+            localStorage.setItem("editorSettings", JSON.stringify(settingsToSave));
+        },
     },
     getters: {
     }

@@ -12,6 +12,7 @@
                 <ProblemRight
                     :fullScreen="fullScreen"
                     :runCodeResult="runCodeResult"
+                    :problem="problem"
                     @enterFullScreen="fullScreen = true"
                     @exitFullScreen="fullScreen = false"
                 />
@@ -35,6 +36,7 @@ export default {
             firstLoading: false,
             fullScreen: false,
             problem: {
+                id: "1557",
                 description:
                     "# Bogo sort\n\nGiven an array of integers ```nums``` and an integer ```N```, sort the given array in **ascending order**.\n\nYou may assume that each input would have **exactly one solution**, and you may not use the *same* element twice.\n\nYou can return the answer in any order.\n\nExample 1:\n```\nInput: nums = [2,7,11,15], target = 9\nOutput: [0,1]\nExplanation: Because nums[0] + nums[1] == 9, we return [0, 1].\n```\nExample 2:\n```\nInput: nums = [3,2,4], target = 6\nOutput: [1,2]\n```\nExample 3:\n```\nInput: nums = [3,3], target = 6\nOutput: [0,1]\n```\nConstraints:\n- ```2 <= nums.length <= 104```\n- ```-109 <= nums[i] <= 109```\n- ```-109 <= target <= 109```\n- Only one valid answer exists.\n\n**Follow-up**: Can you come up with an algorithm that is less than ```O(n2)``` time complexity?\n",
             },
@@ -51,8 +53,50 @@ export default {
     },
     methods: {},
     created() {
-        let practiceProblemId = this.$route.params.id;
+        this.problem.id = this.$route.params.id;
         // const problem
+
+        // set problem code
+        this.$store.dispatch("problem/setCurrentProblemsCode", {
+            id: this.problem.id,
+            code: localStorage.getItem("problemID: " + this.problem.id)
+                ? JSON.parse(
+                      localStorage.getItem("problemID: " + this.problem.id)
+                  )["code"]
+                : "",
+        });
+
+        // editor setting
+        let currentSettings = JSON.parse(
+            localStorage.getItem("editorSettings")
+        );
+        if (!currentSettings) currentSettings = {};
+        const defaultSettings = {
+            fontSize: "15px",
+            fontFamily: "monospace", //[Times New Roman | monospace | Courier New | Papyrus | Georgia | Trebuchet MS | Tahoma]
+            fontWeight: "normal", //[normal | bold]
+            lineHeight: 20,
+
+            // other
+            wordWrap: false,
+            lineNumbers: true,
+            //animate
+
+            // no change
+            scrollBeyondLastLine: true,
+            folding: true,
+            foldingHighlight: true,
+            tabCompletion: "on",
+            automaticLayout: true,
+            cursorBlinking: "phase", // [blink | smooth | phase | solid | expand]
+        };
+        const settingToSave = {};
+        Object.keys(defaultSettings).forEach((key) => {
+            settingToSave[key] = typeof currentSettings[key] !== "undefined"
+                ? currentSettings[key]
+                : defaultSettings[key];
+        });
+        this.$store.dispatch("general/setEditorSettings", settingToSave);
     },
 };
 </script>
@@ -68,7 +112,7 @@ $margin: 15px;
 }
 .dark-theme .problem-detail {
     .content > * {
-        box-shadow: 2px 2px 1px rgb(58, 58, 58);
+        box-shadow: 2px 2px 1px rgb(32, 36, 58);
     }
 }
 .problem-detail {
@@ -98,6 +142,7 @@ $margin: 15px;
             height: calc(100% - $header-height - $margin);
             float: left;
             overflow: hidden;
+            // transition: none;
         }
         .right {
             position: relative;

@@ -21,10 +21,18 @@
             ></i>
         </div>
 
-        <p text="submit" @click="submit" :class="'button ' + (isSubmitting ? '' : 'hover-effect')">
+        <p
+            text="submit"
+            @click="submit"
+            :class="'button ' + (isSubmitting ? '' : 'hover-effect')"
+        >
             <span v-if="!isSubmitting">submit</span><LoadingIcon v-else />
         </p>
-        <p text="run-code" @click="runCode" :class="'button ' + (isRunning ? '' : 'hover-effect')">
+        <p
+            text="run-code"
+            @click="runCode"
+            :class="'button ' + (isRunning ? '' : 'hover-effect')"
+        >
             <span v-if="!isRunning">run code</span><LoadingIcon v-else />
         </p>
     </div>
@@ -50,15 +58,13 @@ export default {
     },
     methods: {
         runCode() {
-            if (this.isRunning)
-                return
+            if (this.isRunning) return;
             this.isRunning = true;
         },
         submit() {
-            if (this.isSubmitting)
-                return
+            if (this.isSubmitting) return;
             this.isSubmitting = true;
-        }
+        },
     },
     components: {
         TabBar,

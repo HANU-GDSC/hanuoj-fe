@@ -20,6 +20,8 @@ import apiService from "./helpers/apiService";
 import errorHandler from "./helpers/errorHandler";
 import AlertBox from "./components/general/Alert";
 
+import { deleteExpiredCode } from "./helpers/localStorage";
+
 export default {
     name: "App",
     data() {
@@ -30,7 +32,9 @@ export default {
         AlertBox
     },
     created() {
+        // local storage setup
         this.$store.dispatch("general/initTheme");
+        deleteExpiredCode();
 
         // fetch user data, chỉ khi có accessToken trong localStorage
         // lấy data của 1 user, xong lưu vào trong vuex store

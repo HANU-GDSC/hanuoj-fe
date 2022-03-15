@@ -40,16 +40,19 @@ export default {
 
 <style lang="scss" scoped>
 .select {
+    position: relative;
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--line-color);
     p {
         display: block;
-        padding: 3px 5px;
-        width: 120px;
-        border: 1px solid var(--line-color);
-        border-top-left-radius: 5px;
+        text-align: center;
+        width: 100%;
         overflow: hidden;
         i {
             float: right;
             margin-top: 2px;
+            margin-right: 5px;
         }
         .flipped {
             transform: rotate(180deg);
@@ -60,7 +63,9 @@ export default {
         z-index: 1;
         border: 1px solid var(--line-color);
         border-top: none;
-        width: 120px;
+        top: calc(100% + 1px);
+        left: -1px;
+        width: calc(100% + 2px);
         background-color: var(--container-color);
         .option {
             padding: 5px;

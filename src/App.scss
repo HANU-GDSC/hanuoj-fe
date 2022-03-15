@@ -72,6 +72,14 @@
   margin: 0;
   transition: all 0.1s;
 }
+.monaco-editor {
+  .monaco-editor-hover.monaco-editor-background {
+    transition: none;
+  }
+  .monaco-editor-hover.monaco-editor-background * {
+    transition: none;
+  }
+}
 
 html {
   scroll-behavior: smooth;

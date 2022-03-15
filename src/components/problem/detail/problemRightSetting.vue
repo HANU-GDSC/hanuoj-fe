@@ -2,6 +2,7 @@
     <div class="problem-setting">
         <div class="choose-language">
             <Select
+                class="select"
                 :selectList="languageList ? languageList : defaultLanguages"
                 :selected="editorSetting.language"
                 @dataUpdated="languageChanged"
@@ -13,8 +14,12 @@
         >
             <i class="fa-solid fa-right-from-bracket"></i>
         </div>
-        <div class="switch-mode" title="reset to default code">
-            <i class="fa-solid fa-arrow-rotate-left"></i>
+        <div
+            class="open-setting"
+            title="editor settings"
+            @click="showModal = true"
+        >
+            <i class="fa-solid fa-ellipsis-vertical"></i>
         </div>
         <div
             class="enter-full-screen"
@@ -32,11 +37,20 @@
         >
             <i class="fa-solid fa-compress"></i>
         </div>
+        <ModalBox
+            :isShow="showModal"
+            modalWidth="400px"
+            @closeModal="showModal = false"
+        >
+            <EditorSetting />
+        </ModalBox>
     </div>
 </template>
 
 <script>
 import Select from "./ProblemRightSettingSelect";
+import EditorSetting from "./ProblemRightSettingEditor";
+import ModalBox from "../../general/ModalBox";
 
 export default {
     name: "ProblemSetting",
@@ -48,6 +62,7 @@ export default {
     data() {
         return {
             loading: false,
+            showModal: false,
             defaultLanguages: [
                 "html",
                 "css",
@@ -76,6 +91,8 @@ export default {
     },
     components: {
         Select,
+        EditorSetting,
+        ModalBox,
     },
     methods: {
         languageChanged(language) {
@@ -95,10 +112,16 @@ export default {
     .choose-language {
         margin-right: auto;
         margin-left: 4px;
+        padding: 0;
+        .select {
+            border-top-left-radius: 5px;
+            width: 120px;
+            height: 31px;
+        }
     }
 }
 .problem-setting > * {
-    margin: 0 10px;
+    padding: 0 10px;
 }
 .problem-setting:hover {
     cursor: pointer;
