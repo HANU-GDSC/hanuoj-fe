@@ -238,6 +238,7 @@ export default {
         }
         .font-family,
         .font-weight {
+            position: relative;
             .input {
                 width: 180px;
                 .select {
@@ -248,6 +249,12 @@ export default {
                     cursor: pointer;
                 }
             }
+        }
+        .font-family {
+            z-index: 20;
+        }
+        .font-size {
+            z-index: 15;
         }
         .word-wrap,
         .line-numbers {
