@@ -1,9 +1,10 @@
 <template>
     <div class="problem-detail">
         <Loading v-if="firstLoading" />
+        <ProblemNotFound v-if="problemNotFound" />
         <div class="content" v-if="!firstLoading">
             <div class="header" v-show="!fullScreen">
-                <ProblemHeader name="Bogo Sort" />
+                <ProblemHeader :problem="problem" />
             </div>
             <div class="left" v-show="!fullScreen">
                 <ProblemLeft :problem="problem" />
@@ -26,6 +27,7 @@ import ProblemHeader from "./ProblemHeader";
 import ProblemLeft from "./ProblemLeft";
 import ProblemRight from "./ProblemRight";
 import Loading from "../../Loading";
+import ProblemNotFound from "./ProblemNotFound";
 import apiService from "../../../helpers/apiService";
 import errorHandler from "../../../helpers/errorHandler";
 
@@ -33,13 +35,10 @@ export default {
     name: "problem",
     data() {
         return {
-            firstLoading: false,
+            firstLoading: true,
+            problemNotFound: false,
             fullScreen: false,
-            problem: {
-                id: "1557",
-                description:
-                    "# Bogo sort\n\nGiven an array of integers ```nums``` and an integer ```N```, sort the given array in **ascending order**.\n\nYou may assume that each input would have **exactly one solution**, and you may not use the *same* element twice.\n\nYou can return the answer in any order.\n\nExample 1:\n```\nInput: nums = [2,7,11,15], target = 9\nOutput: [0,1]\nExplanation: Because nums[0] + nums[1] == 9, we return [0, 1].\n```\nExample 2:\n```\nInput: nums = [3,2,4], target = 6\nOutput: [1,2]\n```\nExample 3:\n```\nInput: nums = [3,3], target = 6\nOutput: [0,1]\n```\nConstraints:\n- ```2 <= nums.length <= 104```\n- ```-109 <= nums[i] <= 109```\n- ```-109 <= target <= 109```\n- Only one valid answer exists.\n\n**Follow-up**: Can you come up with an algorithm that is less than ```O(n2)``` time complexity?\n",
-            },
+            problem: {},
             runCodeResult: {
                 status: "Accepted",
             },
@@ -50,21 +49,49 @@ export default {
         ProblemLeft,
         ProblemRight,
         Loading,
+        ProblemNotFound,
     },
     methods: {},
-    created() {
-        this.problem.id = this.$route.params.id;
-        // const problem
+    async created() {
+        // getting problem from sever
+        try {
+            const res = await apiService("GET", "/practiceProblem", {
+                id: this.$route.params.id,
+            });
+            this.firstLoading = false;
+            const data = res.data.data;
+            console.log(data);
+            this.problem = {
+                id: data.coreProblem.id,
+                name: data.coreProblem.name,
+                description: data.coreProblem.description,
+                author: data.coreProblem.author,
+                ACsCount: data.coreProblem.ACsCount,  // TODO later
+                submissionsCount: data.coreProblem.submissionsCount,  // TODO later
+                difficulty: data.coreProblem.difficulty,  // TODO
+                memoryLimits: data.coreProblem.memoryLimits, 
+                timeLimits: data.coreProblem.timeLimits,
+                testCases: data.coreProblem.testCases, // TODO [long]
+                allowedProgrammingLanguages:
+                    data.coreProblem.allowedProgrammingLanguages, // TODO
+                version: data.coreProblem.version, 
+                category: data.practiceProblem.category,
+                likeCount: data.practiceProblem.likeCount, // TODO
+                dislikeCount: data.practiceProblem.dislikeCount, // TODO
+            };
 
-        // set problem code
-        this.$store.dispatch("problem/setCurrentProblemsCode", {
-            id: this.problem.id,
-            code: localStorage.getItem("problemID: " + this.problem.id)
-                ? JSON.parse(
-                      localStorage.getItem("problemID: " + this.problem.id)
-                  )["code"]
-                : "",
-        });
+            // set problem code
+            this.$store.dispatch("problem/setCurrentProblemsCode", {
+                id: this.problem.id,
+                code: localStorage.getItem("problemID: " + this.problem.id)
+                    ? JSON.parse(
+                          localStorage.getItem("problemID: " + this.problem.id)
+                      )["code"]
+                    : "",
+            });
+        } catch (error) {
+            errorHandler(err);
+        }
 
         // editor setting
         let currentSettings = JSON.parse(
@@ -92,16 +119,17 @@ export default {
         };
         const settingToSave = {};
         Object.keys(defaultSettings).forEach((key) => {
-            settingToSave[key] = typeof currentSettings[key] !== "undefined"
-                ? currentSettings[key]
-                : defaultSettings[key];
+            settingToSave[key] =
+                typeof currentSettings[key] !== "undefined"
+                    ? currentSettings[key]
+                    : defaultSettings[key];
         });
         this.$store.dispatch("general/setEditorSettings", settingToSave);
     },
 };
 </script>
 <style lang="scss" scoped>
-$header-height: 42px;
+$header-height: 50px;
 $left-width: 40%;
 $margin: 15px;
 .light-theme .problem-detail {

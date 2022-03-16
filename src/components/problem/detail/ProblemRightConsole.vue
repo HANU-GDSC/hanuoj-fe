@@ -119,7 +119,7 @@ export default {
         display: block;
         padding: 2px 0;
         margin-right: 5px;
-        margin-top: 5px;
+        margin-top: 4.5px;
         width: 90px;
         text-align: center;
         border: 1px solid var(--line-color);

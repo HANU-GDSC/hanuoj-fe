@@ -35,26 +35,6 @@ export default {
         // local storage setup
         this.$store.dispatch("general/initTheme");
         deleteExpiredCode();
-
-        // fetch user data, chỉ khi có accessToken trong localStorage
-        // lấy data của 1 user, xong lưu vào trong vuex store
-        // tạm thời chưa có api thì dùng fake api, lấy hết tất cả user và problem
-        if (localStorage.getItem("accessToken")) {
-            apiService("GET", "/endUser")
-                .then((res) => {
-                    this.$store.dispatch("endUser/initInfo", res.data[0]);
-                })
-                .catch((error) => {
-                    errorHandler(error);
-                });
-            apiService("GET", "/problem")
-                .then((res) => {
-                    this.$store.dispatch("problem/initProblem", res.data);
-                })
-                .catch((error) => {
-                    errorHandler(error);
-                });
-        }
     },
     mounted() {
         document.body.style.backgroundColor =

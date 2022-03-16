@@ -13,9 +13,15 @@ export default {
                 ACsCount: Number,
                 submissionsCount: Number,
                 difficulty: String,
-                memoryLimit: String,
-                timeLimit: String,
-                allowedProgrammingLanguage: [String],
+                memoryLimits: Objects,
+                timeLimits: Object,
+                testCases: Object,
+                allowedProgrammingLanguages: [String],
+                version: Number,
+
+                category: Object,
+                likeCount: Number,
+                dislikeCount: Number,
              */
             currentProblemsCode: [],
             /*
@@ -30,12 +36,12 @@ export default {
         addProblem(state, problem) {
             state.allProblem.push(problem);
         },
-        updateProblem(state, newProblemID) {
+        updateProblem(state, newProblem) {
             state.allProblem.forEach((problem, index) => {
-                if (newProblemID === problem.id) {
+                if (problem.id === newProblem.id) {
                     state.allProblem[index] = newProblem;
                 }
-            });
+            })
         },
         deleteProblem(state, newProblemId) {
             state.allProblem.forEach((problem, index) => {
