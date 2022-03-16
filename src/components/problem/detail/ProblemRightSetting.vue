@@ -4,7 +4,7 @@
             <Select
                 class="select"
                 :selectList="languageList ? languageList : defaultLanguages"
-                :selected="editorSetting.language"
+                :selected="$store.state.general.editorSettings.language"
                 @dataUpdated="languageChanged"
             />
         </div>
@@ -96,7 +96,9 @@ export default {
     },
     methods: {
         languageChanged(language) {
-            this.editorSetting.language = language;
+            this.$store.dispatch("general/setEditorSettings", {
+                language,
+            });
         },
     },
 };

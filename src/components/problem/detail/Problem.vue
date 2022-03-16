@@ -2,7 +2,7 @@
     <div class="problem-detail">
         <Loading v-if="firstLoading" />
         <ProblemNotFound v-if="problemNotFound" />
-        <div class="content" v-if="!firstLoading">
+        <div class="content" v-if="!firstLoading && !problemNotFound">
             <div class="header" v-show="!fullScreen">
                 <ProblemHeader :problem="problem" />
             </div>
@@ -30,6 +30,7 @@ import Loading from "../../Loading";
 import ProblemNotFound from "./ProblemNotFound";
 import apiService from "../../../helpers/apiService";
 import errorHandler from "../../../helpers/errorHandler";
+import converter from "../../../utils/languageConverter";
 
 export default {
     name: "problem",
@@ -58,9 +59,16 @@ export default {
             const res = await apiService("GET", "/practiceProblem", {
                 id: this.$route.params.id,
             });
+            // Check if the problem not found
+            if (res.data.code === "NOT_FOUND") {
+                this.problemNotFound = true;
+                this.firstLoading = false;
+                return;
+            }
             this.firstLoading = false;
+            // get data
             const data = res.data.data;
-            console.log(data);
+            console.log(res.data);
             this.problem = {
                 id: data.coreProblem.id,
                 name: data.coreProblem.name,
@@ -68,7 +76,7 @@ export default {
                 author: data.coreProblem.author,
                 ACsCount: data.coreProblem.ACsCount,  // TODO later
                 submissionsCount: data.coreProblem.submissionsCount,  // TODO later
-                difficulty: data.coreProblem.difficulty,  // TODO
+                difficulty: data.coreProblem.difficulty,  // done
                 memoryLimits: data.coreProblem.memoryLimits, 
                 timeLimits: data.coreProblem.timeLimits,
                 testCases: data.coreProblem.testCases, // TODO [long]
@@ -76,8 +84,8 @@ export default {
                     data.coreProblem.allowedProgrammingLanguages, // TODO
                 version: data.coreProblem.version, 
                 category: data.practiceProblem.category,
-                likeCount: data.practiceProblem.likeCount, // TODO
-                dislikeCount: data.practiceProblem.dislikeCount, // TODO
+                likeCount: data.practiceProblem.likeCount, // done
+                dislikeCount: data.practiceProblem.dislikeCount, // done
             };
 
             // set problem code
@@ -91,8 +99,8 @@ export default {
             });
         } catch (error) {
             errorHandler(err);
+            // return;
         }
-
         // editor setting
         let currentSettings = JSON.parse(
             localStorage.getItem("editorSettings")
@@ -116,6 +124,9 @@ export default {
             tabCompletion: "on",
             automaticLayout: true,
             cursorBlinking: "phase", // [blink | smooth | phase | solid | expand]
+
+            // not an option
+            language: converter(this.problem.allowedProgrammingLanguages[0]),
         };
         const settingToSave = {};
         Object.keys(defaultSettings).forEach((key) => {

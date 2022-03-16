@@ -2,17 +2,21 @@
     <div class="problem-right">
         <ProblemSetting
             class="setting"
-            :editorSetting="editorSetting"
             :fullScreen="fullScreen"
-            :languageList="['java', 'javascript', 'python', 'c', 'c++']"
+            :languageList="languages"
             @enterFullScreen="$emit('enterFullScreen')"
             @exitFullScreen="$emit('exitFullScreen')"
         />
         <MonacoEditor
             class="editor"
-            :language="editorSetting.language"
+            :language="$store.state.general.editorSettings.language"
             :code="$store.state.problem.currentProblemsCode[problem.id]"
-            @dataUpdated="$store.dispatch('problem/setCurrentProblemsCode', {id: problem.id, code: $event})"
+            @dataUpdated="
+                $store.dispatch('problem/setCurrentProblemsCode', {
+                    id: problem.id,
+                    code: $event,
+                })
+            "
         />
         <ProblemConsole class="console" :runCodeResult="runCodeResult" />
     </div>
@@ -22,6 +26,7 @@
 import ProblemSetting from "./ProblemRightSetting";
 import ProblemConsole from "./ProblemRightConsole";
 import MonacoEditor from "./MonacoEditor";
+import converter from "../../../utils/languageConverter";
 
 export default {
     name: "ProblemRight",
@@ -32,10 +37,12 @@ export default {
     },
     data() {
         return {
-            editorSetting: {
-                language: "java",
-            },
         };
+    },
+    computed: {
+        languages() {
+            return converter(this.problem.allowedProgrammingLanguages);
+        },
     },
     components: {
         ProblemSetting,
