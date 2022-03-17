@@ -1,10 +1,19 @@
 <template>
     <div class="editor-setting">
-        <h3>Editor Settings</h3>
+        <h3>
+            {{ translate({ en: "Editor settings", vi: "cài đặt" }) }}
+        </h3>
         <hr />
         <div class="setting">
             <div class="font-size">
-                <p>font size</p>
+                <p>
+                    {{
+                        translate({
+                            en: "font size",
+                            vi: "cỡ chữ",
+                        })
+                    }}
+                </p>
                 <div class="input">
                     <i class="fa-solid fa-minus" @click="fontSize--"></i>
                     <input type="number" v-model="fontSize" />
@@ -13,7 +22,14 @@
                 </div>
             </div>
             <div class="font-family">
-                <p>font family</p>
+                <p>
+                    {{
+                        translate({
+                            en: "font family",
+                            vi: "font chữ",
+                        })
+                    }}
+                </p>
                 <div class="input">
                     <Select
                         class="select"
@@ -24,7 +40,14 @@
                 </div>
             </div>
             <div class="font-weight">
-                <p>font weight</p>
+                <p>
+                    {{
+                        translate({
+                            en: "font weight",
+                            vi: "kiểu chữ",
+                        })
+                    }}
+                </p>
                 <div class="input">
                     <Select
                         class="select"
@@ -35,7 +58,14 @@
                 </div>
             </div>
             <div class="line-height">
-                <p>line height</p>
+                <p>
+                    {{
+                        translate({
+                            en: "line height",
+                            vi: "khoảng cách dòng",
+                        })
+                    }}
+                </p>
                 <div class="input">
                     <i class="fa-solid fa-minus" @click="lineHeight--"></i>
                     <input type="number" v-model="lineHeight" />
@@ -44,27 +74,62 @@
                 </div>
             </div>
             <div class="word-wrap">
-                <p>word warp</p>
+                <p>
+                    {{
+                        translate({
+                            en: "word wrap",
+                            vi: "gộp dòng",
+                        })
+                    }}
+                </p>
                 <div class="input">
                     <div
                         :class="'switch-button ' + (wordWrap ? 'on' : 'off')"
                         @click="wordWrap = !wordWrap"
                     ></div>
-                    <p>{{ wordWrap }}</p>
+                    <p>
+                        {{ 
+                            translate({
+                                en: wordWrap ? "on" : "off",
+                                vi: wordWrap ? "bật" : "tắt",
+                            })
+                        }}
+                    </p>
                 </div>
             </div>
             <div class="line-numbers">
-                <p>line number</p>
+                <p>
+                    {{
+                        translate({
+                            en: "show line numbers",
+                            vi: "hiện số dòng",
+                        })
+                    }}
+                </p>
                 <div class="input">
                     <div
                         :class="'switch-button ' + (lineNumbers ? 'on' : 'off')"
                         @click="lineNumbers = !lineNumbers"
                     ></div>
-                    <p>{{ lineNumbers }}</p>
+                    <p>
+                        {{ 
+                            translate({
+                                en: lineNumbers ? "on" : "off",
+                                vi: lineNumbers ? "bật" : "tắt",
+                            })
+                        }}
+                    </p>
                 </div>
             </div>
             <p class="button" @click="resetToDefault">
-                <span> reset to default </span>
+                <span>
+                    {{
+                        translate({
+                            en: "reset to default",
+                            vi: "đặt về mặc định",
+                        })
+                    }}
+                </span>
             </p>
         </div>
     </div>
@@ -73,6 +138,7 @@
 <script>
 import { mapState } from "vuex";
 import Select from "./ProblemRightSettingSelect";
+import translate from "../../../helpers/translate";
 
 export default {
     name: "EditorSetting",
@@ -105,6 +171,9 @@ export default {
         }),
     },
     methods: {
+        translate(input) {
+            return translate(input);
+        },
         fontFamilyChanged(item) {
             this.$store.dispatch("general/setEditorSettings", {
                 fontFamily: item,
@@ -140,7 +209,6 @@ export default {
             this.wordWrap = defaultSettings.wordWrap;
             this.lineNumbers = defaultSettings.lineNumbers;
             this.$store.dispatch("general/setEditorSettings", defaultSettings);
-
         },
     },
     watch: {

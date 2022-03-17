@@ -7,7 +7,7 @@
                 :key="index"
                 @click="selected = index"
             >
-                <p>{{ item }}</p>
+                <p>{{ translate(item) }}</p>
             </div>
         </div>
         <div class="content">
@@ -25,6 +25,7 @@
 
 <script>
 import { removeSpace } from "../../../utils/removeSpace";
+import translate from "../../../helpers/translate";
 
 export default {
     name: "TabBar",
@@ -34,7 +35,7 @@ export default {
         selected: {
             type: Number,
             default: 0,
-        }
+        },
     },
     // data() {
     //     return {
@@ -45,6 +46,9 @@ export default {
         rmSpace(str) {
             // remove space in string
             return removeSpace(str);
+        },
+        translate(input) {
+            return translate(input, "en");
         },
     },
 };

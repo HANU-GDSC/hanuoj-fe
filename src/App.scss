@@ -106,6 +106,10 @@ ul {
 
 a {
   text-decoration: none;
+  color: var(--first-color);
+}
+a:hover {
+  text-decoration: underline;
 }
 
 img {

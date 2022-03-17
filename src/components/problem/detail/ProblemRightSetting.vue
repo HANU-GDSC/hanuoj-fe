@@ -10,20 +10,61 @@
         </div>
         <div
             class="retrieve-to-last-submission"
-            title="retrieve to the last submission"
+            :title="
+                translate({
+                    en: 'retrieve to the last submission',
+                    vi: 'trở lại lần submit gần nhất',
+                })
+            "
         >
             <i class="fa-solid fa-right-from-bracket"></i>
         </div>
         <div
+            v-if="$store.state.general.theme === 'light-theme'"
+            @click="$store.dispatch('general/setTheme', 'dark-theme')"
+            class="switch-theme-dark"
+            :title="
+                translate({
+                    en: 'switch theme to dark',
+                    vi: 'chuyển giao diện tối',
+                })
+            "
+        >
+            <i class="fa-solid fa-circle-half-stroke"></i>
+        </div>
+        <div
+            v-if="$store.state.general.theme === 'dark-theme'"
+            @click="$store.dispatch('general/setTheme', 'light-theme')"
+            class="switch-theme-light"
+            :title="
+                translate({
+                    en: 'switch theme to light',
+                    vi: 'chuyển giao diện sáng',
+                })
+            "
+        >
+            <i class="fa-solid fa-circle-half-stroke"></i>
+        </div>
+        <div
             class="open-setting"
-            title="editor settings"
+            :title="
+                translate({
+                    en: 'open setting',
+                    vi: 'mở cài đặt',
+                })
+            "
             @click="showModal = true"
         >
             <i class="fa-solid fa-ellipsis-vertical"></i>
         </div>
         <div
             class="enter-full-screen"
-            title="enter full screen"
+            :title="
+                translate({
+                    en: 'enter full screen',
+                    vi: 'toàn màn hình',
+                })
+            "
             v-if="!fullScreen"
             @click="$emit('enterFullScreen')"
         >
@@ -31,7 +72,12 @@
         </div>
         <div
             class="exit-full-screen"
-            title="exit full screen"
+            :title="
+                translate({
+                    en: 'exit full screen',
+                    vi: 'thoát toàn màn hình',
+                })
+            "
             v-if="fullScreen"
             @click="$emit('exitFullScreen')"
         >
@@ -51,6 +97,7 @@
 import Select from "./ProblemRightSettingSelect";
 import EditorSetting from "./ProblemRightSettingEditor";
 import ModalBox from "../../general/ModalBox";
+import translate from "../../../helpers/translate";
 
 export default {
     name: "ProblemSetting",
@@ -99,6 +146,9 @@ export default {
             this.$store.dispatch("general/setEditorSettings", {
                 language,
             });
+        },
+        translate(input) {
+            return translate(input);
         },
     },
 };

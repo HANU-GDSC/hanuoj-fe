@@ -2,7 +2,7 @@
     <div class="modal-box">
         <div class="modal-content" :style="'width: ' + modalWidth + ';'">
             <div class="modal-body">
-                <i class="fas fa-times" @click="closeModal" title="close"></i>
+                <i class="fas fa-times" @click="closeModal" :title="translate('close')"></i>
                 <slot></slot>
             </div>
         </div>
@@ -10,6 +10,8 @@
 </template>
 
 <script>
+import translate from "../../helpers/translate";
+
 export default {
     name: "ModalBox",
     data() {
@@ -23,6 +25,9 @@ export default {
         closeModal: function () {
             this.$emit("closeModal");
         },
+        translate(input) {
+            return translate(input)
+        }
     },
     mounted() {
         this.$el.getElementsByClassName("modal-body")[0].addEventListener(("click"), (e) => {

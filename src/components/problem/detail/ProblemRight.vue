@@ -27,6 +27,7 @@ import ProblemSetting from "./ProblemRightSetting";
 import ProblemConsole from "./ProblemRightConsole";
 import MonacoEditor from "./MonacoEditor";
 import converter from "../../../utils/languageConverter";
+import translate from "../../../helpers/translate";
 
 export default {
     name: "ProblemRight",
@@ -36,19 +37,24 @@ export default {
         problem: Object,
     },
     data() {
-        return {
-        };
-    },
-    computed: {
-        languages() {
-            return converter(this.problem.allowedProgrammingLanguages);
-        },
+        return {};
     },
     components: {
         ProblemSetting,
         ProblemConsole,
         MonacoEditor,
     },
+    computed: {
+        languages() {
+            return converter(this.problem.allowedProgrammingLanguages);
+        },
+        translate() {
+            return translate()
+        }
+    },
+    created() {
+
+    }
 };
 </script>
 

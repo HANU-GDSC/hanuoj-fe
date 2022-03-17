@@ -26,8 +26,8 @@ export default {
         language: String,
         code: {
             type: String,
-            default: `your code go here`
-        }
+            default: `your code go here`,
+        },
     },
     data() {
         return {
@@ -39,16 +39,18 @@ export default {
             this.editor = editor;
         },
         onCodeChange(editor) {
-            this.$emit("dataUpdated", editor.getValue())
+            this.$emit("dataUpdated", editor.getValue());
         },
     },
     computed: {
         getTheme() {
-            return this.$store.state.general.theme === "dark-theme" ? "vs-dark" : "vs";
+            return this.$store.state.general.theme === "dark-theme"
+                ? "vs-dark"
+                : "vs";
         },
         getOptions() {
             return this.$store.state.general.editorSettings;
-        }
+        },
     },
     watch: {
         language() {
@@ -62,7 +64,13 @@ export default {
             setTimeout(() => {
                 this.reCreate = true;
             }, 0);
-        }
+        },
+        getTheme() {
+            this.reCreate = false;
+            setTimeout(() => {
+                this.reCreate = true;
+            }, 0);
+        },
     },
 };
 </script>

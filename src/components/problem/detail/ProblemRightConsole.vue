@@ -26,14 +26,14 @@
             @click="submit"
             :class="'button ' + (isSubmitting ? '' : 'hover-effect')"
         >
-            <span v-if="!isSubmitting">submit</span><LoadingIcon v-else />
+            <span v-if="!isSubmitting">{{ translate("submit") }}</span><LoadingIcon v-else />
         </p>
         <p
             text="run-code"
             @click="runCode"
             :class="'button ' + (isRunning ? '' : 'hover-effect')"
         >
-            <span v-if="!isRunning">run code</span><LoadingIcon v-else />
+            <span v-if="!isRunning">{{ translate("run code") }}</span><LoadingIcon v-else />
         </p>
     </div>
 </template>
@@ -43,6 +43,7 @@ import TabBar from "./ProblemTabBar";
 import TestCase from "./ProblemRightConsoleTestCase";
 import RunCode from "./ProblemRightConsoleRunCode";
 import LoadingIcon from "../../general/LoadingIcon";
+import translate from "../../../helpers/translate";
 
 export default {
     name: "ProblemConsole",
@@ -65,6 +66,9 @@ export default {
             if (this.isSubmitting) return;
             this.isSubmitting = true;
         },
+        translate(input) {
+            return translate(input);
+        }
     },
     components: {
         TabBar,
@@ -120,7 +124,7 @@ export default {
         padding: 2px 0;
         margin-right: 5px;
         margin-top: 4.5px;
-        width: 90px;
+        width: 100px;
         text-align: center;
         border: 1px solid var(--line-color);
         transition: all 0.2s;

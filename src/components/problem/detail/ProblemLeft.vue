@@ -2,7 +2,7 @@
     <div class="problem-left">
         <TabBar
             :tabBarList="[
-                'description',
+                'problem',
                 'solution',
                 'discussion',
                 'submission',
@@ -10,16 +10,16 @@
             class="tab-bar"
             notBorder="top"
         >
-            <template v-slot:description>
+            <template v-slot:problem>
                 <MarkdownRender :description="problem.description"/>
             </template>
             <template v-slot:solution>
                 <p>solution</p>
             </template>
-            <template v-slot:discussion>
+            <template v-slot:Discussion>
                 <p>discussion</p>
             </template>
-            <template v-slot:submission>
+            <template v-slot:Submission>
                 <p>submission</p>
             </template>
         </TabBar>

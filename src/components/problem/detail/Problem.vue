@@ -50,7 +50,7 @@ export default {
         ProblemLeft,
         ProblemRight,
         Loading,
-        ProblemNotFound,
+        ProblemNotFound,    
     },
     methods: {},
     async created() {
@@ -74,18 +74,18 @@ export default {
                 name: data.coreProblem.name,
                 description: data.coreProblem.description,
                 author: data.coreProblem.author,
-                ACsCount: data.coreProblem.ACsCount,  // TODO later
-                submissionsCount: data.coreProblem.submissionsCount,  // TODO later
-                difficulty: data.coreProblem.difficulty,  // done
-                memoryLimits: data.coreProblem.memoryLimits, 
+                ACsCount: data.coreProblem.ACsCount, // TODO later
+                submissionsCount: data.coreProblem.submissionsCount, // TODO later
+                difficulty: data.coreProblem.difficulty,
+                memoryLimits: data.coreProblem.memoryLimits,
                 timeLimits: data.coreProblem.timeLimits,
                 testCases: data.coreProblem.testCases, // TODO [long]
                 allowedProgrammingLanguages:
-                    data.coreProblem.allowedProgrammingLanguages, // TODO
-                version: data.coreProblem.version, 
+                    data.coreProblem.allowedProgrammingLanguages,
+                version: data.coreProblem.version,
                 category: data.practiceProblem.category,
-                likeCount: data.practiceProblem.likeCount, // done
-                dislikeCount: data.practiceProblem.dislikeCount, // done
+                likeCount: data.practiceProblem.likeCount,
+                dislikeCount: data.practiceProblem.dislikeCount,
             };
 
             // set problem code
@@ -98,7 +98,9 @@ export default {
                     : "",
             });
         } catch (error) {
-            errorHandler(err);
+            this.problemNotFound = true;
+            this.firstLoading = false;
+            errorHandler(error);
             // return;
         }
         // editor setting

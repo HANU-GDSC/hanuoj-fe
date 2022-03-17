@@ -3,6 +3,7 @@ export default {
     state() {
         return {
             theme: "",
+            language: "",
             alert: {
                 isAlert: false,
                 alertMessage: "",
@@ -17,6 +18,10 @@ export default {
             state.theme = theme;
             localStorage.setItem("theme", theme);
         },
+        setLanguage(state, language) {
+            state.language = language;
+            localStorage.setItem("lang", language);
+        },
         setAlert(state, alert) {
             state.alert = alert;
         },
@@ -29,7 +34,6 @@ export default {
             const currentTheme = localStorage.getItem("theme");
             if (!currentTheme) {
                 state.commit("setTheme", "light-theme");
-                localStorage.setItem("theme", "light-theme");
             } else {
                 state.commit("setTheme", currentTheme);
             };
@@ -37,6 +41,18 @@ export default {
         setTheme(state, theme) {
             state.commit("setTheme", theme);
             localStorage.setItem("theme", theme);
+        },
+        setLanguage(state, newLanguage) {
+            const currentLanguage = localStorage.getItem("lang");
+            if (!currentLanguage) {
+                console.log(!currentLanguage);
+                state.commit("setLanguage", "en");
+            } else {
+                if (newLanguage)
+                    state.commit("setLanguage", newLanguage);
+                else
+                    state.commit("setLanguage", currentLanguage);
+            }
         },
         setAlert(state, alert) {
             state.commit("setAlert", alert);

@@ -6,7 +6,7 @@
         <h2 class="problem-name">{{ problem.name }}</h2>
         <div class="problem-info">
             <div :class="'difficulty ' + problem.difficulty">
-                {{ problem.difficulty }}
+                {{ translate(problem.difficulty).toUpperCase() }}
             </div>
             <div class="like" @click="likeClicked">
                 {{ like ? problem.likeCount + 1 : problem.likeCount }}
@@ -21,6 +21,8 @@
 </template>
 
 <script>
+import translate from "../../../helpers/translate";
+
 export default {
     name: "ProblemHeader",
     data() {
@@ -51,6 +53,9 @@ export default {
                 this.dislike = true;
                 this.like = false;
             }
+        },
+        translate(input) {
+            return translate(input);
         }
     }
 };
@@ -83,6 +88,7 @@ $margin: 15px;
     }
     .problem-info {
         border: 1px solid var(--line-color) !important;
+        border-radius: 10px;
         display: flex;
         width: 230px;
         position: absolute;
