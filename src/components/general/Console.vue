@@ -17,8 +17,9 @@ export default {
 .console {
     font-family: "Courier New", monospace;
     white-space: pre-line;
-    padding: 5px;
+    padding: 10px;
     background-color: var(--container-color-darker);
     border: 1px solid var(--line-color);
+    font-weight: bold;
 }
 </style>

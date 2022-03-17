@@ -18,7 +18,7 @@
                 })
             "
         />
-        <ProblemConsole class="console" :runCodeResult="runCodeResult" />
+        <ProblemConsole class="console" :runCodeResult="runCodeResult" :problem="problem"/>
     </div>
 </template>
 

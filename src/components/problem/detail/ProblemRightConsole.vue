@@ -6,7 +6,7 @@
                 class="tab-bar"
             >
                 <template v-slot:testcase>
-                    <TestCase :testCase="'8\n2, 5, 3, 5, 6, 2, 1, 9'" />
+                    <TestCase :testCases="problem.testCases" />
                 </template>
                 <template v-slot:runcoderesult>
                     <RunCode :runCodeResult="runCodeResult" />
@@ -26,14 +26,16 @@
             @click="submit"
             :class="'button ' + (isSubmitting ? '' : 'hover-effect')"
         >
-            <span v-if="!isSubmitting">{{ translate("submit") }}</span><LoadingIcon v-else />
+            <span v-if="!isSubmitting">{{ translate("submit") }}</span
+            ><LoadingIcon v-else />
         </p>
         <p
             text="run-code"
             @click="runCode"
             :class="'button ' + (isRunning ? '' : 'hover-effect')"
         >
-            <span v-if="!isRunning">{{ translate("run code") }}</span><LoadingIcon v-else />
+            <span v-if="!isRunning">{{ translate("run code") }}</span
+            ><LoadingIcon v-else />
         </p>
     </div>
 </template>
@@ -49,6 +51,7 @@ export default {
     name: "ProblemConsole",
     props: {
         runCodeResult: Object,
+        problem: Object,
     },
     data() {
         return {
@@ -68,7 +71,7 @@ export default {
         },
         translate(input) {
             return translate(input);
-        }
+        },
     },
     components: {
         TabBar,

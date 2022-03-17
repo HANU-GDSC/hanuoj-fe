@@ -101,10 +101,17 @@ export default {
             margin-right: var(--mb-0-5);
         }
         a {
+            color: var(--text-color);
+        }
+        a:hover {
+            text-decoration: none !important
         }
         @media screen and (max-width: 900px) {
             font-size: var(--smaller-font-size);
         }
+    }
+    a.page:hover {
+        text-decoration: none !important
     }
     a.router-link-active {
         color: var(--title-color);
