@@ -1,17 +1,18 @@
 <template>
     <div class="problem-left">
         <TabBar
-            :tabBarList="[
-                'problem',
-                'solution',
-                'discussion',
-                'submission',
-            ]"
+            :tabBarList="['problem', 'solution', 'discussion', 'submission']"
             class="tab-bar"
             notBorder="top"
+            :selected="tabBarSelected"
+            @selectUpdated="
+                (value) => {
+                    tabBarSelected = value;
+                }
+            "
         >
             <template v-slot:problem>
-                <MarkdownRender :description="problem.description"/>
+                <MarkdownRender :description="problem.description" />
             </template>
             <template v-slot:solution>
                 <p>solution</p>
@@ -34,6 +35,7 @@ export default {
     name: "ProblemLeft",
     props: {
         problem: Object,
+        tabBarSelected: 0,
     },
     components: {
         TabBar,

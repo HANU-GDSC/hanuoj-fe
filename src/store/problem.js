@@ -23,7 +23,7 @@ export default {
                 likeCount: Number,
                 dislikeCount: Number,
              */
-            currentProblemsCode: [],
+            currentProblemsCode: {},
             /*
                 id: code,
             */

@@ -60,15 +60,15 @@ export default {
                 id: this.$route.params.id,
             });
             // Check if the problem not found
-            if (res.data.code === "NOT_FOUND") {
+            if (res.data.code === "NOT_FOUND") { // mockApi response
                 this.problemNotFound = true;
                 this.firstLoading = false;
                 return;
             }
             this.firstLoading = false;
             // get data
-            const data = res.data.data;
-            console.log(res.data);
+            const data = res.data.data; // mockApi response
+            console.log("problem detail get: ", res.data);
             this.problem = {
                 id: data.coreProblem.id,
                 name: data.coreProblem.name,
@@ -79,10 +79,11 @@ export default {
                 difficulty: data.coreProblem.difficulty,
                 memoryLimits: data.coreProblem.memoryLimits,
                 timeLimits: data.coreProblem.timeLimits,
-                testCases: data.coreProblem.testCases, // TODO [long]
+                testCases: data.coreProblem.testCases,
                 allowedProgrammingLanguages:
                     data.coreProblem.allowedProgrammingLanguages,
                 version: data.coreProblem.version,
+                practiceProblemId: data.practiceProblem.id,
                 category: data.practiceProblem.category,
                 likeCount: data.practiceProblem.likeCount,
                 dislikeCount: data.practiceProblem.dislikeCount,
@@ -148,12 +149,12 @@ $margin: 15px;
 .light-theme .problem-detail {
     background-color: var(--container-color-darker);
     .content > * {
-        box-shadow: 2px 2px 1px rgb(207, 207, 207);
+        // box-shadow: 2px 2px 1px rgb(207, 207, 207);
     }
 }
 .dark-theme .problem-detail {
     .content > * {
-        box-shadow: 2px 2px 1px rgb(32, 36, 58);
+        // box-shadow: 2px 2px 1px rgb(32, 36, 58);
     }
 }
 .problem-detail {

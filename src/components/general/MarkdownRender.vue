@@ -90,6 +90,16 @@ export default {
         display: block;
         white-space: pre-line;
         padding: 8px;
+        overflow-y: auto;
+    }
+    code.hljs::-webkit-scrollbar-thumb {
+        display: none;
+    }
+    code.hljs::-webkit-scrollbar {
+        border-top: 1px solid var(--line-color);
+    }
+    code.hljs:hover::-webkit-scrollbar-thumb {
+        display: block;
     }
     hr {
         border: none;

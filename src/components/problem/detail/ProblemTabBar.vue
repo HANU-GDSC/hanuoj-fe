@@ -5,7 +5,7 @@
                 v-for="(item, index) in tabBarList"
                 :class="'nav-item ' + (selected === index ? 'selected' : '')"
                 :key="index"
-                @click="selected = index"
+                @click="switchTab(index)"
             >
                 <p>{{ translate(item) }}</p>
             </div>
@@ -50,6 +50,9 @@ export default {
         translate(input) {
             return translate(input, "en");
         },
+        switchTab(index) {
+            this.$emit("selectUpdated", index);
+        },
     },
 };
 </script>
@@ -89,6 +92,21 @@ $nav-height: 40px;
             overflow-y: auto;
             height: 100%;
         }
+    }
+    // scroll bar
+    .content {
+        .content-item::-webkit-scrollbar-thumb {
+            display: none;
+        }
+        .content-item::-webkit-scrollbar {
+            border-left: 1px solid var(--line-color);
+        }
+    }
+    .content:hover .content-item::-webkit-scrollbar-thumb {
+        display: block;
+    }
+    .content .content-item:last-child::-webkit-scrollbar {
+        border-top: 1px solid var(--line-color);
     }
 }
 .tab-bar.not-border-top {

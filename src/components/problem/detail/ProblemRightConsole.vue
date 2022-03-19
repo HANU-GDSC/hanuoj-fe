@@ -4,6 +4,12 @@
             <TabBar
                 :tabBarList="['test case', 'run code result', 'submission']"
                 class="tab-bar"
+                :selected="consoleSelected"
+                @selectUpdated="
+                    (value) => {
+                        consoleSelected = value;
+                    }
+                "
             >
                 <template v-slot:testcase>
                     <TestCase :testCases="problem.testCases" />
@@ -11,7 +17,9 @@
                 <template v-slot:runcoderesult>
                     <RunCode :runCodeResult="runCodeResult" />
                 </template>
-                <template v-slot:submission> submission </template>
+                <template v-slot:submission>
+                    <Submission :submission="submission" />
+                </template>
             </TabBar>
         </div>
         <div class="console-button" @click="showConsole = !showConsole">
@@ -44,8 +52,11 @@
 import TabBar from "./ProblemTabBar";
 import TestCase from "./ProblemRightConsoleTestCase";
 import RunCode from "./ProblemRightConsoleRunCode";
+import Submission from "./ProblemRightConsoleSubmission";
 import LoadingIcon from "../../general/LoadingIcon";
 import translate from "../../../helpers/translate";
+import apiService from "../../../helpers/apiService";
+import errorHandler from "../../../helpers/errorHandler";
 
 export default {
     name: "ProblemConsole",
@@ -58,6 +69,8 @@ export default {
             isSubmitting: false,
             isRunning: false,
             showConsole: false,
+            submission: {},
+            consoleSelected: 0,
         };
     },
     methods: {
@@ -65,9 +78,39 @@ export default {
             if (this.isRunning) return;
             this.isRunning = true;
         },
-        submit() {
+        async submit() {
             if (this.isSubmitting) return;
             this.isSubmitting = true;
+            const ProblemResult = {
+                practiceProblemId: this.problem.practiceProblemId,
+                inputService: {
+                    coderId: "123-abc-xyz",
+                    problemId: this.problem.id,
+                    code: this.$store.state.problem.currentProblemsCode[
+                        this.problem.id
+                    ],
+                    programmingLanguage:
+                        this.$store.state.general.editorSettings.language,
+                },
+            };
+            try {
+                console.log("sending result", ProblemResult);
+                const res = await apiService(
+                    "POST",
+                    "/submit",
+                    {},
+                    ProblemResult
+                );
+                this.isSubmitting = false;
+                const submission = res.data.data; // mockApi response
+                console.log("submission: ", submission);
+                this.submission = submission;
+                this.showConsole = true;
+                this.consoleSelected = 2;
+            } catch (error) {
+                this.isSubmitting = false;
+                errorHandler(error);
+            }
         },
         translate(input) {
             return translate(input);
@@ -77,6 +120,7 @@ export default {
         TabBar,
         RunCode,
         TestCase,
+        Submission,
         LoadingIcon,
     },
 };

@@ -131,8 +131,6 @@ export default {
                 "rust",
                 "lua",
                 "perl",
-                "mysql",
-                "sql",
             ],
         };
     },

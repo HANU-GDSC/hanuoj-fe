@@ -384,6 +384,15 @@ export default {
         margin: 20px;
         height: 40px;
     }
+    .setting::-webkit-scrollbar {
+        border-left: 1px solid var(--line-color);
+    }
+    .setting::-webkit-scrollbar-thumb {
+        display: none;
+    }
+    .setting:hover::-webkit-scrollbar-thumb {
+        display: block;
+    }
 }
 .light-theme .button:hover {
     box-shadow: 2px 2px 1px rgb(207, 207, 207);
