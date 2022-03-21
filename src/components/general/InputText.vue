@@ -1,5 +1,4 @@
 <template>
-  <div class="content-inputtext">
     <input
       type="text"
       :disabled="disable"
@@ -8,7 +7,6 @@
       :value="value"
       @input="dataUpdated"
     />
-  </div>
 </template>
 
 <script>
