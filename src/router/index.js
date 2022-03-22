@@ -65,6 +65,14 @@ const routes = [
 		}
 	},
 	{
+		path: "/contest/create",
+		name: "CreateContest",
+		component: () => import("../components/contest/CreateContest"),
+		meta: {
+			type: "protected"
+		}
+	},
+	{
 		path: "/discussion",
 		name: "Discussion",
 		component: () => import("../views/Discussion"),
