@@ -10,7 +10,7 @@
 run npm i to update all dependencies
 create a file named `.env.local` in the root directory of the project. Add content if necessary.
 ```
-VUE_APP_API=https://lamlamlfakeapi.herokuapp.com
+VUE_APP_API=https://someapiaddress
 ```
 
 thêm accessToken vào localStorage để vào các protected route
