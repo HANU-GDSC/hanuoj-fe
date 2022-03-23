@@ -74,12 +74,12 @@ export default {
   },
 
   created() {
-    // if local storage have accessToken -> return user data
+    // if local storage have accessToken -> return current user data
     // localStorage.removeItem("accessToken");
     const accessToken = localStorage.getItem("accessToken");
     if (accessToken) {
-      console.log(this.$store.state.endUser.info);
-      return this.$store.state.endUser.info;
+      // console.log(this.$store.state.currentUserData);
+      return this.$store.state.currentUserData;
     }
   },
 
@@ -93,7 +93,7 @@ export default {
     },
 
     async login() {
-      // check whether input was entered 
+      // check whether input was entered
       if (!this.user.usernameOrEmail) {
         this.isWrongEmail = true;
         this.warning.email = "Please enter your username or email";
@@ -102,7 +102,7 @@ export default {
         this.warning.password = "Please enter your password";
       } else {
         this.isLoading = true;
-        // POST 
+        // POST
         try {
           const response = await apiService("POST", "/login", "", {
             usernameOrEmail: this.user.usernameOrEmail,
@@ -110,7 +110,7 @@ export default {
           });
 
           const data = response.data;
-          console.log(data); // check response data
+          // console.log(data);
           // handle error "WRONG_PASSWORD"
           switch (data.code) {
             case "WRONG_PASSWORD":
@@ -126,9 +126,9 @@ export default {
           // add accessToken to localStorage
           localStorage.setItem("accessToken", data.data);
 
-          // set user data
-          this.$store.dispatch("endUser/initInfo", this.user)
-
+          // console.log(this.user)
+          // set current user data
+          this.$store.dispatch("endUser/setCurrentUser", this.user);
         } catch (error) {
           this.isLoading = true;
           errorHandler(error);
@@ -141,7 +141,7 @@ export default {
 
 <style>
 .loading {
-  opacity: 0.5;
+  opacity: 0.4;
 }
 
 .content {
