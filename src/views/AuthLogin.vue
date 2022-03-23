@@ -1,39 +1,37 @@
 <template>
   <div class="loginContainer">
     <div class="loginContent" :class="{ loading: isLoading }">
-      <!-- <form> -->
-      <h2>Login</h2>
-      <InputText
-        :class="{ inputEmptyOrWrong: isWrongEmail }"
-        @dataUpdated="assignUsername"
-        value=""
-        :disable="false"
-        require="true"
-        placeholder="User's name or email"
-      />
-      <span class="emtyWarning" v-if="isWrongEmail">{{ warning.email }}</span>
-      <InputPass
-        :class="{ inputEmptyOrWrong: isWrongPassword }"
-        @dataUpdated="assignPassword"
-        :disable="false"
-        require="true"
-        placeholder="Password"
-      /><br />
-      <span class="emtyWarning" v-if="isWrongPassword">{{
-        warning.password
-      }}</span>
-      <div>
-        <a href="Register">Sign up</a>
-        <a href="">Forgot your password?</a>
-      </div>
-      <Button
-        text="Login"
-        type="primary"
-        des="login"
-        :disable="isLoading"
-        @clicked="login"
-      />
-      <!-- </form> -->
+        <h2>Login</h2>
+        <InputText
+          :class="{ inputEmptyOrWrong: isWrongEmail }"
+          @dataUpdated="assignUsername"
+          value=""
+          :disable="false"
+          require="true"
+          placeholder="User's name or email"
+        />
+        <span class="emtyWarning" v-if="isWrongEmail">{{ warning.email }}</span>
+        <InputPass
+          :class="{ inputEmptyOrWrong: isWrongPassword }"
+          @dataUpdated="assignPassword"
+          :disable="false"
+          require="true"
+          placeholder="Password"
+        /><br />
+        <span class="emtyWarning" v-if="isWrongPassword">{{
+          warning.password
+        }}</span>
+        <div>
+          <a href="register">Sign up</a>
+          <a href="">Forgot your password?</a>
+        </div>
+        <Button
+          text="Login"
+          type="primary"
+          des="login"
+          :disable="isLoading"
+          @clicked="login"
+        />
     </div>
     <LoadingIcon v-if="isLoading" />
   </div>
@@ -78,8 +76,8 @@ export default {
     // localStorage.removeItem("accessToken");
     const accessToken = localStorage.getItem("accessToken");
     if (accessToken) {
-      // console.log(this.$store.state.currentUserData);
-      return this.$store.state.currentUserData;
+      let currentUserData = JSON.parse(localStorage.getItem("currentUserData"));
+      return currentUserData;
     }
   },
 
@@ -126,9 +124,11 @@ export default {
           // add accessToken to localStorage
           localStorage.setItem("accessToken", data.data);
 
-          // console.log(this.user)
           // set current user data
           this.$store.dispatch("endUser/setCurrentUser", this.user);
+
+          // move to dashboard
+          this.$router.go("dashboard")
         } catch (error) {
           this.isLoading = true;
           errorHandler(error);
