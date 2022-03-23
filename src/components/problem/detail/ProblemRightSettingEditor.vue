@@ -88,7 +88,7 @@
                         @click="wordWrap = !wordWrap"
                     ></div>
                     <p>
-                        {{ 
+                        {{
                             translate({
                                 en: wordWrap ? "on" : "off",
                                 vi: wordWrap ? "bật" : "tắt",
@@ -112,7 +112,7 @@
                         @click="lineNumbers = !lineNumbers"
                     ></div>
                     <p>
-                        {{ 
+                        {{
                             translate({
                                 en: lineNumbers ? "on" : "off",
                                 vi: lineNumbers ? "bật" : "tắt",
@@ -254,6 +254,9 @@ export default {
     input[type="number"]::-webkit-inner-spin-button {
         -webkit-appearance: none;
         margin: 0;
+    }
+    input[type="number"] {
+        -moz-appearance: textfield;
     }
     .setting {
         max-height: 75vh;

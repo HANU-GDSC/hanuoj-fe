@@ -119,6 +119,7 @@ export default {
         }
         a {
             color: var(--title-color);
+            font-weight: bold;
         }
         .ver-line {
             display: block;

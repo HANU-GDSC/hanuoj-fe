@@ -18,7 +18,7 @@
                     <RunCode :runCodeResult="runCodeResult" />
                 </template>
                 <template v-slot:submission>
-                    <Submission :submission="submission" />
+                    <Submission :submission="{...submission.outputService}" />
                 </template>
             </TabBar>
         </div>
@@ -97,13 +97,15 @@ export default {
                 console.log("sending result", ProblemResult);
                 const res = await apiService(
                     "POST",
-                    "/submit",
+                    "/practiceProblem/submit",
                     {},
                     ProblemResult
                 );
                 this.isSubmitting = false;
                 const submission = res.data.data; // mockApi response
                 console.log("submission: ", submission);
+                if (!submission)
+                    throw new Error("can't submit your code")
                 this.submission = submission;
                 this.showConsole = true;
                 this.consoleSelected = 2;

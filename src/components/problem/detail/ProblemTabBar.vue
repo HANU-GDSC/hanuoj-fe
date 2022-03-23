@@ -98,8 +98,13 @@ $nav-height: 40px;
         .content-item::-webkit-scrollbar-thumb {
             display: none;
         }
-        .content-item::-webkit-scrollbar {
+        .content-item::-webkit-scrollbar:vertical {
             border-left: 1px solid var(--line-color);
+            background: var(--container-color);
+        }
+        .content-item::-webkit-scrollbar:horizontal {
+            border-top: 1px solid var(--line-color);
+            background: var(--container-color);
         }
     }
     .content:hover .content-item::-webkit-scrollbar-thumb {

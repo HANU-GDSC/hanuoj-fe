@@ -56,18 +56,18 @@ export default {
     async created() {
         // getting problem from sever
         try {
-            const res = await apiService("GET", "/practiceProblem", {
+            const res = await apiService("GET", "/practiceProblem/practiceProblemDetail", {
                 id: this.$route.params.id,
             });
             // Check if the problem not found
-            if (res.data.code === "NOT_FOUND") { // mockApi response
+            if (res.data.code === "NOT_FOUND") {
                 this.problemNotFound = true;
                 this.firstLoading = false;
                 return;
             }
             this.firstLoading = false;
             // get data
-            const data = res.data.data; // mockApi response
+            const data = res.data.data;
             console.log("problem detail get: ", res.data);
             this.problem = {
                 id: data.coreProblem.id,
