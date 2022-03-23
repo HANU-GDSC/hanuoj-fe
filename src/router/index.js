@@ -113,6 +113,14 @@ const routes = [
 		}
 	},
 	{
+		path: "/problem/createProblem",
+		name: "CreateProblem",
+		component: () => import("../components/problem/create/CreateProblem"),
+		meta: {
+			type: "protected"
+		}
+	},
+	{
 		path: "/:404",
 		name: "404",
 		component: () => import("../views/NotFound"),
