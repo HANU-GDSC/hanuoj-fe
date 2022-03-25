@@ -9,7 +9,7 @@
           @dataUpdated="handle"
           value=""
           :disable="false"
-          :require = true
+          :require="true"
           placeholder="Enter Problem's Name"
         />
       </div>
@@ -22,15 +22,41 @@
         <InputRadio
           name="difficulty"
           @dataUpdated="handle"
-          :values = "listDifficulty"
+          :values="listDifficulty"
           checked="Easy"
           :disable="false"
-          :require = true
+          :require="true"
         />
       </div>
-      <component v-for="(component,index) in testCase" :key="index" :is="component"/>
-      <Button text="Add Test Case" type="primary" des="Add Test Case" :disable="false" @click="addTestCase" />
-      <Button text="Submit" type="submit" des="Submit" :disable="false" @click="submit"/>
+      <LanguageSelection :languageList="languageList"/>
+      <!-- category
+      language + Time Mem limit -->
+      <component
+        v-for="(component, index) in testCase"
+        :key="index"
+        :is="component"
+      />
+      <Button
+        text="Add Test Case"
+        type="primary"
+        des="Add Test Case"
+        :disable="false"
+        @click="addTestCase"
+      />
+      <Button
+        text="Delete this Test Case"
+        type="primary"
+        des="Delete Test Case"
+        :disable="this.deleteTestCaseButton"
+        @click="deleteTestCase"
+      />
+      <Button
+        text="Submit"
+        type="submit"
+        des="Submit"
+        :disable="false"
+        @click="submit"
+      />
     </form>
   </div>
 </template>
@@ -39,7 +65,8 @@
 import InputText from "../../general/InputText.vue";
 import InputRadio from "../../general/InputRadio.vue";
 import CreateTestCase from "./TestCase.vue";
-import Button from "../../general/Button.vue"
+import Button from "../../general/Button.vue";
+import LanguageSelection from "./LanguageSelection.vue"
 export default {
   name: "CreateProblem",
   components: {
@@ -47,6 +74,7 @@ export default {
     InputRadio,
     CreateTestCase,
     Button,
+    LanguageSelection,
   },
   data() {
     return {
@@ -55,23 +83,35 @@ export default {
         { name: "Medium", value: "Medium" },
         { name: "Hard", value: "Hard" },
       ],
-
-      testCase: [CreateTestCase]
+      languageList: [
+        { name: "Java", value: "JAVA", selected: false },
+        { name: "Python", value: "Python", selected: false },
+        { name: "JavaScript", value: "JAVASCRIPT", selected: false },
+        { name: "C++", value: "CPLUSPLUS", selected: false },
+      ],
+      deleteTestCaseButton: true,
+      testCase: [CreateTestCase],
     };
   },
 
-  methods:{
-    handle(){
-
+  methods: {
+    handle() {},
+    addTestCase(event) {
+      event.preventDefault();
+      this.testCase.push(CreateTestCase);
+      if (this.testCase.length >= 1) {
+        this.deleteTestCaseButton = false;
+      }
     },
-    addTestCase(event){
-      event.preventDefault()
-      this.testCase.push(CreateTestCase)
+    deleteTestCase(event) {
+      event.preventDefault();
+      this.testCase.pop();
+      if (this.testCase.length <= 1) {
+        this.deleteTestCaseButton = true;
+      }
     },
-    submit(){
-
-    }
-  }
+    submit() {},
+  },
 };
 </script>
 

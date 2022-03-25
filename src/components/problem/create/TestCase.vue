@@ -1,6 +1,9 @@
 <template>
-  <h2>Test Case</h2>
-
+  <span>
+    <h2>
+      Test Case
+    </h2>
+  </span>
   <div>
     <label for="ordinal"> Ordinal </label>
     <InputNum
@@ -52,12 +55,20 @@
 import InputText from "../../general/InputText.vue";
 import InputNum from "../../general/InputNum.vue";
 import InputCheck from "../../general/InputCheck.vue";
+import Button from "../../general/Button.vue"
 export default {
   name: "CreateTestCase",
+  props: {
+    slot: {
+      type: Number,
+      default: 0,
+    },
+  },
   components: {
     InputText,
     InputNum,
     InputCheck,
+    Button,
   },
   data() {
     return {
