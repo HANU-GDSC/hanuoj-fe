@@ -58,4 +58,7 @@ export default {
 #main {
     display: flex;
 }
+.content {
+    flex-grow: 1;
+}
 </style>
