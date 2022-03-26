@@ -55,6 +55,14 @@ const routes = [
 		}
 	},
 	{
+		path: "/problem/createProblem",
+		name: "CreateProblem",
+		component: () => import("../components/problem/create/CreateProblem"),
+		meta: {
+			type: "protected"
+		}
+	},
+	{
 		path: "/contest",
 		name: "Contest",
 		component: () => import("../views/Contest"),
@@ -110,14 +118,6 @@ const routes = [
 			type: "protected",
 			navRender: true,
 			navIcon: "fa-solid fa-gear"
-		}
-	},
-	{
-		path: "/problem/createProblem",
-		name: "CreateProblem",
-		component: () => import("../components/problem/create/CreateProblem"),
-		meta: {
-			type: "protected"
 		}
 	},
 	{

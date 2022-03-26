@@ -13,7 +13,7 @@
                     v-for="(route, index) in routeList"
                     :key="index"
                     :to="route.path"
-                    class="page"
+                    :class="'page ' + ($route.path.startsWith(route.path) ? 'router-link-active' : '')"
                 >
                     <div class="ver-line"></div>
                     <i :class="route.icon"></i>
@@ -48,8 +48,10 @@ export default {
                 this.$route.meta.type === "detail"
             );
         },
+        routerLinkActive() {
+            
+        }
     },
-
     created() {
         this.$router.options.routes.filter((route) => {
             if (route.meta.navRender)
