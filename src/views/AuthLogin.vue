@@ -1,37 +1,40 @@
 <template>
   <div class="loginContainer">
     <div class="loginContent" :class="{ loading: isLoading }">
-        <h2>Login</h2>
-        <InputText
-          :class="{ inputEmptyOrWrong: isWrongEmail }"
-          @dataUpdated="assignUsername"
-          value=""
-          :disable="false"
-          require="true"
-          placeholder="User's name or email"
-        />
-        <span class="emtyWarning" v-if="isWrongEmail">{{ warning.email }}</span>
-        <InputPass
-          :class="{ inputEmptyOrWrong: isWrongPassword }"
-          @dataUpdated="assignPassword"
-          :disable="false"
-          require="true"
-          placeholder="Password"
-        /><br />
-        <span class="emtyWarning" v-if="isWrongPassword">{{
-          warning.password
-        }}</span>
-        <div>
-          <a href="register">Sign up</a>
-          <a href="">Forgot your password?</a>
-        </div>
-        <Button
-          text="Login"
-          type="primary"
-          des="login"
-          :disable="isLoading"
-          @clicked="login"
-        />
+      <h2>Login</h2>
+      <InputText
+        :class="{ inputEmptyOrWrong: isWrongEmail }"
+        @dataUpdated="assignUsername"
+        :value="user.username || user.email"
+        :disable="isLoading"
+        require="true"
+        placeholder="User's name or email"
+      />
+      <span class="emtyWarning" v-if="isWrongEmail">{{
+        warning.wrongEmail
+      }}</span>
+      <InputPass
+        :class="{ inputEmptyOrWrong: isWrongPassword }"
+        @dataUpdated="assignPassword"
+        :disable="isLoading"
+        require="true"
+        placeholder="Password"
+      /><br />
+      <span class="emtyWarning" v-if="isWrongPassword">{{
+        warning.wrongPassword
+      }}</span>
+      <div>
+        <a @click="directSignUp" :class="{ disabled: isLoading}">Sign up</a>
+        <a @click="directForgotPass" href="" :class="{ disabled: isLoading}">Forgot your password?</a>
+      </div>
+      <Button
+        text="Login"
+        type="primary"
+        des="login"
+        :disable="isLoading"
+        @clicked="login"
+        @keydown.enter="login"
+      />
     </div>
     <LoadingIcon v-if="isLoading" />
   </div>
@@ -58,12 +61,13 @@ export default {
   data() {
     return {
       user: {
-        usernameOrEmail: "",
+        email: "",
+        username: "",
         password: "",
       },
       warning: {
-        email: "",
-        password: "",
+        wrongEmail: "",
+        wrongPassword: "",
       },
       isLoading: false,
       isWrongEmail: false,
@@ -83,41 +87,69 @@ export default {
 
   methods: {
     assignUsername(value) {
-      this.user.usernameOrEmail = value;
+      // check input type is email or username
+      // email -> assign this.email, username -> assign this.username
+      let filter =
+        /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+      if (filter.test(value)) {
+        this.user.email = value;
+        this.user.username = "";
+      } else {
+        this.user.username = value;
+        this.user.email = "";
+      }
     },
 
     assignPassword(password) {
       this.user.password = password;
     },
 
+    directSignUp() {
+      this.$router.push("register")
+    },
+
+    // where ?
+    directForgotPass() {
+      this.router.push()
+    },
+
     async login() {
       // check whether input was entered
-      if (!this.user.usernameOrEmail) {
+      if (!this.user.username && !this.user.email && !this.user.password) {
         this.isWrongEmail = true;
-        this.warning.email = "Please enter your username or email";
+        this.warning.wrongEmail = "Please enter your username or email";
+        this.isWrongPassword = true;
+        this.warning.wrongPassword = "Please enter your password";
+      } else if (!this.user.username && !this.user.email) {
+        this.isWrongEmail = true;
+        this.warning.wrongEmail = "Please enter your username or email";
       } else if (!this.user.password) {
         this.isWrongPassword = true;
-        this.warning.password = "Please enter your password";
+        this.warning.wrongPassword = "Please enter your password";
       } else {
         this.isLoading = true;
         // POST
         try {
           const response = await apiService("POST", "/login", "", {
-            usernameOrEmail: this.user.usernameOrEmail,
+            email: this.user.email,
+            username: this.user.username,
             password: this.user.password,
           });
 
           const data = response.data;
           // console.log(data);
+          
           // handle error "WRONG_PASSWORD"
           switch (data.code) {
             case "WRONG_PASSWORD":
               this.isLoading = false;
               this.isWrongEmail = true;
-              this.warning.email = "Maybe your username/email is incorrect";
+              this.warning.wrongEmail =
+                "Maybe your username/email is incorrect";
               this.isWrongPassword = true;
-              this.warning.password = "Or maybe you missed your password";
+              this.warning.wrongPassword = "Or maybe you missed your password";
               break;
+            // any other case ?
           }
           this.isLoading = false;
 
@@ -128,7 +160,7 @@ export default {
           this.$store.dispatch("endUser/setCurrentUser", this.user);
 
           // move to dashboard
-          this.$router.go("dashboard")
+          this.$router.go("dashboard");
         } catch (error) {
           this.isLoading = true;
           errorHandler(error);
@@ -144,6 +176,10 @@ export default {
   opacity: 0.4;
 }
 
+.disabled {
+  pointer-events: none;
+}
+
 .content {
   width: 100%;
   height: 100%;
@@ -156,7 +192,7 @@ export default {
   height: 550px;
   min-height: 500px;
   padding: 70px 40px;
-  margin: 15vh auto;
+  margin: 11vh auto;
   text-align: center;
   border-radius: 5px;
   border: 1px solid #0e65f1;
@@ -188,8 +224,11 @@ input {
   border: 1px solid #ccc;
 }
 
-Button {
-  margin: 60px 0;
+.loginContainer button {
+  margin-top: 4em;
+  width: 7rem;
+  height: 3rem;
+  font-size: 16px;
 }
 
 div a {
