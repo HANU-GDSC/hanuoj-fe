@@ -7,4 +7,8 @@ export default function (to, from) {
 
     if (to.meta.type === "auth" && accessToken)
         return router.push({ name: "Dashboard" });
+
+    // logic nếu route khác public và auth, và có accessToken,
+    // -> lấy data của user và cho vào vuex (tương tự như login)
+    // nếu không lấy được data của user, xóa accessToken và push đến login
 }
