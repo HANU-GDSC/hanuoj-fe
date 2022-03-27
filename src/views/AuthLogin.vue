@@ -24,8 +24,10 @@
         warning.wrongPassword
       }}</span>
       <div>
-        <a @click="directSignUp" :class="{ disabled: isLoading}">Sign up</a>
-        <a @click="directForgotPass" href="" :class="{ disabled: isLoading}">Forgot your password?</a>
+        <a @click="directSignUp" :class="{ disabled: isLoading }">Sign up</a>
+        <a @click="directForgotPass" href="" :class="{ disabled: isLoading }"
+          >Forgot your password?</a
+        >
       </div>
       <Button
         text="Login"
@@ -77,7 +79,6 @@ export default {
 
   created() {
     // if local storage have accessToken -> return current user data
-    // localStorage.removeItem("accessToken");
     const accessToken = localStorage.getItem("accessToken");
     if (accessToken) {
       let currentUserData = JSON.parse(localStorage.getItem("currentUserData"));
@@ -105,12 +106,12 @@ export default {
     },
 
     directSignUp() {
-      this.$router.push("register")
+      this.$router.push("register");
     },
 
     // where ?
     directForgotPass() {
-      this.router.push()
+      this.router.push();
     },
 
     async login() {
@@ -138,7 +139,7 @@ export default {
 
           const data = response.data;
           // console.log(data);
-          
+
           // handle error "WRONG_PASSWORD"
           switch (data.code) {
             case "WRONG_PASSWORD":
@@ -156,8 +157,12 @@ export default {
           // add accessToken to localStorage
           localStorage.setItem("accessToken", data.data);
 
-          // set current user data
+          // set current user data to VueX and localStorage
           this.$store.dispatch("endUser/setCurrentUser", this.user);
+          localStorage.setItem(
+            "currentUserData",
+            JSON.stringify(this.$store.state.endUser.currentUserData)
+          );
 
           // move to dashboard
           this.$router.go("dashboard");
