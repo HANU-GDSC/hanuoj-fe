@@ -1,13 +1,11 @@
 <template>
   <span>
-    <h2>
-      Test Case
-    </h2>
+    <h2>Test Case</h2>
   </span>
   <div>
     <label for="ordinal"> Ordinal </label>
     <InputNum
-      @dataUpdated="handle"
+      @dataUpdated="handleOrdinal($event)"
       :value="1"
       :disable="false"
       :require="true"
@@ -16,7 +14,7 @@
   </div>
   <div>
     <InputCheck
-      @dataUpdated="handle"
+      @dataUpdated="handleSampleTest($event)"
       :values="list"
       :checked="[]"
       :disable="false"
@@ -27,7 +25,7 @@
     <label for="input">Test Case Input</label>
     <InputText
       name="input"
-      @dataUpdated="handle"
+      @dataUpdated="handleTestCaseInput($event)"
       value=""
       :disable="false"
       :require="true"
@@ -38,7 +36,7 @@
     <label for="output">Test Case Output</label>
     <InputText
       name="output"
-      @dataUpdated="handle"
+      @dataUpdated="handleTestCaseOutput($event)"
       value=""
       :disable="false"
       :require="true"
@@ -47,7 +45,7 @@
   </div>
   <div>
     <label for="description">Description</label>
-    <textarea></textarea>
+    <textarea v-model="this.testCaseSubmit.description" @input="handleDescription($event)"></textarea>
   </div>
 </template>
 
@@ -55,15 +53,10 @@
 import InputText from "../../general/InputText.vue";
 import InputNum from "../../general/InputNum.vue";
 import InputCheck from "../../general/InputCheck.vue";
-import Button from "../../general/Button.vue"
+import Button from "../../general/Button.vue";
 export default {
   name: "CreateTestCase",
-  props: {
-    slot: {
-      type: Number,
-      default: 0,
-    },
-  },
+  emits:['dataUpdated'],
   components: {
     InputText,
     InputNum,
@@ -73,11 +66,36 @@ export default {
   data() {
     return {
       list: [{ name: "Sample Test", value: "Sample Test" }],
+      testCaseSubmit: {
+        ordinal: 1,
+        testCaseInput: "",
+        testCaseOutput: "",
+        sampleTest: false,
+        description: "",
+      },
     };
   },
 
   methods: {
-    handle() {},
+    handleOrdinal(ordinal) {
+      this.testCaseSubmit.ordinal = ordinal;
+      this.$emit("dataUpdated", this.testCaseSubmit);
+    },
+    handleSampleTest(sampleTest) {
+      this.testCaseSubmit.sampleTest = (sampleTest[0] !== undefined)
+      this.$emit("dataUpdated", this.testCaseSubmit);
+    },
+    handleTestCaseInput(input) {
+      this.testCaseSubmit.testCaseInput = input;
+      this.$emit("dataUpdated", this.testCaseSubmit);
+    },
+    handleTestCaseOutput(output) {
+      this.testCaseSubmit.testCaseOutput = output;
+      this.$emit("dataUpdated", this.testCaseSubmit);
+    },
+    handleDescription(event){
+      this.$emit("dataUpdated", this.testCaseSubmit);
+    }
   },
 };
 </script>

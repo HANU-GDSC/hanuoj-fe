@@ -1,7 +1,6 @@
-<template @input="dataUpdate">
+<template>
   <h2>Language Selection</h2>
   <div>Language</div>
-  <input list="programmingLanguage" />
   <select id="programmingLanguage" v-model="language">
     <option v-for="option in this.languageList" v-show="!option.selected">
       {{ option.name }}
@@ -14,7 +13,7 @@
     :require="true"
     placeholder="Enter Memory Limit"
   />
-  <div>Memory Limit</div>
+  <div>Time Limit</div>
   <InputNum
     @dataUpdated="getTimeLimit($event)"
     :disable="false"
@@ -29,11 +28,11 @@ export default {
   components: {
     InputNum,
   },
-  props:{
-    languageList:{
+  props: {
+    languageList: {
       type: Array,
-      required: true
-    }
+      required: true,
+    },
   },
   name: "LanguageSelection",
   data() {
@@ -50,14 +49,14 @@ export default {
         timeLimit: this.timeLimit,
         language: this.language,
       };
-      this.$emit("dataUpdatedLanguage", languageSelection);
+      this.$emit("dataUpdated", languageSelection);
     },
-    getMemoryLimit(num){
-      this.memoryLimit = num
+    getMemoryLimit(num) {
+      this.memoryLimit = num;
     },
-    getTimeLimit(num){
-      this.timeLimit = num
-    }
+    getTimeLimit(num) {
+      this.timeLimit = num;
+    },
   },
 };
 </script>

@@ -1,4 +1,5 @@
 <template>
+  <Loading v-if="firstLoading" />
   <div>
     <h1>Create Problem Form</h1>
     <form>
@@ -28,13 +29,30 @@
           :require="true"
         />
       </div>
-      <LanguageSelection :languageList="languageList"/>
-      <!-- category
-      language + Time Mem limit -->
-      <component
-        v-for="(component, index) in testCase"
+      <!-- <LanguageSelection
+        :languageList="this.languageList"
+        @dataUpdated="getLanguageList($event)"
+      />
+      <div id="languageSelectionHolder"></div>
+      <Button
+        text="Add Language"
+        type="primary"
+        des="Add Language"
+        :disable="this.addLanguageButton"
+        @click="addLanguage"
+      />
+      <Button
+        text="Delete language"
+        type="primary"
+        des="Delete Language"
+        :disable="this.deleteLanguageButton"
+        @click="deleteLanguage"
+      /> -->
+      <!-- category -->
+      <CreateTestCase
+        v-for="(components, index) in testCase"
         :key="index"
-        :is="component"
+        @dataUpdated="handleTestCase($event, index)"
       />
       <Button
         text="Add Test Case"
@@ -62,20 +80,23 @@
 </template>
 
 <script>
+import Loading from "../../Loading";
 import InputText from "../../general/InputText.vue";
 import InputRadio from "../../general/InputRadio.vue";
 import CreateTestCase from "./TestCase.vue";
 import Button from "../../general/Button.vue";
-import LanguageSelection from "./LanguageSelection.vue"
+import LanguageSelection from "./LanguageSelection.vue";
 export default {
   name: "CreateProblem",
   components: {
+    Loading,
     InputText,
     InputRadio,
     CreateTestCase,
     Button,
     LanguageSelection,
   },
+  
   data() {
     return {
       listDifficulty: [
@@ -89,8 +110,12 @@ export default {
         { name: "JavaScript", value: "JAVASCRIPT", selected: false },
         { name: "C++", value: "CPLUSPLUS", selected: false },
       ],
+      addLanguageButton: false,
+      deleteLanguageButton: true,
       deleteTestCaseButton: true,
       testCase: [CreateTestCase],
+      testCaseSubmit: [{}],
+      firstLoading: true,
     };
   },
 
@@ -103,6 +128,7 @@ export default {
         this.deleteTestCaseButton = false;
       }
     },
+    //to fix
     deleteTestCase(event) {
       event.preventDefault();
       this.testCase.pop();
@@ -110,7 +136,20 @@ export default {
         this.deleteTestCaseButton = true;
       }
     },
-    submit() {},
+    getLanguageList() {},
+    submit(event) {
+      event.preventDefault();
+      console.log(this.testCaseSubmit);
+    },
+    addLanguage(event) {
+      event.preventDefault();
+    },
+    deleteLanguage() {},
+
+    handleTestCase(object, index) {
+      this.testCaseSubmit[index] = object
+      console.log(this.testCaseSubmit);
+    },
   },
 };
 </script>
