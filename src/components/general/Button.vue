@@ -4,6 +4,7 @@
       :type="type"
       :title="des"
       :class="{ btnDisable: disable }"
+      :disabled="disabled"
       @click="click()"
     >
       {{ text }}

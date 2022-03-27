@@ -7,7 +7,7 @@
         @dataUpdated="assignUsername"
         :value="user.username || user.email"
         :disable="isLoading"
-        require="true"
+        :require="true"
         placeholder="User's name or email"
       />
       <span class="emtyWarning" v-if="isWrongEmail">{{
@@ -17,7 +17,7 @@
         :class="{ inputEmptyOrWrong: isWrongPassword }"
         @dataUpdated="assignPassword"
         :disable="isLoading"
-        require="true"
+        :require="true"
         placeholder="Password"
       /><br />
       <span class="emtyWarning" v-if="isWrongPassword">{{
@@ -162,7 +162,7 @@ export default {
           // move to dashboard
           this.$router.go("dashboard");
         } catch (error) {
-          this.isLoading = true;
+          this.isLoading = false;
           errorHandler(error);
         }
       }
