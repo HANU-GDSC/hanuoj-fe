@@ -20,7 +20,6 @@ export default {
 
 <style lang="scss">
 .markdown-u {
-    padding: 10px;
     white-space: pre-line;
     h1,
     h2 {

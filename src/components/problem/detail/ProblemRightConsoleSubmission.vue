@@ -8,7 +8,10 @@
                 })
             }}
         </div>
-        <div class="status ac" v-if="submission.status === 'AC' && !submissionIsEmpty">
+        <div
+            class="status ac"
+            v-if="submission.status === 'AC' && !submissionIsEmpty"
+        >
             <h2 class="title">
                 &#127881;
                 {{
@@ -47,7 +50,14 @@
                 {{ translate({ en: "next problem", vi: "câu hỏi tiếp theo" }) }}
             </p>
         </div>
-        <div class="status wa" v-if="submission.status === 'WA' && submission.failedTestCase.isSample && !submissionIsEmpty">
+        <div
+            class="status wa"
+            v-if="
+                submission.status === 'WA' &&
+                submission.failedTestCase.isSample &&
+                !submissionIsEmpty
+            "
+        >
             <h2 class="title">
                 {{
                     translate({
@@ -65,7 +75,10 @@
                         })
                     }}
                 </p>
-                <Console class="console" :text="submission.failedTestCase.input" />
+                <Console
+                    class="console"
+                    :text="submission.failedTestCase.input"
+                />
             </div>
             <div class="group">
                 <p>
@@ -87,10 +100,20 @@
                         })
                     }}
                 </p>
-                <Console class="console" :text="submission.failedTestCase.expectedOutput" />
+                <Console
+                    class="console"
+                    :text="submission.failedTestCase.expectedOutput"
+                />
             </div>
         </div>
-        <div class="status wa" v-if="submission.status === 'WA' && !submission.failedTestCase.isSample && !submissionIsEmpty">
+        <div
+            class="status wa"
+            v-if="
+                submission.status === 'WA' &&
+                !submission.failedTestCase.isSample &&
+                !submissionIsEmpty
+            "
+        >
             <h2 class="title">
                 {{
                     translate({
@@ -110,7 +133,10 @@
                 </h3>
             </div>
         </div>
-        <div class="status tle" v-if="submission.status === 'TLE' && !submissionIsEmpty">
+        <div
+            class="status tle"
+            v-if="submission.status === 'TLE' && !submissionIsEmpty"
+        >
             <h2 class="title">
                 {{
                     translate({
@@ -125,7 +151,10 @@
                 :text=""
             /> -->
         </div>
-        <div class="status mle" v-if="submission.status === 'MLE' && !submissionIsEmpty">
+        <div
+            class="status mle"
+            v-if="submission.status === 'MLE' && !submissionIsEmpty"
+        >
             <h2 class="title">
                 {{
                     translate({
@@ -140,7 +169,10 @@
                 :text=""
             /> -->
         </div>
-        <div class="status ce" v-if="submission.status === 'CE' && !submissionIsEmpty">
+        <div
+            class="status ce"
+            v-if="submission.status === 'CE' && !submissionIsEmpty"
+        >
             <h2 class="title">
                 {{
                     translate({

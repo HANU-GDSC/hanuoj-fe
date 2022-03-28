@@ -9,7 +9,7 @@
             <div class="left" v-show="!fullScreen">
                 <ProblemLeft :problem="problem" />
             </div>
-            <div :class="fullScreen ? 'right-full-screen' : 'right'">
+            <div :class="fullScreen ? 'right right-full-screen' : 'right'">
                 <ProblemRight
                     :fullScreen="fullScreen"
                     :runCodeResult="runCodeResult"
@@ -50,17 +50,21 @@ export default {
         ProblemLeft,
         ProblemRight,
         Loading,
-        ProblemNotFound,    
+        ProblemNotFound,
     },
     methods: {},
     async created() {
         // getting problem from sever
         try {
-            const res = await apiService("GET", "/practiceProblem/practiceProblemDetail", {
-                id: this.$route.params.id,
-            });
+            const res = await apiService(
+                "GET",
+                "/practiceProblem/practiceProblemDetail",
+                {
+                    id: this.$route.params.id,
+                }
+            );
             // Check if the problem not found
-            if (res.data.code === "NOT_FOUND") {
+            if (res.data.code === "NOT_FOUND" || res.data.code === "INVALID_ID") {
                 this.problemNotFound = true;
                 this.firstLoading = false;
                 return;
@@ -88,7 +92,6 @@ export default {
                 likeCount: data.practiceProblem.likeCount,
                 dislikeCount: data.practiceProblem.dislikeCount,
             };
-
             // set problem code
             this.$store.dispatch("problem/setCurrentProblemsCode", {
                 id: this.problem.id,
@@ -104,6 +107,7 @@ export default {
             errorHandler(error);
             // return;
         }
+
         // editor setting
         let currentSettings = JSON.parse(
             localStorage.getItem("editorSettings")
@@ -139,7 +143,22 @@ export default {
                     : defaultSettings[key];
         });
         this.$store.dispatch("general/setEditorSettings", settingToSave);
+
+        // handle resize
+        this.$nextTick(() => {
+            const left = this.$el.getElementsByClassName("left")[0];
+            const right = this.$el.getElementsByClassName("right")[0];
+            const observer = new MutationObserver((mutations) => {
+                right.style.width = `calc(100% - 45px - ${left.style.width})`;
+                if (left.style.display === "none")
+                    right.removeAttribute("style");
+            });
+            observer.observe(left, {
+                attributes: true,
+            });
+        });
     },
+    watch: {},
 };
 </script>
 <style lang="scss" scoped>
@@ -184,7 +203,8 @@ $margin: 15px;
             height: calc(100% - $header-height - $margin);
             float: left;
             overflow: hidden;
-            // transition: none;
+            resize: horizontal;
+            transition: resize 0s;
         }
         .right {
             position: relative;
@@ -193,8 +213,12 @@ $margin: 15px;
             height: calc(100% - $header-height - $margin);
             float: right;
             overflow: hidden;
+            transition: width 0s;
         }
         .right-full-screen {
+            float: none;
+            right: 0;
+            border-radius: 0;
             position: relative;
             width: calc(100%);
             height: calc(100%);

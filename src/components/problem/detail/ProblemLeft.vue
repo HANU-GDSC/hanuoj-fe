@@ -12,16 +12,16 @@
             "
         >
             <template v-slot:problem>
-                <MarkdownRender :description="problem.description" />
+                <MarkdownRender :description="problem.description" class="problem-description" />
             </template>
             <template v-slot:solution>
                 <p>solution</p>
             </template>
-            <template v-slot:Discussion>
+            <template v-slot:discussion>
                 <p>discussion</p>
             </template>
-            <template v-slot:Submission>
-                <p>submission</p>
+            <template v-slot:submission>
+                <Submissions />
             </template>
         </TabBar>
     </div>
@@ -30,6 +30,7 @@
 <script>
 import TabBar from "./ProblemTabBar";
 import MarkdownRender from "../../general/MarkdownRender";
+import Submissions from "./ProblemLeftSubmissions";
 
 export default {
     name: "ProblemLeft",
@@ -40,14 +41,18 @@ export default {
     components: {
         TabBar,
         MarkdownRender,
+        Submissions
     },
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .problem-left {
     width: 100%;
     height: 100%;
+    .problem-description {
+        padding: 10px;
+    }
 }
 .tab-bar {
     height: 100%;

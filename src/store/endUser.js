@@ -18,9 +18,6 @@ export default {
     setCurrentUser(state, currentUser) {
       state.commit("setCurrentUser", currentUser);
     },
-    setCurrentUser(state, currentUser) {
-      state.commit("setCurrentUser", currentUser);
-    },
   },
   getters: {
     // khi muốn lấy state và tính toán dài, viết hàm ở đây. Dùng như state.
