@@ -1,85 +1,94 @@
 <template>
   <form @submit.prevent="handleSubmit" novalidate>
     <h3>Sign Up</h3>
-    <div class="form-group" >
+    <div class="form-group">
       <InputText
         class="form-control"
         :class="{ inputEmptyOrInvalid: invalidname }"
-        type = "text"
+        type="text"
         @dataUpdated="assignUsername"
         value=""
         v-model="username"
         placeholder="UserName"
-        :disable = "false"
-        require = "true"
-      />
-    </div> <br />
-   <span class="emtyWarning" v-if="invalidname">{{ warning.username }}</span>
-    <div class="form-group">
-      <input
-      :class="{ inputEmptyOrInvalid: invalidemail }"
-        type="email"
-        class="form-control"
-        v-model="email"
-        placeholder="Email"
+        :disable="false"
+        require="true"
       />
     </div>
-     <span class="emtyWarning" v-if="invalidemail">{{ warning.email }}</span>
-    <div class="form-group" >
-      <InputPass
-        type="password"
+    <br />
+    <span class="emtyWarning" v-if="invalidname">{{ warning.username }}</span>
+    <div class="form-group">
+      <InputText
+        :class="{ inputEmptyOrInvalid: invalidemail }"
         class="form-control"
-         :class="{ inputEmptyOrInvalid: invalidpassword }"
+        type="email"
+        @dataUpdated="assignEmail"
+        value=""
+        v-model="email"
+        placeholder="Email"
+        :disable="false"
+        require="true"
+      />
+    </div>
+    <span class="emtyWarning" v-if="invalidemail">{{ warning.email }}</span>
+    <div class="form-group">
+      <InputPass
+        class="form-control"
+        :class="{ inputEmptyOrInvalid: invalidpassword }"
+        type="password"
         @dataUpdated="assignPassword"
         value=""
         v-model="password"
         placeholder="Password"
         :disable="false"
-        require= "true"
+        require="true"
       />
     </div>
     <br />
-     <span class="emtyWarning" v-if="invalidpassword">{{
-        warning.password
-      }}</span>
-      <button class="form-group">Sign Up</button>
+    <span class="emtyWarning" v-if="invalidpassword">{{
+      warning.password
+    }}</span>
+    <button class="form-group">Sign Up</button>
   </form>
 </template>
 
 <script>
-
-import axios from "axios";
 import InputText from "../components/general/InputText";
 import InputPass from "../components/general/InputPass";
+import apiService from "../helpers/apiService";
+import errorHandler from "../helpers/errorHandler";
 
 export default {
   name: "AuthRegister",
   components: {
     InputText,
-    InputPass,
+    InputPass
   },
   data() {
     return {
       user: {
         username: "",
+        email: "",
         password: "",
       },
-      email: "",
       invalidname: false,
       invalidpassword: false,
       invalidemail:false,
       warning:{
         username:"",
+        email:"",
         password:""
       }
     };
   },
   methods: {
-      assignUsername(value) {
+    assignUsername(value) {
       this.user.username = value;
     },
     assignPassword(pass) {
       this.user.password = pass;
+    },
+    assignEmail(email) {
+      this.user.password = email;
     },
     async handleSubmit() {
      if (this.user.username) {
@@ -97,12 +106,13 @@ export default {
         this.invalidpassword = true;
         this.warning.password = "Please enter your password";
       } 
-      else if (!this.email) {
+      else if (!this.user.email) {
         this.invalidemail = true;
         this.warning.email = "Please enter your email";
       } else {
-      const response = await axios.post(
-        "https://6239d4b1bbe20c3f66cac2df.mockapi.io/signup",
+        try{
+      const response = await apiService(
+        "POST", "/signup", "",
         {
           username: this.user.username,
           email: this.email,
@@ -110,10 +120,23 @@ export default {
         }
       );
       console.log(response);
-      
-    }},
-  
+      // add accessToken to localStorage
+       localStorage.setItem("accessToken", data.data);
     
+   // set current user data to VueX and localStorage
+          this.$store.dispatch("endUser/setCurrentUser", this.user);
+          localStorage.setItem(
+            "currentUserData",
+            JSON.stringify(this.$store.state.endUser.currentUserData)
+          );
+    } catch (error) {
+          this.isLoading = false;
+          errorHandler(error);
+        }
+
+        this.$router.go("dashboard");
+    }
+    },
   },
 };
 
@@ -162,7 +185,6 @@ button {
   text-align: left;
   color: #f10e0e;
   font-size: 12px;
-  margin-bottom: 1.2em;
-  margin-left: 15%;
+  margin-left: 10%;
 }
 </style>
