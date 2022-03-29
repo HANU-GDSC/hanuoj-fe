@@ -5,10 +5,8 @@
       <InputText
         class="form-control"
         :class="{ inputEmptyOrInvalid: invalidname }"
-        type="text"
         @dataUpdated="assignUsername"
-        value=""
-        v-model="username"
+        :value="user.username"
         placeholder="UserName"
         :disable="false"
         require="true"
@@ -20,10 +18,8 @@
       <InputText
         :class="{ inputEmptyOrInvalid: invalidemail }"
         class="form-control"
-        type="email"
         @dataUpdated="assignEmail"
-        value=""
-        v-model="email"
+        :value="user.email"
         placeholder="Email"
         :disable="false"
         require="true"
@@ -34,10 +30,8 @@
       <InputPass
         class="form-control"
         :class="{ inputEmptyOrInvalid: invalidpassword }"
-        type="password"
         @dataUpdated="assignPassword"
         value=""
-        v-model="password"
         placeholder="Password"
         :disable="false"
         require="true"
@@ -81,14 +75,18 @@ export default {
     };
   },
   methods: {
+    // console.log test thì cả 3 input đều nhận data
     assignUsername(value) {
       this.user.username = value;
+      console.log(this.user.username);
     },
     assignPassword(pass) {
       this.user.password = pass;
+      console.log(this.user.password);
     },
     assignEmail(email) {
-      this.user.password = email;
+      this.user.email = email;
+      console.log(this.user.email);
     },
     async handleSubmit() {
      if (this.user.username) {
