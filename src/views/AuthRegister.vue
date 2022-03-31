@@ -9,7 +9,7 @@
         :value="user.username"
         placeholder="UserName"
         :disable="false"
-        require="true"
+        :require="true"
       />
     </div>
     <br />
@@ -22,7 +22,7 @@
         :value="user.email"
         placeholder="Email"
         :disable="false"
-        require="true"
+        :require="true"
       />
     </div>
     <span class="emtyWarning" v-if="invalidemail">{{ warning.email }}</span>
@@ -34,7 +34,7 @@
         value=""
         placeholder="Password"
         :disable="false"
-        require="true"
+        :require="true"
       />
     </div>
     <br />
@@ -42,6 +42,7 @@
       warning.password
     }}</span>
     <button class="form-group">Sign Up</button>
+    <LoadingIcon v-if="isLoading" />
   </form>
 </template>
 
@@ -50,12 +51,13 @@ import InputText from "../components/general/InputText";
 import InputPass from "../components/general/InputPass";
 import apiService from "../helpers/apiService";
 import errorHandler from "../helpers/errorHandler";
-
+import LoadingIcon from "../components/general/LoadingIcon";
 export default {
   name: "AuthRegister",
   components: {
     InputText,
-    InputPass
+    InputPass,
+    LoadingIcon,
   },
   data() {
     return {
@@ -66,12 +68,13 @@ export default {
       },
       invalidname: false,
       invalidpassword: false,
-      invalidemail:false,
-      warning:{
-        username:"",
-        email:"",
-        password:""
-      }
+      invalidemail: false,
+      isLoading: false,
+      warning: {
+        username: "",
+        email: "",
+        password: "",
+      },
     };
   },
   methods: {
@@ -89,58 +92,47 @@ export default {
       console.log(this.user.email);
     },
     async handleSubmit() {
-     if (this.user.username) {
-        this.invalidname = true;
-        this.warning.username = "Username need at least 8 characters";
-      }
-      if (this.user.password.length < 8) {
-        this.invalidpassword = true;
-        this.warning.password = "Your password need at least 8 characters";
-      } 
-    if (!this.user.username) {
+       if (!this.user.username) {
         this.invalidname = true;
         this.warning.username = "Please enter your username or email";
+      } else if (this.user.username.length < 8) {
+        this.invalidname = true;
+        this.warning.username = "Username need at least 8 characters";
       } else if (!this.user.password) {
         this.invalidpassword = true;
         this.warning.password = "Please enter your password";
       } 
-      else if (!this.user.email) {
+      else if (this.user.password.length < 8) {
+        this.invalidpassword = true;
+        this.warning.password = "Your password need at least 8 characters";
+      } else if (!this.user.email) {
         this.invalidemail = true;
         this.warning.email = "Please enter your email";
       } else {
-        try{
-      const response = await apiService(
-        "POST", "/signup", "",
-        {
-          username: this.user.username,
-          email: this.email,
-          password: this.user.password,
-        }
-      );
-      console.log(response);
-      // add accessToken to localStorage
-       localStorage.setItem("accessToken", data.data);
-    
-   // set current user data to VueX and localStorage
-          this.$store.dispatch("endUser/setCurrentUser", this.user);
-          localStorage.setItem(
-            "currentUserData",
-            JSON.stringify(this.$store.state.endUser.currentUserData)
-          );
-    } catch (error) {
+        this.isLoading = true;
+        try {
+          const response = await apiService("POST", "/signup", "", { // lam cai loading chua, chua, gio them isloading laf dc dung k
+            username: this.user.username,
+            email: this.user.email,
+            password: this.user.password,
+          });
+          console.log(response);
+           this.isLoading = false;
+           alert("Sign up successful")
+          this.$router.push("/login");
+          // lam them cai loading nhe :3 ok ong ,cam on ong nhieu
+        } catch (error) {
           this.isLoading = false;
           errorHandler(error);
         }
-
-        this.$router.go("dashboard");
-    }
+      }
     },
   },
 };
-
 </script>
 
-<style>
+<style scoped>
+
 .form-control {
   padding: 8px 1px;
 }
