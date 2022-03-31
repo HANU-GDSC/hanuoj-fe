@@ -195,11 +195,10 @@ export default {
         this.isEndAtWarning = true;
       } else {
         // POST
-        // remember to change "contest/create"
         try {
           // console.log(startAt + " ||| " + endAt)
           this.isLoading = true;
-          const response = await apiService("POST", "contest/1/create", "", {
+          const response = await apiService("POST", "contest/create", "", {
             name: this.name,
             description: this.description,
             startAt: startAt.toISOString(),
