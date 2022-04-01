@@ -72,14 +72,14 @@ const routes = [
 			navIcon: "fa-solid fa-trophy"
 		}
 	},
-	// {
-	// 	path: "/contest/create",
-	// 	name: "CreateContest",
-	// 	component: () => import("../components/contest/CreateContest"),
-	// 	meta: {
-	// 		type: "protected"
-	// 	}
-	// },
+	{
+		path: "/contest/create",
+		name: "CreateContest",
+		component: () => import("../components/contest/CreateContest"),
+		meta: {
+			type: "protected"
+		}
+	},
 	{
 		path: "/discussion",
 		name: "Discussion",

@@ -112,6 +112,7 @@
       <LoadingIcon />
     </div>
   </div>
+  <Alert :text="alert" type="primary" :isShow="isSuccess" />
 </template>
 
 <script>
@@ -122,6 +123,7 @@ import InputTime from "../general/InputTime";
 import apiService from "../../helpers/apiService";
 import errorHandler from "../../helpers/errorHandler";
 import LoadingIcon from "../general/LoadingIcon";
+import Alert from "../general/Alert";
 
 export default {
   name: "CreateContest",
@@ -132,6 +134,7 @@ export default {
     InputDate,
     InputTime,
     LoadingIcon,
+    Alert,
   },
 
   data() {
@@ -147,6 +150,8 @@ export default {
       isDesWarning: false,
       isStartAtWarning: false,
       isEndAtWarning: false,
+      alert: "",
+      isSuccess: false,
     };
   },
 
@@ -198,7 +203,7 @@ export default {
         try {
           // console.log(startAt + " ||| " + endAt)
           this.isLoading = true;
-          const response = await apiService("POST", "contest/create", "", {
+          const response = await apiService("POST", "contest/1/create", "", {
             name: this.name,
             description: this.description,
             startAt: startAt.toISOString(),
@@ -206,8 +211,9 @@ export default {
           });
 
           const data = response.data;
-          // console.log(data);
           this.isLoading = false;
+          this.isSuccess = true;
+          this.alert = data.message;
           return data.data.id;
         } catch (error) {
           this.isLoading = false;
