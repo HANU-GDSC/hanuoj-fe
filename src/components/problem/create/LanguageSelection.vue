@@ -1,8 +1,8 @@
 <template>
   <h2>Language Selection</h2>
   <div>Language</div>
-  <select id="programmingLanguage" v-model="language">
-    <option v-for="option in this.languageList" v-show="!option.selected">
+  <select id="programmingLanguage" v-model="this.languageSelection.language" @change="dataUpdated($event)">
+    <option v-for="option in this.languageList" v-show="!option.selected" :value= "option.value">
       {{ option.name }}
     </option>
   </select>
@@ -37,25 +37,25 @@ export default {
   name: "LanguageSelection",
   data() {
     return {
+      languageSelection : {
       language: "",
-      memoryLimit: 0,
-      timeLimit: 0,
+      memoryLimit: 1000,
+      timeLimit: 1000,
+      }
     };
   },
   methods: {
-    dataUpdated(event) {
-      var languageSelection = {
-        memoryLimit: this.memoryLimit,
-        timeLimit: this.timeLimit,
-        language: this.language,
-      };
-      this.$emit("dataUpdated", languageSelection);
+    dataUpdated() {
+      this.$emit("dataUpdated", this.languageSelection);
+      this.$emit("languageListUpdate")
     },
     getMemoryLimit(num) {
       this.memoryLimit = num;
+      this.$emit("dataUpdated", this.languageSelection);
     },
     getTimeLimit(num) {
       this.timeLimit = num;
+      this.$emit("dataUpdated", this.languageSelection);
     },
   },
 };

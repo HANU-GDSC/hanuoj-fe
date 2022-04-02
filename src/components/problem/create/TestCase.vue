@@ -6,7 +6,7 @@
     <label for="ordinal"> Ordinal </label>
     <InputNum
       @dataUpdated="handleOrdinal($event)"
-      :value="1"
+      :value=1
       :disable="false"
       :require="true"
       placeholder="Enter Ordinal"
@@ -45,7 +45,10 @@
   </div>
   <div>
     <label for="description">Description</label>
-    <textarea v-model="this.testCaseSubmit.description" @input="handleDescription($event)"></textarea>
+    <textarea
+      v-model="this.testCaseSubmit.description"
+      @input="handleDescription($event)"
+    ></textarea>
   </div>
 </template>
 
@@ -56,7 +59,7 @@ import InputCheck from "../../general/InputCheck.vue";
 import Button from "../../general/Button.vue";
 export default {
   name: "CreateTestCase",
-  emits:['dataUpdated'],
+
   components: {
     InputText,
     InputNum,
@@ -82,7 +85,7 @@ export default {
       this.$emit("dataUpdated", this.testCaseSubmit);
     },
     handleSampleTest(sampleTest) {
-      this.testCaseSubmit.sampleTest = (sampleTest[0] !== undefined)
+      this.testCaseSubmit.sampleTest = sampleTest[0] !== undefined;
       this.$emit("dataUpdated", this.testCaseSubmit);
     },
     handleTestCaseInput(input) {
@@ -93,9 +96,9 @@ export default {
       this.testCaseSubmit.testCaseOutput = output;
       this.$emit("dataUpdated", this.testCaseSubmit);
     },
-    handleDescription(event){
+    handleDescription(event) {
       this.$emit("dataUpdated", this.testCaseSubmit);
-    }
+    },
   },
 };
 </script>
