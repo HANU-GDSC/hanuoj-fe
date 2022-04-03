@@ -4,7 +4,7 @@
       :type="type"
       :title="des"
       :class="{ btnDisable: disable }"
-      :disabled="disabled"
+      :disabled="disable"
       @click="click()"
     >
       {{ text }}
@@ -37,7 +37,7 @@ export default {
   methods: {
     click() {
       if (!this.disable) {
-        this.$emit("clicked"); // đặt là clicked để tránh trùng với @click
+        this.$emit("click");
       }
     },
   },
