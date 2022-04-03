@@ -53,11 +53,28 @@ class Contest {
     this.id = id
   }
 
+  setName(name) {
+    if (name.length == 0) {
+      throw new Error('Name to short')
+    }
+    this.name = name
+  }
+
   addProblem(problem) {
     if (!(problem instanceof Problem)) {
       throw new Error('Argument "problem" must be of type "Problem"')
     }
+    for (const addedProb of this.problems) {
+      if (addedProb.coreProblemId === problem.coreProblemId) {
+        throw new Error('Problem already added')
+      }
+    }
     this.problems.push(problem)
+  }
+
+  sortProblemsByOrdinal() {
+    // TODO: implement this
+    throw new Error('Unimplemented')
   }
 
   setStartAt(date) {
