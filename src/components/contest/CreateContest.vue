@@ -104,7 +104,8 @@
       text="Create"
       type="primary"
       des="submit form"
-      @clicked="handleCreate"
+      :disable="false"
+      @click="handleCreate"
     />
   </div>
   <div class="modal" :class="{ block: isLoading }">
@@ -112,7 +113,7 @@
       <LoadingIcon />
     </div>
   </div>
-  <Alert :text="alert" type="primary" :isShow="isSuccess" />
+  <Alert :text="alert" type="primary" :isShow="isSuccess" @close="redirect"/>
 </template>
 
 <script>
@@ -178,6 +179,10 @@ export default {
 
     assignEndTime(inputValue) {
       this.endTime = inputValue;
+    },
+
+    redirect() {
+      this.$router.push("/contest")
     },
 
     async handleCreate() {

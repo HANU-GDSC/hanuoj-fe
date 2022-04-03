@@ -34,7 +34,7 @@
         type="primary"
         des="login"
         :disable="isLoading"
-        @clicked="login"
+        @click="login"
         @keydown.enter="login"
       />
     </div>
