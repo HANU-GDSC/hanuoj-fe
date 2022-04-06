@@ -60,8 +60,8 @@ export default {
         closeAlert(state) {
             state.commit("setAlert", {
                 isAlert: false,
-                alertMessage: "",
-                alertType: "",
+                alertMessage: state.state.alert.alertMessage,
+                alertType: state.state.alert.alertType,
             });
         },
         setEditorSettings(state, editorSettings) {
