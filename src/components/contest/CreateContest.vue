@@ -214,6 +214,7 @@ export default {
             startAt: startAt.toISOString(),
             endAt: endAt.toISOString(),
           });
+          callApi(req)
 
           const data = response.data;
           this.isLoading = false;
