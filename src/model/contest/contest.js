@@ -101,6 +101,4 @@ class Contest {
   }
 }
 
-module.exports = {
-  Contest
-}
+export default Contest
