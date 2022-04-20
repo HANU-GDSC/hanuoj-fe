@@ -57,10 +57,9 @@ export default {
     async created() {
         try {
             // __________create a problem__________
-            const problem = new Problem();
-            await problem.create(this.$route.params.id);
-            this.problem = problem;
-
+            this.problem = Problem.init();
+            await this.problem.create(this.$route.params.id);
+            
             this.firstLoading = false;
 
             // __________restore the code of problem from local storage (if exist)__________
