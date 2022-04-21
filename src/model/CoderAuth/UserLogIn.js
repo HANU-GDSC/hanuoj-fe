@@ -14,30 +14,6 @@ async function LogIn(user) {
   return data;
 }
 
-// class LogIn {
-//   constructor({ username, email, password }) {
-//     this.username = username;
-//     this.email = email;
-//     this.password = password;
-//   }
-
-//   static async execute(user) {
-//     const response = await apiService(
-//       "POST",
-//       "/coderAuth/logIn",
-//       {},
-//       {
-//         email: this.email,
-//         username: this.username,
-//         password: this.password,
-//       }
-//     );
-
-//     const data = response.data;
-//     this.id = data.data;
-//     return data;
-//   }
-// }
 
 module.exports = {
   LogIn,

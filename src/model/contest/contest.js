@@ -32,32 +32,15 @@ class Contest {
     })
   }
 
-  async create () {
-    if (!this.name) {
-      throw new Error('Name is required')
-    }
-    if (!this.description) {
-      throw new Error('Description is required')
-    }
-    if (!this.startAt) {
-      throw new Error('Start At is required')
-    }
-    // Add more checks here to alert user
-    const id = await apiService('POST', '/contest/contest', {}, {
-      name: this.name,
-      description: this.description,
-      startAt: this.startAt,
-      endAt: this.endAt,
-      problems: this.problems
-    })
-    this.id = id
-  }
-
   setName(name) {
     if (name.length == 0) {
       throw new Error('Name to short')
     }
     this.name = name
+  }
+
+  setDescription(description) {
+    this.description = description
   }
 
   addProblem(problem) {
@@ -99,6 +82,26 @@ class Contest {
     }
     this.endAt = date
   }
+
+  getName() {
+    return this.name;
+  }
+
+  getDescription() {
+    return this.description;
+  }
+
+  getStartAt() {
+    const ISOStartAt = this.startAt.toISOString();
+    return ISOStartAt;
+  }
+
+  getEndAt() {
+    const ISOEndAt = this.endAt.toISOString();
+    return ISOEndAt;
+  }
 }
 
-export default Contest
+module.exports = {
+  Contest
+}

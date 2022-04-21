@@ -1,14 +1,14 @@
 const apiService = require("../../helpers/apiService").default;
 const { assert } = require("@vue/compiler-core");
 
-class Request {
+class Req {
   constructor({ usernameOrEmail, password }) {
     this.usernameOrEmail = usernameOrEmail;
     this.password = password;
   }
 }
 
-class Response {
+class Res {
   constructor({ code, message, data }) {
     this.code = code;
     this.message = message;
@@ -17,7 +17,7 @@ class Response {
 }
 
 async function postApi(request) {
-  // assert(request instanceof Request);
+  // assert(request instanceof Req);
   const response = await apiService(
     "POST",
     "/coderAuth/logIn",
@@ -29,8 +29,9 @@ async function postApi(request) {
     }
   );
 
-  const data = new Response(response.data);
-  assert(data instanceof Response);
+  const data = new Res(response.data);
+  assert(data instanceof Res);
+  console.log(data)
   return data;
 }
 

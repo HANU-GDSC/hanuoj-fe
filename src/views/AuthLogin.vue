@@ -49,7 +49,7 @@ import InputPass from "../components/general/InputPass";
 import errorHandler from "../helpers/errorHandler";
 import LoadingIcon from "../components/general/LoadingIcon";
 import { User } from "../model/CoderAuth/User";
-import { LogIn } from "../model/CoderAuth/UserLogIn"
+import { LogIn } from "../model/CoderAuth/UserLogIn";
 
 export default {
   name: "AuthLogin",
@@ -132,19 +132,23 @@ export default {
         try {
           const data = await LogIn(this.User);
 
-          switch (data.data) {
+          switch (data.code) {
             case "NON-EXISTENT_USERNAME_OR_EMAIL":
               this.isLoading = false;
               this.isWrongEmail = true;
-              this.warning.wrongEmail =
-                "Maybe your username/email is incorrect";
-              this.isWrongPassword = true;
-              this.warning.wrongPassword = "Or maybe you missed your password";
+              this.warning.wrongEmail = "Your username/email is incorrect";
               break;
-            case "null":
+            case "INVALID_USERNAME":
               this.isLoading = false;
-              throw new Error("some fukin wrong thing just happend");
-            default:
+              this.isWrongEmail = true;
+              this.warning.wrongEmail = "your username/email is incorrect";
+              break;
+            case "WRONG_PASSWORD":
+              this.isLoading = false;
+              this.isWrongPassword = true;
+              this.warning.wrongPassword = "Your password is incorrect";
+              break;
+            default:  
               // add accessToken to localStorage
               localStorage.setItem("accessToken", data.data);
 
@@ -166,6 +170,7 @@ export default {
           this.isLoading = false;
         } catch (error) {
           this.isLoading = false;
+          console.log(error);
           errorHandler(error);
         }
       }
