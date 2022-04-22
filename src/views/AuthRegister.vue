@@ -111,7 +111,7 @@ export default {
       } else {
         this.isLoading = true;
         try {
-          const response = await apiService("POST", "/signup", "", { // lam cai loading chua, chua, gio them isloading laf dc dung k
+          const response = await apiService("POST", "/coderAuth/signUp", "", { 
             username: this.user.username,
             email: this.user.email,
             password: this.user.password,
@@ -120,7 +120,7 @@ export default {
            this.isLoading = false;
            alert("Sign up successful")
           this.$router.push("/login");
-          // lam them cai loading nhe :3 ok ong ,cam on ong nhieu
+         
         } catch (error) {
           this.isLoading = false;
           errorHandler(error);

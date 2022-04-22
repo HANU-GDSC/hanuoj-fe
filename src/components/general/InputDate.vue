@@ -1,7 +1,6 @@
 <template>
   <input
     type="date"
-    v-model="today"
     :disabled="disable"
     :required="require"
     @change="updateData"

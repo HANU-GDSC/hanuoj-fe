@@ -33,7 +33,7 @@ export default {
 
   props: {
     value: {
-      type: Array,
+      type: String,
       required: true,
     },
     disable: {
@@ -57,11 +57,9 @@ export default {
       };
     },
   },
-  
-  created() {
 
-  },
-  
+  created() {},
+
   methods: {
     updateDate() {
       const hourValue = this.$refs.hourPicker.value;
@@ -70,11 +68,16 @@ export default {
       // alert error
       if (hourValue > 23 || minuteValue > 59) {
         alert("Invalid Time please try again");
+        this.$refs.hourPicker.value = "";
+        this.$refs.minutePicker.value = "";
       } else {
         this.$emit("dataUpdated", `${hourValue}:${minuteValue}`);
       }
     },
   },
+  
+  emits: ['dataUpdated']
+
 };
 </script>
 
@@ -90,5 +93,4 @@ export default {
   padding: 10px;
   margin: 0 5px;
 }
-
 </style>

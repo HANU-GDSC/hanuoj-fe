@@ -39,6 +39,10 @@ class Contest {
     this.name = name
   }
 
+  setDescription(description) {
+    this.description = description
+  }
+
   addProblem(problem) {
     if (!(problem instanceof Problem)) {
       throw new Error('Argument "problem" must be of type "Problem"')
@@ -77,6 +81,24 @@ class Contest {
       throw new Error('End at must be later than start at')
     }
     this.endAt = date
+  }
+
+  getName() {
+    return this.name;
+  }
+
+  getDescription() {
+    return this.description;
+  }
+
+  getStartAt() {
+    const ISOStartAt = this.startAt.toISOString();
+    return ISOStartAt;
+  }
+
+  getEndAt() {
+    const ISOEndAt = this.endAt.toISOString();
+    return ISOEndAt;
   }
 }
 

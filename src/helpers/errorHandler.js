@@ -23,8 +23,11 @@ export default function(error) {
             localStorage.removeItem('accessToken')
             return router.push("/forbidden"); // chưa làm
         };
-
-        showAlert(error.response.data.message);
+        if (error.response.data.message)
+            showAlert(error.response.data.message);
+        if (error.response.data.error)
+            showAlert(error.response.data.error)
+        return;
     };
     // unknown error
     showAlert(error.message);
