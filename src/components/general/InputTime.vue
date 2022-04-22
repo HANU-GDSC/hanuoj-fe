@@ -75,6 +75,9 @@ export default {
       }
     },
   },
+  
+  emits: ['dataUpdated']
+
 };
 </script>
 
