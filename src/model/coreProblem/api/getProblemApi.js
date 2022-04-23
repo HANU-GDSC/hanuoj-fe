@@ -42,11 +42,10 @@ class GetProblemResponseData {
     };
 }
 
-async function getProblem(req) {
-    console.assert(req instanceof GetProblemRequest);
+async function getProblemApi(req) {
+    console.assert(req instanceof GetProblemRequest, `req: ${req} must be an instance of GetProblemRequest`);
     try {
         const response = (await apiService("GET", `/practiceProblem/problem/${req.id}`)).data;
-        console.log("get problem", response);
         return new GetProblemResponse(response).data;
     } catch (error) {
         throw error;
@@ -56,5 +55,5 @@ async function getProblem(req) {
 export {
     GetProblemRequest,
     GetProblemResponse,
-    getProblem
+    getProblemApi
 };

@@ -10,10 +10,10 @@
         <MonacoEditor
             class="editor"
             :language="$store.state.general.editorSettings.language"
-            :code="$store.state.problem.currentProblemsCode[problem.id]"
+            :code="$store.state.problem.currentProblemsCode[problem.getId()]"
             @dataUpdated="
                 $store.dispatch('problem/setCurrentProblemsCode', {
-                    id: problem.id,
+                    id: problem.getId(),
                     code: $event,
                 })
             "
@@ -46,7 +46,7 @@ export default {
     },
     computed: {
         languages() {
-            return converter(this.problem.allowedProgrammingLanguages);
+            return converter(this.problem.getAllowedProgrammingLanguages());
         },
         translate() {
             return translate()

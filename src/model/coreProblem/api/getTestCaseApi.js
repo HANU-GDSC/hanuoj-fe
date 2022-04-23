@@ -45,11 +45,10 @@ class GetTestCaseResponseData {
     }
 }
 
-async function getTestCase(req) {
+async function getTestCaseApi(req) {
     console.assert(req instanceof GetTestCaseRequest, `req: ${req} must be an instance of GetTestCaseRequest`);
     try {
         const response = (await apiService("GET", `/practiceProblem/coreProblem/testCase/${req.coreProblemId}/isSample`)).data
-        console.log("get test case", response);
         return new GetTestCaseResponse(response).data;
     } catch (error) {
         throw error;
@@ -59,5 +58,5 @@ async function getTestCase(req) {
 export {
     GetTestCaseRequest,
     GetTestCaseResponse,
-    getTestCase
+    getTestCaseApi
 }
