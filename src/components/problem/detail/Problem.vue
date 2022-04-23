@@ -28,10 +28,11 @@ import ProblemLeft from "./ProblemLeft";
 import ProblemRight from "./ProblemRight";
 import Loading from "../../Loading";
 import ProblemNotFound from "./ProblemNotFound";
-import apiService from "../../../helpers/apiService";
+
+import { getProblem } from "../../../model/coreProblem/domainLogic/problem";
+
 import errorHandler from "../../../helpers/errorHandler";
 import converter from "../../../utils/languageConverter";
-import Problem from "../../../model/coreProblem/problem";
 
 export default {
     name: "problem",
@@ -41,6 +42,7 @@ export default {
             problemNotFound: false,
             fullScreen: false,
             problem: {},
+            testCases: {},
             runCodeResult: {
                 status: "Accepted",
             },
@@ -57,21 +59,19 @@ export default {
     async created() {
         try {
             // __________create a problem__________
-            this.problem = Problem.init();
-            await this.problem.create(this.$route.params.id);
-            
+            this.problem = await getProblem(this.$route.params.id);
+
             this.firstLoading = false;
 
             // __________restore the code of problem from local storage (if exist)__________
             this.$store.dispatch("problem/setCurrentProblemsCode", {
-                id: this.problem.id,
-                code: localStorage.getItem("problemID: " + this.problem.id)
+                id: this.problem.getId(),
+                code: localStorage.getItem("problemID: " + this.problem.getId())
                     ? JSON.parse(
-                          localStorage.getItem("problemID: " + this.problem.id)
+                          localStorage.getItem("problemID: " + this.problem.getId())
                       )["code"]
                     : "",
             });
-
             // __________monaco editor settings__________
             let currentSettings = JSON.parse(
                 localStorage.getItem("editorSettings")
@@ -94,9 +94,10 @@ export default {
                 cursorBlinking: "phase", // [blink | smooth | phase | solid | expand]
                 // not an option
                 language: converter(
-                    this.problem.allowedProgrammingLanguages[0]
+                    this.problem.getAllowedProgrammingLanguages()[0]
                 ),
             };
+
             const settingToSave = {};
             Object.keys(defaultSettings).forEach((key) => {
                 settingToSave[key] =
@@ -119,6 +120,7 @@ export default {
                     attributes: true,
                 });
             });
+
         } catch (error) {
             this.problemNotFound = true;
             this.firstLoading = false;

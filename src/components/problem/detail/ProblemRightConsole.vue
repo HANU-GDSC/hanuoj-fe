@@ -12,7 +12,7 @@
                 "
             >
                 <template v-slot:testcase>
-                    <TestCase :testCases="problem.testCases" />
+                    <TestCase :testCases="testCases" />
                 </template>
                 <template v-slot:runcoderesult>
                     <RunCode :runCodeResult="runCodeResult" />
@@ -54,6 +54,9 @@ import TestCase from "./ProblemRightConsoleTestCase";
 import RunCode from "./ProblemRightConsoleRunCode";
 import Submission from "./ProblemRightConsoleSubmission";
 import LoadingIcon from "../../general/LoadingIcon";
+
+import { getTestCases } from "../../../model/coreProblem/domainLogic/testCase";
+
 import translate from "../../../helpers/translate";
 import apiService from "../../../helpers/apiService";
 import errorHandler from "../../../helpers/errorHandler";
@@ -71,6 +74,7 @@ export default {
             showConsole: false,
             submission: {},
             consoleSelected: 0,
+            testCases: [],
         };
     },
     methods: {
@@ -78,42 +82,42 @@ export default {
             if (this.isRunning) return;
             this.isRunning = true;
         },
-        async submit() {
-            if (this.isSubmitting) return;
-            this.isSubmitting = true;
-            const ProblemResult = {
-                practiceProblemId: this.problem.practiceProblemId,
-                inputService: {
-                    coderId: "123-abc-xyz",
-                    problemId: this.problem.id,
-                    code: this.$store.state.problem.currentProblemsCode[
-                        this.problem.id
-                    ],
-                    programmingLanguage:
-                        this.$store.state.general.editorSettings.language,
-                },
-            };
-            try {
-                console.log("sending result", ProblemResult);
-                const res = await apiService(
-                    "POST",
-                    "/practiceProblem/submit",
-                    {},
-                    ProblemResult
-                );
-                this.isSubmitting = false;
-                const submission = res.data.data; // mockApi response
-                console.log("submission: ", submission);
-                if (!submission)
-                    throw new Error("can't submit your code")
-                this.submission = submission;
-                this.showConsole = true;
-                this.consoleSelected = 2;
-            } catch (error) {
-                this.isSubmitting = false;
-                errorHandler(error);
-            }
-        },
+        // async submit() {
+        //     if (this.isSubmitting) return;
+        //     this.isSubmitting = true;
+        //     const ProblemResult = {
+        //         practiceProblemId: this.problem.practiceProblemId,
+        //         inputService: {
+        //             coderId: "123-abc-xyz",
+        //             problemId: this.problem.id,
+        //             code: this.$store.state.problem.currentProblemsCode[
+        //                 this.problem.id
+        //             ],
+        //             programmingLanguage:
+        //                 this.$store.state.general.editorSettings.language,
+        //         },
+        //     };
+        //     try {
+        //         console.log("sending result", ProblemResult);
+        //         const res = await apiService(
+        //             "POST",
+        //             "/practiceProblem/submit",
+        //             {},
+        //             ProblemResult
+        //         );
+        //         this.isSubmitting = false;
+        //         const submission = res.data.data; // mockApi response
+        //         console.log("submission: ", submission);
+        //         if (!submission)
+        //             throw new Error("can't submit your code")
+        //         this.submission = submission;
+        //         this.showConsole = true;
+        //         this.consoleSelected = 2;
+        //     } catch (error) {
+        //         this.isSubmitting = false;
+        //         errorHandler(error);
+        //     }
+        // },
         translate(input) {
             return translate(input);
         },
@@ -125,6 +129,9 @@ export default {
         Submission,
         LoadingIcon,
     },
+    async created() {
+        this.testCases = await getTestCases(this.problem.getId());
+    }
 };
 </script>
 

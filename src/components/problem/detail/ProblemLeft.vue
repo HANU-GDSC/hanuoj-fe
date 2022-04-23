@@ -12,7 +12,7 @@
             "
         >
             <template v-slot:problem>
-                <MarkdownRender :description="problem.description" class="problem-description" />
+                <MarkdownRender :description="problem.getDescription()" class="problem-description" />
             </template>
             <template v-slot:solution>
                 <p>solution</p>
