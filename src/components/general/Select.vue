@@ -44,11 +44,18 @@ export default {
         selected: {
             type: String,
             default: null,
-        }, // value
+        }, // name
     },
     methods: {
         handleSelect(item) {
             this.$emit("dataUpdated", item);
+        },
+        getValue(name) {
+            const item = this.list.find(item => item.name === name)
+            if (value)
+                return item.value;
+            else
+                return "text";
         }
     },
 };
@@ -67,6 +74,7 @@ export default {
     border-radius: 10px;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     cursor: pointer;
     &__text {
         margin-right: 5px;
@@ -81,6 +89,7 @@ export default {
     }
     &__list {
         position: absolute;
+        z-index: 1000;
         top: calc(100% + 5px);
         left: 0;
         padding: 5px;
@@ -89,7 +98,7 @@ export default {
         background: var(--container-color);
         border-radius: 10px;
         li {
-            text-align: center;
+            // text-align: center;
         }
         &__item--selected {
             font-weight: bold;

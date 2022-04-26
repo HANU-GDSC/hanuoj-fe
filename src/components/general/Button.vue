@@ -1,15 +1,14 @@
 <template>
-    <div class="btn">
-        <button
-            :type="type"
-            :title="des"
-            :class="{ btnDisable: disable }"
-            :disabled="disable"
-            @click="click()"
-        >
-            {{ text }}
-        </button>
-    </div>
+    <button
+        :type="type"
+        :title="des"
+        :class="{ btnDisable: disable }"
+        :disabled="disable"
+        @click="click()"
+    >
+        {{ text }}
+        <slot></slot>
+    </button>
 </template>
 
 <script>
@@ -17,10 +16,7 @@ export default {
     name: "Button",
 
     props: {
-        text: {
-            type: String,
-            required: true,
-        },
+        text: String,
         type: {
             type: String,
             default: "Primary",
@@ -52,9 +48,9 @@ button {
     background-color: var(--first-color);
     border-radius: 10px;
     border: none;
-	padding: 0 5px;
+    padding: 0 5px;
     color: #fff;
-	margin: 5px;
+    margin: 5px;
 }
 
 /* secondary */
