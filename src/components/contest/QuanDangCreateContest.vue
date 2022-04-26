@@ -42,7 +42,7 @@ export default {
       // re-render the contest problems view
     },
     async create() {
-      await this.contest.create()
+      await createContest(this.contest)
     }
   }
 }

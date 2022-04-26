@@ -1,6 +1,6 @@
 const { assert } = require("@vue/compiler-core");
 const { postApi } = require("./contestCreateApi");
-const { Contest } = require("./contest");
+const { Contest } = require("./contest/contest");
 
 async function Create(contest) {
   assert(contest instanceof Contest);

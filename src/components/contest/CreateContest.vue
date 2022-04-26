@@ -110,7 +110,8 @@
 </template>
 
 <script>
-import { Contest } from "../../model/contest/contest";
+import { Contest } from "../../model/contest/contest/contest";
+import { createContest } from "../../model/contest/contest/domainLogic/createContest";
 import { Create } from "../../model/contest/contestCreate";
 import InputText from "../general/InputText";
 import Button from "../general/Button";
@@ -134,7 +135,7 @@ export default {
 
   data() {
     return {
-      Contest: undefined,
+      contest: undefined,
       startDate: "",
       startTime: "",
       endDate: "",
@@ -149,16 +150,16 @@ export default {
   },
 
   created() {
-    this.Contest = Contest.init();
+    this.contest = Contest.create();
   },
 
   methods: {
     setName(name) {
-      this.Contest.setName(name);
+      this.contest.setName(name);
     },
 
     setDescription(description) {
-      this.Contest.setDescription(description);
+      this.contest.setDescription(description)
     },
 
     setStartDate(inputValue) {
@@ -179,29 +180,24 @@ export default {
 
     setStartAt() {
       let startAt = new Date(this.startDate + " " + this.startTime);
-      this.Contest.setStartAt(startAt);
+      this.contest.setStartAt(startAt);
     },
 
     setEndAt() {
       const endAt = new Date(this.endDate + " " + this.endTime);
-      this.Contest.setEndAt(endAt);
+      this.contest.setEndAt(endAt);
     },
 
     redirect() {
       this.$router.push("/contest");
     },
 
-    // async create() {
-    //   const response = await Create(this.Contest);
-    //   return response;
-    // },
-
     async handleCreate() {
-       if (!this.Contest.getName() && !this.startDate && !this.endDate) {
+       if (!this.contest.getName() && !this.startDate && !this.endDate) {
         this.isNameWarning = true;
         this.isStartAtWarning = true;
         this.isEndAtWarning = true;
-      } else if (!this.Contest.getName()) {
+      } else if (!this.contest.getName()) {
         this.isNameWarning = true;
       } else if (!this.startDate || !this.startTime) {
         this.isStartAtWarning = true;
@@ -212,7 +208,7 @@ export default {
         this.setEndAt();
         try {
           this.isLoading = true;
-          const data = await Create(this.Contest);
+          const data = await createContest(this.Contest);
           switch (data.code) {
             case "NOT_VALID_DATE":
               this.isLoading = false;
