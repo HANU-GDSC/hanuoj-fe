@@ -1,7 +1,3 @@
-import { GetLikeRequest, GetLikeResponse, getLike } from './api/getLikeApi';
-import { GetDislikeRequest, GetDislikeResponse, getDislike } from './api/getDislikeApi';
-import { GetProblemRequest, GetProblemResponse, getProblem } from '../coreProblem/api/getProblemApi';
-
 class PracticeProblem {
     _id;
     _coreProblemId;
@@ -19,9 +15,9 @@ class PracticeProblem {
 
     static init() {
         return new PracticeProblem({
-            id: "",
-            coreProblemId: "",
-            difficulty: 0
+            id: undefined,
+            coreProblemId: undefined,
+            difficulty: undefined,
         });
     }
 

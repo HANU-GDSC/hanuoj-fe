@@ -12,7 +12,6 @@
             <div :class="fullScreen ? 'right right-full-screen' : 'right'">
                 <ProblemRight
                     :fullScreen="fullScreen"
-                    :runCodeResult="runCodeResult"
                     :problem="problem"
                     @enterFullScreen="fullScreen = true"
                     @exitFullScreen="fullScreen = false"
@@ -32,7 +31,6 @@ import ProblemNotFound from "./ProblemNotFound";
 import { getProblem } from "../../../model/coreProblem/domainLogic/problem";
 
 import errorHandler from "../../../helpers/errorHandler";
-import converter from "../../../utils/languageConverter";
 
 export default {
     name: "problem",
@@ -43,9 +41,6 @@ export default {
             fullScreen: false,
             problem: {},
             testCases: {},
-            runCodeResult: {
-                status: "Accepted",
-            },
         };
     },
     components: {
@@ -93,9 +88,7 @@ export default {
                 automaticLayout: true,
                 cursorBlinking: "phase", // [blink | smooth | phase | solid | expand]
                 // not an option
-                language: converter(
-                    this.problem.getAllowedProgrammingLanguages()[0]
-                ),
+                language: this.problem.getAllowedProgrammingLanguages()[0]
             };
 
             const settingToSave = {};

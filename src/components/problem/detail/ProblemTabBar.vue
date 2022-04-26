@@ -58,7 +58,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$nav-height: 40px;
+$nav-height: 50px;
 .tab-bar {
     .nav {
         display: table;

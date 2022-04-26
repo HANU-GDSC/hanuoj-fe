@@ -2,7 +2,7 @@
     <div class="warper">
         <MonacoEditor
             class="monaco-editor"
-            :language="language"
+            :language="languageConvert(language)"
             :code="code"
             :theme="getTheme"
             :options="getOptions"
@@ -16,6 +16,7 @@
 
 <script>
 import MonacoEditor from "vue-monaco-editor";
+import converter from "../../../utils/languageConverter";
 
 export default {
     name: "app",
@@ -41,6 +42,9 @@ export default {
         onCodeChange(editor) {
             this.$emit("dataUpdated", editor.getValue());
         },
+        languageConvert(language) {
+            return converter(language);
+        }
     },
     computed: {
         getTheme() {

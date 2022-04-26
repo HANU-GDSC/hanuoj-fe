@@ -18,7 +18,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$lh: 20px;
+$lh: 19px;
 .console {
     font-family: "Courier New", monospace;
     white-space: pre-line;

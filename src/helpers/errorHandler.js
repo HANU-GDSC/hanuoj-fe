@@ -10,8 +10,9 @@ function showAlert(message) {
 }
 
 export default function(error) {
-    console.log(error);
+    
     if (error.response) {
+        console.error(error.response.data);
         const response = error.response;
         // unauthenticated
         if (response.status === 401) {
@@ -30,5 +31,6 @@ export default function(error) {
         return;
     };
     // unknown error
+    console.error(error);
     showAlert(error.message);
 };
