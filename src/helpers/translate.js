@@ -1,4 +1,4 @@
-import languages from "../assets/languages/languages.json";
+import languages from "../assets/common/languages.json";
 import store from "../store/index";
 
 /**
