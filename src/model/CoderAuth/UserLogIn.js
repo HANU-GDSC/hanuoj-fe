@@ -1,3 +1,4 @@
+// được thay thế bằng file "./domainLogic/User.js"
 const { assert } = require("@vue/compiler-core");
 const { User } = require("./User");
 const { postApi } = require("./UserLogInAPI");
