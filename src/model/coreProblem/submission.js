@@ -128,3 +128,5 @@ class Submission {
         return this._problemId;
     }
 }
+
+export default Submission

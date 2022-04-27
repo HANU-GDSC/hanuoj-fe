@@ -4,14 +4,17 @@ class submitRequest {
     constructor({
         coderId,
         code,
-        programmingLanguage
+        programmingLanguage,
+        problemId,
     }) {
         console.assert(typeof coderId === 'string', `${coderId} must be a string`);
         console.assert(typeof code === 'string', `${code} must be a string`);
         console.assert(typeof programmingLanguage === 'string', `${programmingLanguage} must be a string`);
+        console.assert(typeof problemId === 'string', `${problemId} must be a string`);
         this.coderId = coderId;
         this.code = code;
         this.programmingLanguage = programmingLanguage;
+        this.problemId = problemId;
     }
 }
 
@@ -46,11 +49,10 @@ class submitResponseData {
     }
 }
 
-async function submitApi(req, id) {
+async function submitApi(req) {
     console.assert(req instanceof submitRequest, `req: ${req} must be an instance of submitRequest`);
-    console.assert(typeof id === 'string', `${id} must be a string`);
     try {
-        const response = (await apiService("POST", `/practiceProblem/problem/${id}/submit`, {}, req)).data    
+        const response = (await apiService("POST", `/practiceProblem/problem/${req.problemId}/submit`, {}, req)).data    
         return new submitResponse(response).data;
     } catch (error) {
         throw error;

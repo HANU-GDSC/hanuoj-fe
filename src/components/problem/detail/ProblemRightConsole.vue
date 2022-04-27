@@ -47,6 +47,7 @@ import Submission from "./ProblemRightConsoleSubmission";
 import LoadingIcon from "../../general/LoadingIcon";
 import Button from "../../general/Button";
 
+import SubmissionModel from "../../../model/coreProblem/submission";
 import { getTestCases } from "../../../model/coreProblem/domainLogic/testCase";
 import { submit } from "../../../model/coreProblem/domainLogic/submission";
 
@@ -77,14 +78,19 @@ export default {
             if (this.isSubmitting) return;
             this.isSubmitting = true;
             try {
-                this.submission = await submit(
-                    "123-abc-xyz",
+                const submission = SubmissionModel.create();
+                submission.setCode(
                     this.$store.state.problem.currentProblemsCode[
                         this.problem.getId()
-                    ],
-                    this.$store.state.general.editorSettings.language,
-                    this.$route.params.id
+                    ]
                 );
+                submission.setProgrammingLanguage(
+                    this.$store.state.general.editorSettings.language
+                );
+                submission.setProblemId(this.$route.params.id);
+
+                this.submission = await submit("123-abc-xyz", submission);
+                
                 this.isSubmitting = false;
                 this.showConsole = true;
                 this.consoleSelected = 2;
