@@ -48,8 +48,8 @@ import Button from "../components/general/Button";
 import InputPass from "../components/general/InputPass";
 import errorHandler from "../helpers/errorHandler";
 import LoadingIcon from "../components/general/LoadingIcon";
-import { User } from "../model/CoderAuth/User";
-import { LogIn } from "../model/CoderAuth/UserLogIn";
+import User from "../model/CoderAuth/User";
+import { login } from "../model/CoderAuth/domainLogic/User";
 
 export default {
   name: "AuthLogin",
@@ -130,9 +130,30 @@ export default {
       } else {
         this.isLoading = true;
         try {
-          const data = await LogIn(this.User);
+          const data = await login(this.User);
 
-          switch (data.code) {
+          // add accessToken to localStorage
+          localStorage.setItem("accessToken", data.data);
+
+          // set current user data to VueX and localStorage
+          this.$store.dispatch("endUser/setCurrentUser", {
+            username: this.User.getUsername(),
+            email: this.User.getEmail(),
+            password: this.User.getPassword(),
+          });
+          localStorage.setItem(
+            "currentUserData",
+            JSON.stringify(this.$store.state.endUser.currentUserData)
+          );
+
+          // move to dashboard
+          this.$router.go("dashboard");
+          this.isLoading = false;
+        } catch (error) {
+          this.isLoading = false;
+          const response = error.response.data;
+          errorHandler(error);
+          switch (response.code) {
             case "NON-EXISTENT_USERNAME_OR_EMAIL":
               this.isLoading = false;
               this.isWrongEmail = true;
@@ -148,30 +169,7 @@ export default {
               this.isWrongPassword = true;
               this.warning.wrongPassword = "Your password is incorrect";
               break;
-            default:  
-              // add accessToken to localStorage
-              localStorage.setItem("accessToken", data.data);
-
-              // set current user data to VueX and localStorage
-              this.$store.dispatch("endUser/setCurrentUser", {
-                username: this.User.getUsername(),
-                email: this.User.getEmail(),
-                password: this.User.getPassword(),
-              });
-              localStorage.setItem(
-                "currentUserData",
-                JSON.stringify(this.$store.state.endUser.currentUserData)
-              );
-
-              // move to dashboard
-              this.$router.go("dashboard");
-              break;
           }
-          this.isLoading = false;
-        } catch (error) {
-          this.isLoading = false;
-          console.log(error);
-          errorHandler(error);
         }
       }
     },
