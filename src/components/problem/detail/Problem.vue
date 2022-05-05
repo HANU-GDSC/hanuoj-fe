@@ -12,7 +12,6 @@
             <div :class="fullScreen ? 'right right-full-screen' : 'right'">
                 <ProblemRight
                     :fullScreen="fullScreen"
-                    :runCodeResult="runCodeResult"
                     :problem="problem"
                     @enterFullScreen="fullScreen = true"
                     @exitFullScreen="fullScreen = false"
@@ -28,9 +27,10 @@ import ProblemLeft from "./ProblemLeft";
 import ProblemRight from "./ProblemRight";
 import Loading from "../../Loading";
 import ProblemNotFound from "./ProblemNotFound";
-import apiService from "../../../helpers/apiService";
+
+import { getProblem } from "../../../model/coreProblem/domainLogic/problem";
+
 import errorHandler from "../../../helpers/errorHandler";
-import converter from "../../../utils/languageConverter";
 
 export default {
     name: "problem",
@@ -40,9 +40,7 @@ export default {
             problemNotFound: false,
             fullScreen: false,
             problem: {},
-            runCodeResult: {
-                status: "Accepted",
-            },
+            testCases: {},
         };
     },
     components: {
@@ -54,109 +52,74 @@ export default {
     },
     methods: {},
     async created() {
-        // getting problem from sever
         try {
-            const res = await apiService(
-                "GET",
-                "/practiceProblem/practiceProblemDetail",
-                {
-                    id: this.$route.params.id,
-                }
-            );
-            // Check if the problem not found
-            if (res.data.code === "NOT_FOUND" || res.data.code === "INVALID_ID") {
-                this.problemNotFound = true;
-                this.firstLoading = false;
-                return;
-            }
+            // __________create a problem__________
+            this.problem = await getProblem(this.$route.params.id);
+
             this.firstLoading = false;
-            // get data
-            const data = res.data.data;
-            console.log("problem detail get: ", res.data);
-            this.problem = {
-                id: data.coreProblem.id,
-                name: data.coreProblem.name,
-                description: data.coreProblem.description,
-                author: data.coreProblem.author,
-                ACsCount: data.coreProblem.ACsCount, // TODO later
-                submissionsCount: data.coreProblem.submissionsCount, // TODO later
-                difficulty: data.coreProblem.difficulty,
-                memoryLimits: data.coreProblem.memoryLimits,
-                timeLimits: data.coreProblem.timeLimits,
-                testCases: data.coreProblem.testCases,
-                allowedProgrammingLanguages:
-                    data.coreProblem.allowedProgrammingLanguages,
-                version: data.coreProblem.version,
-                practiceProblemId: data.practiceProblem.id,
-                category: data.practiceProblem.category,
-                likeCount: data.practiceProblem.likeCount,
-                dislikeCount: data.practiceProblem.dislikeCount,
-            };
-            // set problem code
+
+            // __________restore the code of problem from local storage (if exist)__________
             this.$store.dispatch("problem/setCurrentProblemsCode", {
-                id: this.problem.id,
-                code: localStorage.getItem("problemID: " + this.problem.id)
+                id: this.problem.getId(),
+                code: localStorage.getItem("problemID: " + this.problem.getId())
                     ? JSON.parse(
-                          localStorage.getItem("problemID: " + this.problem.id)
+                          localStorage.getItem("problemID: " + this.problem.getId())
                       )["code"]
                     : "",
             });
+            // __________monaco editor settings__________
+            let currentSettings = JSON.parse(
+                localStorage.getItem("editorSettings")
+            );
+            if (!currentSettings) currentSettings = {};
+            const defaultSettings = {
+                fontSize: "15px",
+                fontFamily: "monospace", //[Times New Roman | monospace | Courier New | Papyrus | Georgia | Trebuchet MS | Tahoma]
+                fontWeight: "normal", //[normal | bold]
+                lineHeight: 20,
+                // other
+                wordWrap: false,
+                lineNumbers: true,
+                // no change
+                scrollBeyondLastLine: true,
+                folding: true,
+                foldingHighlight: true,
+                tabCompletion: "on",
+                automaticLayout: true,
+                cursorBlinking: "phase", // [blink | smooth | phase | solid | expand]
+                // not an option
+                language: this.problem.getAllowedProgrammingLanguages()[0]
+            };
+
+            const settingToSave = {};
+            Object.keys(defaultSettings).forEach((key) => {
+                settingToSave[key] =
+                    typeof currentSettings[key] !== "undefined"
+                        ? currentSettings[key]
+                        : defaultSettings[key];
+            });
+            this.$store.dispatch("general/setEditorSettings", settingToSave);
+
+            // __________handle resize__________
+            this.$nextTick(() => {
+                const left = this.$el.getElementsByClassName("left")[0];
+                const right = this.$el.getElementsByClassName("right")[0];
+                const observer = new MutationObserver((mutations) => {
+                    right.style.width = `calc(100% - 45px - ${left.style.width})`;
+                    if (left.style.display === "none")
+                        right.removeAttribute("style");
+                });
+                observer.observe(left, {
+                    attributes: true,
+                });
+            });
+
         } catch (error) {
             this.problemNotFound = true;
             this.firstLoading = false;
             errorHandler(error);
             // return;
         }
-
-        // editor setting
-        let currentSettings = JSON.parse(
-            localStorage.getItem("editorSettings")
-        );
-        if (!currentSettings) currentSettings = {};
-        const defaultSettings = {
-            fontSize: "15px",
-            fontFamily: "monospace", //[Times New Roman | monospace | Courier New | Papyrus | Georgia | Trebuchet MS | Tahoma]
-            fontWeight: "normal", //[normal | bold]
-            lineHeight: 20,
-
-            // other
-            wordWrap: false,
-            lineNumbers: true,
-            //animate
-
-            // no change
-            scrollBeyondLastLine: true,
-            folding: true,
-            foldingHighlight: true,
-            tabCompletion: "on",
-            automaticLayout: true,
-            cursorBlinking: "phase", // [blink | smooth | phase | solid | expand]
-
-            // not an option
-            language: converter(this.problem.allowedProgrammingLanguages[0]),
-        };
-        const settingToSave = {};
-        Object.keys(defaultSettings).forEach((key) => {
-            settingToSave[key] =
-                typeof currentSettings[key] !== "undefined"
-                    ? currentSettings[key]
-                    : defaultSettings[key];
-        });
-        this.$store.dispatch("general/setEditorSettings", settingToSave);
-
-        // handle resize
-        this.$nextTick(() => {
-            const left = this.$el.getElementsByClassName("left")[0];
-            const right = this.$el.getElementsByClassName("right")[0];
-            const observer = new MutationObserver((mutations) => {
-                right.style.width = `calc(100% - 45px - ${left.style.width})`;
-                if (left.style.display === "none")
-                    right.removeAttribute("style");
-            });
-            observer.observe(left, {
-                attributes: true,
-            });
-        });
     },
     watch: {},
 };

@@ -14,12 +14,11 @@
 
 <script>
 import MainLayout from "../components/MainLayout";
-
 export default {
     name: "Dashboard",
     components: {
         MainLayout,
-    }
+    },
 };
 </script>
 

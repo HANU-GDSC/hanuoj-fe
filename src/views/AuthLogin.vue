@@ -4,8 +4,8 @@
       <h2>Login</h2>
       <InputText
         :class="{ inputEmptyOrWrong: isWrongEmail }"
-        @dataUpdated="assignUsername"
-        :value="user.username || user.email"
+        @dataUpdated="setEmailOrUsername"
+        :value="User.getEmail() || User.getUsername()"
         :disable="isLoading"
         :require="true"
         placeholder="User's name or email"
@@ -15,7 +15,7 @@
       }}</span>
       <InputPass
         :class="{ inputEmptyOrWrong: isWrongPassword }"
-        @dataUpdated="assignPassword"
+        @dataUpdated="setPassword"
         :disable="isLoading"
         :require="true"
         placeholder="Password"
@@ -23,7 +23,7 @@
       <span class="emtyWarning" v-if="isWrongPassword">{{
         warning.wrongPassword
       }}</span>
-      <div>
+      <div class="directContainer">
         <a @click="directSignUp" :class="{ disabled: isLoading }">Sign up</a>
         <a @click="directForgotPass" href="" :class="{ disabled: isLoading }"
           >Forgot your password?</a
@@ -34,8 +34,8 @@
         type="primary"
         des="login"
         :disable="isLoading"
-        @click="login"
-        @keydown.enter="login"
+        @click="handleLogin"
+        @keydown.enter="handleLogin"
       />
     </div>
     <LoadingIcon v-if="isLoading" />
@@ -46,9 +46,10 @@
 import InputText from "../components/general/InputText";
 import Button from "../components/general/Button";
 import InputPass from "../components/general/InputPass";
-import apiService from "../helpers/apiService";
 import errorHandler from "../helpers/errorHandler";
 import LoadingIcon from "../components/general/LoadingIcon";
+import User from "../model/CoderAuth/User";
+import { login } from "../model/CoderAuth/domainLogic/User";
 
 export default {
   name: "AuthLogin",
@@ -62,11 +63,7 @@ export default {
 
   data() {
     return {
-      user: {
-        email: "",
-        username: "",
-        password: "",
-      },
+      User: undefined,
       warning: {
         wrongEmail: "",
         wrongPassword: "",
@@ -84,25 +81,25 @@ export default {
       let currentUserData = JSON.parse(localStorage.getItem("currentUserData"));
       return currentUserData;
     }
+    // init login
+    this.User = User.init();
   },
 
   methods: {
-    assignUsername(value) {
+    setEmailOrUsername(value) {
       // check input type is email or username
-      // email -> assign this.email, username -> assign this.username
+      // email -> setEmail, username -> setUsername
       let filter =
         /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
       if (filter.test(value)) {
-        this.user.email = value;
-        this.user.username = "";
+        this.User.setEmail(value);
       } else {
-        this.user.username = value;
-        this.user.email = "";
+        this.User.setUsername(value);
       }
     },
 
-    assignPassword(password) {
-      this.user.password = password;
+    setPassword(password) {
+      this.User.setPassword(password);
     },
 
     directSignUp() {
@@ -111,54 +108,39 @@ export default {
 
     // where ?
     directForgotPass() {
-      this.router.push();
+      this.router.push("");
     },
 
-    async login() {
-      // check whether input was entered
-      if (!this.user.username && !this.user.email && !this.user.password) {
+    async handleLogin() {
+      if (
+        !this.User.getUsername() &&
+        !this.User.getEmail() &&
+        !this.User.getPassword()
+      ) {
         this.isWrongEmail = true;
         this.warning.wrongEmail = "Please enter your username or email";
         this.isWrongPassword = true;
         this.warning.wrongPassword = "Please enter your password";
-      } else if (!this.user.username && !this.user.email) {
+      } else if (!this.User.getUsername() && !this.User.getEmail()) {
         this.isWrongEmail = true;
         this.warning.wrongEmail = "Please enter your username or email";
-      } else if (!this.user.password) {
+      } else if (!this.User.getPassword()) {
         this.isWrongPassword = true;
         this.warning.wrongPassword = "Please enter your password";
       } else {
         this.isLoading = true;
-        // POST
         try {
-          const response = await apiService("POST", "/login", "", {
-            email: this.user.email,
-            username: this.user.username,
-            password: this.user.password,
-          });
-
-          const data = response.data;
-          // console.log(data);
-
-          // handle error "WRONG_PASSWORD"
-          switch (data.code) {
-            case "WRONG_PASSWORD":
-              this.isLoading = false;
-              this.isWrongEmail = true;
-              this.warning.wrongEmail =
-                "Maybe your username/email is incorrect";
-              this.isWrongPassword = true;
-              this.warning.wrongPassword = "Or maybe you missed your password";
-              break;
-            // any other case ?
-          }
-          this.isLoading = false;
+          const data = await login(this.User);
 
           // add accessToken to localStorage
           localStorage.setItem("accessToken", data.data);
 
           // set current user data to VueX and localStorage
-          this.$store.dispatch("endUser/setCurrentUser", this.user);
+          this.$store.dispatch("endUser/setCurrentUser", {
+            username: this.User.getUsername(),
+            email: this.User.getEmail(),
+            password: this.User.getPassword(),
+          });
           localStorage.setItem(
             "currentUserData",
             JSON.stringify(this.$store.state.endUser.currentUserData)
@@ -166,9 +148,28 @@ export default {
 
           // move to dashboard
           this.$router.go("dashboard");
+          this.isLoading = false;
         } catch (error) {
           this.isLoading = false;
+          const response = error.response.data;
           errorHandler(error);
+          switch (response.code) {
+            case "NON-EXISTENT_USERNAME_OR_EMAIL":
+              this.isLoading = false;
+              this.isWrongEmail = true;
+              this.warning.wrongEmail = "Your username/email is incorrect";
+              break;
+            case "INVALID_USERNAME":
+              this.isLoading = false;
+              this.isWrongEmail = true;
+              this.warning.wrongEmail = "your username/email is incorrect";
+              break;
+            case "WRONG_PASSWORD":
+              this.isLoading = false;
+              this.isWrongPassword = true;
+              this.warning.wrongPassword = "Your password is incorrect";
+              break;
+          }
         }
       }
     },
@@ -261,5 +262,10 @@ input:focus-within {
 .loginContainer i {
   line-height: 370px;
   font-size: 5em;
+}
+
+.directContainer {
+  margin: 10px 0;
+  margin-bottom: 3rem;
 }
 </style>

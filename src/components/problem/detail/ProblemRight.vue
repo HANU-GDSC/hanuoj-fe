@@ -10,15 +10,15 @@
         <MonacoEditor
             class="editor"
             :language="$store.state.general.editorSettings.language"
-            :code="$store.state.problem.currentProblemsCode[problem.id]"
+            :code="$store.state.problem.currentProblemsCode[problem.getId()]"
             @dataUpdated="
                 $store.dispatch('problem/setCurrentProblemsCode', {
-                    id: problem.id,
+                    id: problem.getId(),
                     code: $event,
                 })
             "
         />
-        <ProblemConsole class="console" :runCodeResult="runCodeResult" :problem="problem"/>
+        <ProblemConsole class="console" :problem="problem"/>
     </div>
 </template>
 
@@ -33,7 +33,6 @@ export default {
     name: "ProblemRight",
     props: {
         fullScreen: Boolean,
-        runCodeResult: Object,
         problem: Object,
     },
     data() {
@@ -46,7 +45,7 @@ export default {
     },
     computed: {
         languages() {
-            return converter(this.problem.allowedProgrammingLanguages);
+            return this.problem.getAllowedProgrammingLanguages();
         },
         translate() {
             return translate()
@@ -65,18 +64,18 @@ export default {
     height: 100%;
     .setting {
         width: 100%;
-        height: 40px;
+        height: 50px;
         border-bottom: 1px solid var(--line-color);
     }
     .editor {
         width: 100%;
-        height: calc(100% - 80px);
+        height: calc(100% - 100px);
     }
     .console {
         position: absolute;
         bottom: 0;
         width: 100%;
-        height: 40px;
+        height: 50px;
         vertical-align: bottom;
         border-top: 1px solid var(--line-color);
     }
