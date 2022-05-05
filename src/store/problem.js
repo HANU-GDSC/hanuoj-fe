@@ -76,6 +76,6 @@ export default {
         },
         
     },
-    getters: {
+    getters: {      
     }
 };
