@@ -1,6 +1,6 @@
 import apiService from "../../../helpers/apiService";
 
-class loginRequest {
+class LoginRequest {
     constructor({
         usernameOrEmail,
         password,
@@ -12,7 +12,7 @@ class loginRequest {
     }
 }
 
-class loginResponse {
+class LoginResponse {
     constructor({
         code,
         message,
@@ -28,17 +28,17 @@ class loginResponse {
 }
 
 async function loginApi(req) {
-    console.assert(req instanceof loginRequest, "req must be an instance of loginRequest");
+    console.assert(req instanceof LoginRequest, "req must be an instance of LoginRequest");
     try {
         const response = (await apiService("POST", "/coderAuth/logIn", {}, req)).data;
-        return new loginResponse(response);
+        return new LoginResponse(response).data;
     } catch (error) {
         throw error;   
     }
 }
 
 export {
-    loginRequest,
-    loginResponse,
+    LoginRequest,
+    LoginResponse,
     loginApi,
 }
