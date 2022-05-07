@@ -1,15 +1,18 @@
 class PracticeProblem {
     _id;
     _coreProblemId;
+    _categoryIds;
     _difficulty;
 
     constructor({
         id,
         coreProblemId,
+        categoryIds,
         difficulty
     }) {
         this._id = id;
         this._coreProblemId = coreProblemId;
+        this._categoryIds = categoryIds;
         this._difficulty = difficulty;
     }
 
@@ -27,6 +30,12 @@ class PracticeProblem {
         this._coreProblemId = coreProblemId;
     }
 
+    setCategoryIds(categoryIds) {
+        if (!(categoryIds instanceof Array))
+            throw new Error("Category IDs must be an array");
+        this._categoryIds = categoryIds;
+    }
+
     setDifficulty(difficulty) {
         if (typeof difficulty !== "string")
             throw new Error("Difficulty must be a number");
@@ -41,6 +50,10 @@ class PracticeProblem {
     
     getCoreProblemId() {
         return this._coreProblemId;
+    }
+
+    getCategoryIds() {
+        return this._categoryIds;
     }
 
     getDifficulty() {

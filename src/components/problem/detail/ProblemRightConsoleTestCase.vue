@@ -15,8 +15,8 @@
                 }}
             </p>
             <div class="container">
-                <Console :text="sample.input" />
-                <Console :text="sample.expectedOutput" />
+                <Console :text="sample.getInput()" />
+                <Console :text="sample.getExpectedOutput()" />
             </div>
         </div>
     </div>
@@ -41,9 +41,9 @@ export default {
     },
     computed: {
         sampleTestCases() {
-            this.testCases.sort((a, b) => a.ordinal - b.ordinal);
+            this.testCases.sort((a, b) => a.getOrdinal() - b.getOrdinal());
             // return this.testCases;
-            return this.testCases.filter((testCase) => testCase.isSample);
+            return this.testCases.filter((testCase) => testCase.getIsSample());
         },
     },
     components: {
