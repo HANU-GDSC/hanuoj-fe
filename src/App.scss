@@ -5,23 +5,17 @@
 :root {
   --header-height: 3.5rem;
 
-  /*========== Colors ==========*/
-  --hue-color: 230;
-  --first-color: hsl(var(--hue-color), 69%, 61%);
-  --first-color-darker: hsl(var(--hue-color), 69%, 56%);
-  --first-color-second: hsl(var(--hue-color), 69%, 61%);
-  --first-color-alt: hsl(var(--hue-color), 57%, 53%);
-  --first-color-lighter: hsl(var(--hue-color), 92%, 85%);
-  --title-color: hsl(var(--hue-color), 8%, 15%);
-  --text-color: hsl(var(--hue-color), 8%, 45%);
-  --text-color-light: hsl(var(--hue-color), 8%, 55%);
-  --input-color: hsl(var(--hue-color), 70%, 96%);
-  --body-color: hsl(var(--hue-color), 60%, 99%);
+  /*========== Colors Light Theme ==========*/
+  --first-color: #9288C1;
+  --first-color-alt: #302F4E;
+  --first-color-second: #C9C2E0;
+  --first-color-lighter: #F5EFF6;
+  --text-color: #302F4E;
+  --text-color-light: #9187C0;
   --container-color: #fff;
-  --container-color-darker: rgb(241, 241, 241);
   --line-color: #c4c4c4;
-  --scroll-bar-color: hsl(var(--hue-color), 12%, 90%);
-  --scroll-thumb-color: hsl(var(--hue-color), 12%, 80%);
+  --scroll-bar-color: #9288C1;
+  --scroll-thumb-color: #F5EFF6;
 
   /*========== Font and typography ==========*/
   --body-font: "Poppins", sans-serif;

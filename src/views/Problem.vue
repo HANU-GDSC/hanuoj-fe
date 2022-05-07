@@ -2,29 +2,37 @@
     <div class="problems">
         <MainLayout>
             <template v-slot:left>
-                <div class="problem">
-                    <table>
-                        <div class="problem__header">
-                                <td class="problem__collumn1">ID</td>
-                                <td class="problem__collumn2">Name</td>
-                                <td class="problem__collumn3">Acceptance</td>
-                                <td class="problem__collumn4">Diffculty</td>
-                                <td class="problem__collumn5">Tags</td>
-                                <td class="problem__collumn6">Status</td>
-                        </div>
-                    </table>
+                <Loading v-if="loading" />
+                <div class="problem" v-else>
+					<div class="problem__list">
+						<table>
+							<tr class="header">
+								<td class="problem__collumn1">ID</td>
+								<td class="problem__collumn2">Name</td>
+								<td class="problem__collumn3">Acceptance</td>
+								<td class="problem__collumn4">Difficulty</td>
+								<td class="problem__collumn5">Tags</td>
+								<td class="problem__collumn6">Status</td>
+							</tr>
+							<tr
+								v-for="(problem, index) in problemList"
+								class="body" :key="index"
+							>
+							<div
+								v-if="(currentPage - 1)*10 < index && index <= (currentPage - 1)*10 + 10"
+							>
+								<td class="problem__collumn1">{{index}}</td>
+								<td class="problem__collumn2">Name</td>
+								<td class="problem__collumn3">Acceptance</td>
+								<td class="problem__collumn4">{{problem.difficulty}}</td>
+								<td class="problem__collumn5">Tags</td>
+								<td class="problem__collumn6">Status</td>
+							</div>
+							</tr>
+						</table>
+					</div>
+                </div>
 
-                    <table>
-                        <div class="problem__body">
-                                    <td class="problem__collumn1">01</td>
-                                    <td class="problem__collumn2">Vue Props</td>
-                                    <td class="problem__collumn3">50%</td>
-                                    <td class="problem__collumn4">Easy</td>
-                                    <td class="problem__collumn5">Low</td>
-                                    <td class="problem__collumn6">Done</td>
-                        </div>
-                    </table>
-                </div>            
             </template>
             <template v-slot:right>
                 <p>sidebar go here</p>
@@ -34,18 +42,55 @@
 </template>
 
 <script>
-
 import MainLayout from "../components/MainLayout";
-
+import Loading from "../components/Loading";
+import {listProblems} from "../model/practiceProblem/domainLogic/practiceProblem";
+import errorHandler from "../helpers/errorHandler";
 export default {
     name: "Problem",
+    data() {
+        return {
+            loading: true,
+			currentPage: 1,
+			problemList: []
+        }
+    },
     components: {
+        Loading,
         MainLayout,
     },
+    async created() {
+		await this.getProblems(1)
+		await this.getProblems(2)
+		this.loading = false
+    },
+
+	methods: {
+		async getProblems(currentPage) {
+			try {
+				this.loading = true
+				const listData = await listProblems(currentPage - 1, 10)
+				
+				this.loading = false
+
+				console.log(listData);
+				for (let i = 0; i < listData.length; i++) {
+					this.problemList[(currentPage - 1) * 10 + i + 1] = {
+						id: i,
+						difficulty: listData[i].getDifficulty()
+					}
+				}
+				console.log(this.problemList)
+			} catch(error) {
+				errorHandler(error);
+			}
+		}
+	}
 };
 </script>
 
 <style lang="scss" scoped>
+
     $first-color: #302F4E;
     $first-color-alt: #9288C1;
     $light-color: #C9C2E0;
@@ -66,18 +111,13 @@ export default {
 
     .problem{
         width: 100%;
-        padding-left: 2rem;
-        padding-right: 2rem;
-
+        padding: 2rem;
         &__header{
             font-size: $h3-font-size;
             color: $first-color;
             padding: 1rem 1rem;
         }
 
-        &__row{
-            width: 100%;
-        }
 
         &__body{
             padding: 0.25rem 1rem;
@@ -115,5 +155,6 @@ export default {
 
         
     }
+
 
 </style> 

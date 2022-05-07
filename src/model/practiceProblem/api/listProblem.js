@@ -27,16 +27,13 @@ class ListProblemResponse {
 class ListProblemResponseData {
     constructor({
         id,
-        version,
         coreProblemId,
         difficulty
     }) {
         console.assert(typeof id === "string", `id: ${id} must be a string`);
-        console.assert(typeof version === "number", `version: ${version} must be a number`);
         console.assert(typeof coreProblemId === "string", `coreProblemId: ${coreProblemId} must be a string`);
         console.assert(typeof difficulty === "string", `difficulty: ${difficulty} must be a string`);
         this.id = id;
-        this.version = version;
         this.coreProblemId = coreProblemId;
         this.difficulty = difficulty;
     }

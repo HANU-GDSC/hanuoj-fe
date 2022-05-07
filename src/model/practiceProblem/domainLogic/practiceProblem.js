@@ -22,7 +22,7 @@ async function listProblems(page, perPage) {
         const problemsData = await listProblemApi(
             new ListProblemRequest({ page, perPage })
         );
-        return problemsData;
+        return problemsData.map((problemData) => new PracticeProblem(problemData));
     } catch (error) {
         throw error;
     }
