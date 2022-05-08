@@ -26,7 +26,6 @@
 import ProblemSetting from "./ProblemRightSetting";
 import ProblemConsole from "./ProblemRightConsole";
 import MonacoEditor from "./MonacoEditor";
-import converter from "../../../utils/languageConverter";
 import translate from "../../../helpers/translate";
 
 export default {

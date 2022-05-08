@@ -1,18 +1,18 @@
 [
     {
-        "name": "java",
+        "name": "Java",
         "value": "JAVA"
     },
     {
-        "name": "python",
+        "name": "Python",
         "value": "PYTHON"
     },
     {
-        "name": "c++",
+        "name": "C++",
         "value": "CPLUSPLUS"
     },
     {
-        "name": "javascript",
+        "name": "Javascript",
         "value": "JAVASCRIPT"
     }
 ]

@@ -102,7 +102,7 @@ import Select from "../../general/Select.vue";
 import EditorSetting from "./ProblemRightSettingEditor";
 import ModalBox from "../../general/ModalBox";
 import translate from "../../../helpers/translate";
-import convert from "../../../utils/languageConverter";
+import programmingLanguages from "../../../assets/common/programmingLanguage.json"
 
 export default {
     name: "ProblemSetting",
@@ -129,7 +129,7 @@ export default {
             });
         },
         languageConvert(language) {
-            return convert(language);
+            return programmingLanguages.filter((programmingLanguage) => programmingLanguage.value === language)[0].name;
         },
         translate(input) {
             return translate(input);
