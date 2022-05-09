@@ -1,5 +1,7 @@
 <template>
-    Landing
+    <div class="problem">
+        problem
+    </div>
 </template>
 
 <script>
@@ -8,5 +10,5 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 </style>

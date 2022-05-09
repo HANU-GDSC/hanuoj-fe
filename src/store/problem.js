@@ -14,9 +14,7 @@ export default {
                 memoryLimit: String,
                 timeLimit: String,
                 allowedProgrammingLanguage: [String],
-                status: String,
              */
-            currentProblem: "", // store id
         };
     },
     mutations: {

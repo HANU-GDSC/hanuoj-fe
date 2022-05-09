@@ -8,7 +8,7 @@ export default async function (method, address, params, body) {
     const accessToken = localStorage.getItem('accessToken');
     const headers = {
         'Content-Type': 'Application/json',
-        'authorization': `Bearer ${accessToken}`,
+        'accessToken': `${accessToken}`,
         'Access-Control-Allow-Origin': '*'
     };
     try {

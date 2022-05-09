@@ -1,35 +1,36 @@
 /*=============== GOOGLE FONTS ===============*/
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;900&display=swap");
 
- /*=============== VARIABLES CSS ===============*/
- :root {
-    --header-height: 3.5rem;
+/*=============== VARIABLES CSS ===============*/
+:root {
+  --header-height: 3.5rem;
 
-    /*========== Colors ==========*/
-    --hue-color: 230;
-    --first-color: hsl(var(--hue-color), 69%, 61%);
-    --first-color-second: hsl(var(--hue-color), 69%, 61%);
-    --first-color-alt: hsl(var(--hue-color), 57%, 53%);
-    --first-color-lighter: hsl(var(--hue-color), 92%, 85%);
-    --title-color: hsl(var(--hue-color), 8%, 15%);
-    --text-color: hsl(var(--hue-color), 8%, 45%);
-    --text-color-light: hsl(var(--hue-color), 8%, 65%);
-    --input-color: hsl(var(--hue-color), 70%, 96%);
-    --body-color: hsl(var(--hue-color), 60%, 99%);
-    --container-color: #FFF;
-    --scroll-bar-color: hsl(var(--hue-color), 12%, 90%);
-    --scroll-thumb-color: hsl(var(--hue-color), 12%, 80%);
- 
+  /*========== Colors ==========*/
+  --hue-color: 230;
+  --first-color: hsl(var(--hue-color), 69%, 61%);
+  --first-color-second: hsl(var(--hue-color), 69%, 61%);
+  --first-color-alt: hsl(var(--hue-color), 57%, 53%);
+  --first-color-lighter: hsl(var(--hue-color), 92%, 85%);
+  --title-color: hsl(var(--hue-color), 8%, 15%);
+  --text-color: hsl(var(--hue-color), 8%, 45%);
+  --text-color-light: hsl(var(--hue-color), 8%, 65%);
+  --input-color: hsl(var(--hue-color), 70%, 96%);
+  --body-color: hsl(var(--hue-color), 60%, 99%);
+  --container-color: #fff;
+  --container-color-darker: rgb(241, 241, 241);
+  --line-color: #c4c4c4;
+  --scroll-bar-color: hsl(var(--hue-color), 12%, 90%);
+  --scroll-thumb-color: hsl(var(--hue-color), 12%, 80%);
 
   /*========== Font and typography ==========*/
-  --body-font: 'Poppins', sans-serif;
+  --body-font: "Poppins", sans-serif;
   --biggest-font-size: 2rem;
   --h1-font-size: 1.5rem;
   --h2-font-size: 1.25rem;
   --h3-font-size: 1rem;
-  --normal-font-size: .938rem;
-  --small-font-size: .813rem;
-  --smaller-font-size: .75rem;
+  --normal-font-size: 0.938rem;
+  --small-font-size: 0.813rem;
+  --smaller-font-size: 0.75rem;
 
   /*========== Font weight ==========*/
   --font-medium: 500;
@@ -37,9 +38,9 @@
   --font-black: 900;
 
   /*========== Margenes Bottom ==========*/
-  --mb-0-25: .25rem;
-  --mb-0-5: .5rem;
-  --mb-0-75: .75rem;
+  --mb-0-25: 0.25rem;
+  --mb-0-5: 0.5rem;
+  --mb-0-75: 0.75rem;
   --mb-1: 1rem;
   --mb-1-5: 1.5rem;
   --mb-2: 2rem;
@@ -59,11 +60,10 @@
     --h2-font-size: 1.5rem;
     --h3-font-size: 1.25rem;
     --normal-font-size: 1rem;
-    --small-font-size: .875rem;
-    --smaller-font-size: .813rem;
+    --small-font-size: 0.875rem;
+    --smaller-font-size: 0.813rem;
   }
 }
-
 
 /*=============== BASE ===============*/
 *{
@@ -116,23 +116,28 @@
 /*========== Variables Dark theme ==========*/
 #main.dark {
   --first-color-second: hsl(var(--hue-color), 30%, 8%);
-  --title-color: hsl(var(--hue-color), 8%, 95%);
-  --text-color: hsl(var(--hue-color), 8%, 75%);
-  --input-color: hsl(var(--hue-color), 29%, 16%);
+  --title-color: hsl(var(--hue-color), 8%, 75%);
+  --text-color: hsl(var(--hue-color), 8%, 70%);
+  --input-color: hsl(var(--hue-color), 29%, 20%);
   --body-color: hsl(var(--hue-color), 28%, 12%);
-  --container-color: hsl(var(--hue-color), 29%, 16%); 
+  --container-color: hsl(var(--hue-color), 29%, 16%);
+  --container-color-darker: hsl(var(--hue-color), 28%, 12%);
   --scroll-bar-color: hsl(var(--hue-color), 12%, 48%);
   --scroll-thumb-color: hsl(var(--hue-color), 12%, 36%);
-  }
+  --line-color: #464646;
+}
 
 /*=============== SCROLL BAR ===============*/
-::-webkit-scrollbar{
-    width: 0.6rem;
-    background:  var(--scroll-bar-color);
-  }
-  
-::-webkit-scrollbar-thumb{
-    background: var(--scroll-bar--thumb);
-    border-radius: .5rem;
-  }
+::-webkit-scrollbar {
+  width: 14px;
+  padding: 1px;
+  // background:  var(--scroll-bar-color);
+  border-left: 1px solid var(--line-color);
+}
 
+::-webkit-scrollbar-thumb {
+  background-color: hsla(0, 0%, 39%, 0.4);
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: hsla(0, 0%, 39%, 0.7);
+}

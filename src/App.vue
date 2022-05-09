@@ -1,7 +1,16 @@
-<template><!-- thẻ main có class là dark hoặc light, css màu sắc của các phần tử con đều phải dựa theo class chính này -->
+<template>
+    <!-- thẻ main có class là dark hoặc light, css màu sắc của các phần tử con đều phải dựa theo class chính này -->
     <div id="main" :class="$store.state.general.theme">
         <Nav />
-        <router-view />
+        <div class="content">
+            <router-view />
+        </div>
+        <AlertBox
+            :isShow="$store.state.general.alert.isAlert"
+            :text="$store.state.general.alert.alertMessage"
+            :type="$store.state.general.alert.alertType"
+            @close="$store.dispatch('general/closeAlert')"
+        />
     </div>
 </template>
 <script>
@@ -9,6 +18,7 @@ import routerWatcher from "./helpers/routerWatcher";
 import Nav from "./components/Nav";
 import apiService from "./helpers/apiService";
 import errorHandler from "./helpers/errorHandler";
+import AlertBox from "./components/general/Alert";
 
 export default {
     name: "App",
@@ -17,6 +27,7 @@ export default {
     },
     components: {
         Nav,
+        AlertBox
     },
     created() {
         this.$store.dispatch("general/initTheme");
@@ -40,19 +51,12 @@ export default {
                     errorHandler(error);
                 });
         }
-        
     },
     mounted() {
-        const lightBackground = getComputedStyle(
-            document.body
-        ).getPropertyValue("--l-background-1");
-        const darkBackground = getComputedStyle(document.body).getPropertyValue(
-            "--d-background-1"
-        );
         document.body.style.backgroundColor =
-            this.$store.state.general.theme === "dark"
-                ? darkBackground
-                : lightBackground;
+            this.$store.state.general.theme === "dark-theme"
+                ? "hsl(230, 28%, 12%)"
+                : "hsl(230, 60%, 99%)";
     },
     watch: {
         $route(to, from) {
@@ -63,4 +67,7 @@ export default {
 </script>
 <style lang="scss">
 @import "./App.scss";
+#main {
+    display: flex;
+}
 </style>
