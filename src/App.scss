@@ -5,22 +5,17 @@
 :root {
   --header-height: 3.5rem;
 
-  /*========== Colors ==========*/
-  --hue-color: 230;
-  --first-color: hsl(var(--hue-color), 69%, 61%);
-  --first-color-second: hsl(var(--hue-color), 69%, 61%);
-  --first-color-alt: hsl(var(--hue-color), 57%, 53%);
-  --first-color-lighter: hsl(var(--hue-color), 92%, 85%);
-  --title-color: hsl(var(--hue-color), 8%, 15%);
-  --text-color: hsl(var(--hue-color), 8%, 45%);
-  --text-color-light: hsl(var(--hue-color), 8%, 65%);
-  --input-color: hsl(var(--hue-color), 70%, 96%);
-  --body-color: hsl(var(--hue-color), 60%, 99%);
+  /*========== Colors Light Theme ==========*/
+  --first-color: #9288C1;
+  --first-color-alt: #302F4E;
+  --first-color-second: #C9C2E0;
+  --first-color-lighter: #F5EFF6;
+  --text-color: #302F4E;
+  --text-color-light: #9187C0;
   --container-color: #fff;
-  --container-color-darker: rgb(241, 241, 241);
   --line-color: #c4c4c4;
-  --scroll-bar-color: hsl(var(--hue-color), 12%, 90%);
-  --scroll-thumb-color: hsl(var(--hue-color), 12%, 80%);
+  --scroll-bar-color: #9288C1;
+  --scroll-thumb-color: #F5EFF6;
 
   /*========== Font and typography ==========*/
   --body-font: "Poppins", sans-serif;
@@ -66,6 +61,7 @@
 }
 
 /*=============== BASE ===============*/
+<<<<<<< HEAD
 *{
     box-sizing: border-box;
     padding: 0;
@@ -113,11 +109,77 @@
     font-size: var(--normal-font-size);
   }
   
+=======
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  transition: all 0.1s;
+}
+.monaco-editor {
+  .monaco-editor-hover.monaco-editor-background {
+    transition: none;
+  }
+  .monaco-editor-hover.monaco-editor-background * {
+    transition: none;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+#main {
+  font-family: var(--body-font);
+  font-size: var(--normal-font-size);
+  background: var(--body-color);
+  color: var(--text-color);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  color: var(--title-color);
+  font-weight: var(--font-semi-bold);
+}
+
+ul {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  color: var(--first-color);
+}
+a:hover {
+  text-decoration: underline;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+button,
+input {
+  border: none;
+  outline: none;
+}
+
+button {
+  cursor: pointer;
+  font-family: var(--body-font);
+  font-size: var(--normal-font-size);
+}
+
+>>>>>>> e671678ee5b7fc13606d17c30eff318c99ceb711
 /*========== Variables Dark theme ==========*/
 #main.dark {
   --first-color-second: hsl(var(--hue-color), 30%, 8%);
   --title-color: hsl(var(--hue-color), 8%, 75%);
   --text-color: hsl(var(--hue-color), 8%, 70%);
+  --text-color-light: hsl(var(--hue-color), 8%, 40%);
   --input-color: hsl(var(--hue-color), 29%, 20%);
   --body-color: hsl(var(--hue-color), 28%, 12%);
   --container-color: hsl(var(--hue-color), 29%, 16%);
@@ -132,7 +194,7 @@
   width: 14px;
   padding: 1px;
   // background:  var(--scroll-bar-color);
-  border-left: 1px solid var(--line-color);
+  // border: 1px solid var(--line-color);
 }
 
 ::-webkit-scrollbar-thumb {

@@ -4,14 +4,22 @@
             <TabBar
                 :tabBarList="['test case', 'run code result', 'submission']"
                 class="tab-bar"
+                :selected="consoleSelected"
+                @selectUpdated="
+                    (value) => {
+                        consoleSelected = value;
+                    }
+                "
             >
                 <template v-slot:testcase>
-                    <TestCase :testCase="'8\n2, 5, 3, 5, 6, 2, 1, 9'" />
+                    <TestCase :testCases="testCases" />
                 </template>
                 <template v-slot:runcoderesult>
-                    <RunCode :runCodeResult="runCodeResult" />
+                    <!-- <RunCode :runCodeResult="runCodeResult" /> -->
                 </template>
-                <template v-slot:submission> submission </template>
+                <template v-slot:submission>
+                    <Submission :submission="{ ...submission }" />
+                </template>
             </TabBar>
         </div>
         <div class="console-button" @click="showConsole = !showConsole">
@@ -20,13 +28,14 @@
                 :class="'fas fa-caret-down ' + (showConsole ? 'flipped' : '')"
             ></i>
         </div>
-
-        <p text="submit" @click="submit" :class="'button ' + (isSubmitting ? '' : 'hover-effect')">
-            <span v-if="!isSubmitting">submit</span><LoadingIcon v-else />
-        </p>
-        <p text="run-code" @click="runCode" :class="'button ' + (isRunning ? '' : 'hover-effect')">
-            <span v-if="!isRunning">run code</span><LoadingIcon v-else />
-        </p>
+        <Button @click="submit" class="button">
+            <span v-if="!isSubmitting">{{ translate("submit") }}</span
+            ><LoadingIcon v-else />
+        </Button>
+        <Button @click="runCode" class="button">
+            <span v-if="!isRunning">{{ translate("run code") }}</span
+            ><LoadingIcon v-else />
+        </Button>
     </div>
 </template>
 
@@ -34,37 +43,76 @@
 import TabBar from "./ProblemTabBar";
 import TestCase from "./ProblemRightConsoleTestCase";
 import RunCode from "./ProblemRightConsoleRunCode";
+import Submission from "./ProblemRightConsoleSubmission";
 import LoadingIcon from "../../general/LoadingIcon";
+import Button from "../../general/Button";
+
+import SubmissionModel from "../../../model/coreProblem/submission";
+import { getTestCases } from "../../../model/coreProblem/domainLogic/testCase";
+import { submit } from "../../../model/coreProblem/domainLogic/submission";
+
+import translate from "../../../helpers/translate";
+import errorHandler from "../../../helpers/errorHandler";
 
 export default {
     name: "ProblemConsole",
     props: {
-        runCodeResult: Object,
+        problem: Object,
     },
     data() {
         return {
             isSubmitting: false,
             isRunning: false,
             showConsole: false,
+            submission: {},
+            consoleSelected: 0,
+            testCases: [],
         };
     },
     methods: {
         runCode() {
-            if (this.isRunning)
-                return
+            if (this.isRunning) return;
             this.isRunning = true;
         },
-        submit() {
-            if (this.isSubmitting)
-                return
+        async submit() {
+            if (this.isSubmitting) return;
             this.isSubmitting = true;
-        }
+            try {
+                const submission = SubmissionModel.create();
+                submission.setCode(
+                    this.$store.state.problem.currentProblemsCode[
+                        this.problem.getId()
+                    ]
+                );
+                submission.setProgrammingLanguage(
+                    this.$store.state.general.editorSettings.language
+                );
+                submission.setProblemId(this.$route.params.id);
+
+                this.submission = await submit("123-abc-xyz", submission);
+                
+                this.isSubmitting = false;
+                this.showConsole = true;
+                this.consoleSelected = 2;
+            } catch (error) {
+                this.isSubmitting = false;
+                errorHandler(error);
+            }
+        },
+        translate(input) {
+            return translate(input);
+        },
     },
     components: {
         TabBar,
         RunCode,
         TestCase,
+        Submission,
         LoadingIcon,
+        Button,
+    },
+    async created() {
+        this.testCases = await getTestCases(this.problem.getId());
     },
 };
 </script>
@@ -93,6 +141,7 @@ export default {
         float: left;
         width: 20%;
         margin: 0 10px;
+        line-height: 50px;
         p {
             display: inline-block;
         }
@@ -110,27 +159,6 @@ export default {
     }
     .button {
         float: right;
-        display: block;
-        padding: 2px 0;
-        margin-right: 5px;
-        margin-top: 5px;
-        width: 90px;
-        text-align: center;
-        border: 1px solid var(--line-color);
-        transition: all 0.2s;
     }
-    .button.hover-effect:hover {
-        cursor: pointer;
-        background-color: var(--container-color);
-    }
-    p[text="submit"] {
-        border-bottom-right-radius: 5px;
-    }
-}
-.light-theme .problem-console .button.hover-effect:hover {
-    box-shadow: 2px 2px 1px rgb(207, 207, 207);
-}
-.dark-theme .problem-console .button.hover-effect:hover {
-    box-shadow: 2px 2px 1px rgb(58, 58, 58);
 }
 </style>

@@ -13,7 +13,7 @@
                     v-for="(route, index) in routeList"
                     :key="index"
                     :to="route.path"
-                    class="page"
+                    :class="'page ' + ($route.path.startsWith(route.path) ? 'router-link-active' : '')"
                 >
                     <div class="ver-line"></div>
                     <i :class="route.icon"></i>
@@ -41,15 +41,21 @@ export default {
 
     computed: {
         routeCheck() {
-            // Không hiển thị nav bar khi đang ở trong auth hoặc public hoặc problem detail pages
+            // because vue router component load is async, this.$route is changed when loading component, which cause a nav view bug
+            // check if mete.type is undefined to prevent nav rendered in the first load
+            if (this.$route.meta.type === undefined)
+                return false
+            
             return !(
                 this.$route.meta.type === "auth" ||
-                this.$route.meta.type === "public" || 
+                this.$route.meta.type === "public" ||
                 this.$route.meta.type === "detail"
             );
         },
+        routerLinkActive() {
+            
+        }
     },
-
     created() {
         this.$router.options.routes.filter((route) => {
             if (route.meta.navRender)
@@ -101,13 +107,26 @@ export default {
             margin-right: var(--mb-0-5);
         }
         a {
+            color: var(--text-color-light);
+        }
+        a:hover {
+            text-decoration: none !important;
         }
         @media screen and (max-width: 900px) {
             font-size: var(--smaller-font-size);
         }
     }
+    a.page:hover {
+        text-decoration: none !important;
+    }
     a.router-link-active {
-        color: var(--title-color);
+        i {
+            color: var(--title-color);
+        }
+        a {
+            color: var(--title-color);
+            font-weight: bold;
+        }
         .ver-line {
             display: block;
             position: absolute;
@@ -116,7 +135,7 @@ export default {
             left: 0;
             top: 50%;
             transform: translateY(-50%);
-            background-color: var(--title-color);
+            background-color: var(--title-color) !important;
             clip-path: polygon(0 0, 100% 12%, 100% 89%, 0 100%, 0% 75%, 0% 25%);
         }
     }

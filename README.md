@@ -8,15 +8,10 @@
 
 ## setup for development
 run npm i to update all dependencies
-create a file named `.env.local` in the root directory of the project, and paste the following content:
+create a file named `.env.local` in the root directory of the project. Add content if necessary.
 ```
-VUE_APP_API=https://lamlamlfakeapi.herokuapp.com
+VUE_APP_API=https://someapiaddress
 ```
-fake api list
-|des                |url            |
-|-------------------|---------------|
-|get all users      |/endUser       |
-|get all problems   |/problem       |
 
 thêm accessToken vào localStorage để vào các protected route
 hoặc xóa accessToken đi để vào các auth route

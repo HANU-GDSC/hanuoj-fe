@@ -2,40 +2,57 @@
     <div class="problem-right">
         <ProblemSetting
             class="setting"
-            :editorSetting="editorSetting"
             :fullScreen="fullScreen"
-            :languageList="['java', 'javascript', 'python', 'c', 'c++']"
+            :languageList="languages"
             @enterFullScreen="$emit('enterFullScreen')"
             @exitFullScreen="$emit('exitFullScreen')"
         />
-        <MonacoEditor class="editor" :language="editorSetting.language" />
-        <ProblemConsole class="console" :runCodeResult="runCodeResult" />
+        <MonacoEditor
+            class="editor"
+            :language="$store.state.general.editorSettings.language"
+            :code="$store.state.problem.currentProblemsCode[problem.getId()]"
+            @dataUpdated="
+                $store.dispatch('problem/setCurrentProblemsCode', {
+                    id: problem.getId(),
+                    code: $event,
+                })
+            "
+        />
+        <ProblemConsole class="console" :problem="problem"/>
     </div>
 </template>
 
 <script>
-import ProblemSetting from "./problemRightSetting";
+import ProblemSetting from "./ProblemRightSetting";
 import ProblemConsole from "./ProblemRightConsole";
 import MonacoEditor from "./MonacoEditor";
+import translate from "../../../helpers/translate";
 
 export default {
     name: "ProblemRight",
     props: {
         fullScreen: Boolean,
-        runCodeResult: Object,
+        problem: Object,
     },
     data() {
-        return {
-            editorSetting: {
-                language: "java",
-            },
-        };
+        return {};
     },
     components: {
         ProblemSetting,
         ProblemConsole,
         MonacoEditor,
     },
+    computed: {
+        languages() {
+            return this.problem.getAllowedProgrammingLanguages();
+        },
+        translate() {
+            return translate()
+        }
+    },
+    created() {
+
+    }
 };
 </script>
 
@@ -46,18 +63,18 @@ export default {
     height: 100%;
     .setting {
         width: 100%;
-        height: 40px;
+        height: 50px;
         border-bottom: 1px solid var(--line-color);
     }
     .editor {
         width: 100%;
-        height: calc(100% - 80px);
+        height: calc(100% - 100px);
     }
     .console {
         position: absolute;
         bottom: 0;
         width: 100%;
-        height: 40px;
+        height: 50px;
         vertical-align: bottom;
         border-top: 1px solid var(--line-color);
     }

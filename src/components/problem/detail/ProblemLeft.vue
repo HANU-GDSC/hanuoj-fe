@@ -1,17 +1,18 @@
 <template>
     <div class="problem-left">
         <TabBar
-            :tabBarList="[
-                'description',
-                'solution',
-                'discussion',
-                'submission',
-            ]"
+            :tabBarList="['problem', 'solution', 'discussion', 'submission']"
             class="tab-bar"
             notBorder="top"
+            :selected="tabBarSelected"
+            @selectUpdated="
+                (value) => {
+                    tabBarSelected = value;
+                }
+            "
         >
-            <template v-slot:description>
-                <MarkdownRender :description="problem.description"/>
+            <template v-slot:problem>
+                <MarkdownRender :description="problem.getDescription()" class="problem-description" />
             </template>
             <template v-slot:solution>
                 <p>solution</p>
@@ -20,7 +21,7 @@
                 <p>discussion</p>
             </template>
             <template v-slot:submission>
-                <p>submission</p>
+                <Submissions />
             </template>
         </TabBar>
     </div>
@@ -29,23 +30,29 @@
 <script>
 import TabBar from "./ProblemTabBar";
 import MarkdownRender from "../../general/MarkdownRender";
+import Submissions from "./ProblemLeftSubmissions";
 
 export default {
     name: "ProblemLeft",
     props: {
         problem: Object,
+        tabBarSelected: 0,
     },
     components: {
         TabBar,
         MarkdownRender,
+        Submissions
     },
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .problem-left {
     width: 100%;
     height: 100%;
+    .problem-description {
+        padding: 10px;
+    }
 }
 .tab-bar {
     height: 100%;

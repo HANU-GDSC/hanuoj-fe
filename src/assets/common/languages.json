@@ -1,0 +1,58 @@
+[
+    {
+        "en": "problem",
+        "vi": "vấn đề"
+    },
+    {
+        "en": "solution",
+        "vi": "lời giải"
+    },
+    {
+        "en": "discussion",
+        "vi": "thảo luận"
+    },
+    {
+        "en": "submission",
+        "vi": "nộp bài"
+    },
+    {
+        "en": "test case",
+        "vi": "đầu vào"
+    },
+    {
+        "en": "run code result",
+        "vi": "kết quả chạy code"
+    },
+    {
+        "en": "submit",
+        "vi": "nộp bài"
+    },
+    {
+        "en": "run code",
+        "vi": "chạy code"
+    },
+    {
+        "en": "easy",
+        "vi": "dễ"
+    },
+    {
+        "en": "medium",
+        "vi": "trung bình"
+    },
+    {
+        "en": "hard",
+        "vi": "khó"
+    },
+    {
+        "en": "close",
+        "vi": "đóng"
+    },
+    {
+        "en": "false",
+        "vi": "sai"
+    },
+    {
+        "en": "true",
+        "vi": "đúng"
+    }
+]

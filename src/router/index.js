@@ -55,6 +55,14 @@ const routes = [
 		}
 	},
 	{
+		path: "/problem/createProblem",
+		name: "CreateProblem",
+		component: () => import("../components/problem/create/CreateProblem"),
+		meta: {
+			type: "protected"
+		}
+	},
+	{
 		path: "/contest",
 		name: "Contest",
 		component: () => import("../views/Contest"),
@@ -62,6 +70,14 @@ const routes = [
 			type: "protected",
 			navRender: true,
 			navIcon: "fa-solid fa-trophy"
+		}
+	},
+	{
+		path: "/contest/create",
+		name: "CreateContest",
+		component: () => import("../components/contest/CreateContest"),
+		meta: {
+			type: "protected"
 		}
 	},
 	{

@@ -16,9 +16,9 @@
 <script>
 import routerWatcher from "./helpers/routerWatcher";
 import Nav from "./components/Nav";
-import apiService from "./helpers/apiService";
-import errorHandler from "./helpers/errorHandler";
 import AlertBox from "./components/general/Alert";
+
+import { deleteExpiredCode } from "./helpers/localStorage";
 
 export default {
     name: "App",
@@ -27,40 +27,37 @@ export default {
     },
     components: {
         Nav,
-        AlertBox
+        AlertBox,
+    },
+    computed: {
+        setBackGround() {
+            return this.$store.state.general.theme;
+        },
     },
     created() {
+        // local storage setup
         this.$store.dispatch("general/initTheme");
+        this.$store.dispatch("general/setLanguage");
+        deleteExpiredCode();
 
-        // fetch user data, chỉ khi có accessToken trong localStorage
-        // lấy data của 1 user, xong lưu vào trong vuex store
-        // tạm thời chưa có api thì dùng fake api, lấy hết tất cả user và problem
-        if (localStorage.getItem("accessToken")) {
-            apiService("GET", "/endUser")
-                .then((res) => {
-                    this.$store.dispatch("endUser/initInfo", res.data[0]);
-                })
-                .catch((error) => {
-                    errorHandler(error);
-                });
-            apiService("GET", "/problem")
-                .then((res) => {
-                    this.$store.dispatch("problem/initProblem", res.data);
-                })
-                .catch((error) => {
-                    errorHandler(error);
-                });
+        // if local storage have accessToken -> return current user data
+        const accessToken = localStorage.getItem("accessToken");
+        if (accessToken) {
+            let currentUserData = JSON.parse(
+                localStorage.getItem("currentUserData")
+            );
+            return currentUserData;
         }
-    },
-    mounted() {
-        document.body.style.backgroundColor =
-            this.$store.state.general.theme === "dark-theme"
-                ? "hsl(230, 28%, 12%)"
-                : "hsl(230, 60%, 99%)";
     },
     watch: {
         $route(to, from) {
             routerWatcher(to, from);
+        },
+        setBackGround() {
+            document.body.style.backgroundColor =
+                this.$store.state.general.theme === "dark-theme"
+                    ? "hsl(230, 28%, 12%)"
+                    : "hsl(230, 60%, 99%)";
         },
     },
 };
@@ -69,5 +66,8 @@ export default {
 @import "./App.scss";
 #main {
     display: flex;
+}
+.content {
+    flex-grow: 1;
 }
 </style>

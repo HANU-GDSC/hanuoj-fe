@@ -5,9 +5,9 @@
                 v-for="(item, index) in tabBarList"
                 :class="'nav-item ' + (selected === index ? 'selected' : '')"
                 :key="index"
-                @click="selected = index"
+                @click="switchTab(index)"
             >
-                <p>{{ item }}</p>
+                <p>{{ translate(item) }}</p>
             </div>
         </div>
         <div class="content">
@@ -25,6 +25,7 @@
 
 <script>
 import { removeSpace } from "../../../utils/removeSpace";
+import translate from "../../../helpers/translate";
 
 export default {
     name: "TabBar",
@@ -34,7 +35,7 @@ export default {
         selected: {
             type: Number,
             default: 0,
-        }
+        },
     },
     // data() {
     //     return {
@@ -46,12 +47,18 @@ export default {
             // remove space in string
             return removeSpace(str);
         },
+        translate(input) {
+            return translate(input, "en");
+        },
+        switchTab(index) {
+            this.$emit("selectUpdated", index);
+        },
     },
 };
 </script>
 
 <style lang="scss" scoped>
-$nav-height: 40px;
+$nav-height: 50px;
 .tab-bar {
     .nav {
         display: table;
@@ -85,6 +92,26 @@ $nav-height: 40px;
             overflow-y: auto;
             height: 100%;
         }
+    }
+    // scroll bar
+    .content {
+        .content-item::-webkit-scrollbar-thumb {
+            display: none;
+        }
+        .content-item::-webkit-scrollbar:vertical {
+            border-left: 1px solid var(--line-color);
+            background: var(--container-color);
+        }
+        .content-item::-webkit-scrollbar:horizontal {
+            border-top: 1px solid var(--line-color);
+            background: var(--container-color);
+        }
+    }
+    .content:hover .content-item::-webkit-scrollbar-thumb {
+        display: block;
+    }
+    .content .content-item:last-child::-webkit-scrollbar {
+        border-top: 1px solid var(--line-color);
     }
 }
 .tab-bar.not-border-top {
