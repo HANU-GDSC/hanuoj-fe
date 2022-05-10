@@ -102,7 +102,7 @@ class Contest {
     if (date.getTime() <= new Date().getTime()) {
       throw new Error('Start at must be later than now')
     }
-    this.startAt = date
+    this._startAt = date
   }
 
   setEndAt(date) {
@@ -115,29 +115,33 @@ class Contest {
     if (this.startAt !== undefined && date.getTime() <= this.startAt) {
       throw new Error('End at must be later than start at')
     }
-    this.endAt = date
+    this._endAt = date
   }
 
   getName() {
-    return this.name;
+    return this._name;
   }
 
   getDescription() {
-    return this.description;
+    return this._description;
   }
 
   getStartAt() {
-    const ISOStartAt = this.startAt.toISOString();
+    const ISOStartAt = this._startAt.toISOString();
     return ISOStartAt;
   }
 
   getEndAt() {
-    const ISOEndAt = this.endAt.toISOString();
+    const ISOEndAt = this._endAt.toISOString();
     return ISOEndAt;
   }
 }
 
-module.exports = {
+export {
   Contest,
   Problem
+}
+
+export function create() {
+  throw new Error('Function not implemented.');
 }

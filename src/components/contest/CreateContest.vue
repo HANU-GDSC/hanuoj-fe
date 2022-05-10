@@ -22,7 +22,10 @@
       <div class="clear"></div>
     </div>
     <div class="inputGroup">
-      <label for="" class="inputTag"> Description </label>
+      <label for="" class="inputTag">
+        Description
+        <span class="requiredIndicator">*</span>
+      </label>
       <div class="inputContainer">
         <InputText
           id="description"
@@ -106,20 +109,17 @@
       <LoadingIcon />
     </div>
   </div>
-  <Alert :text="alert" type="primary" :isShow="isSuccess" @close="redirect" />
 </template>
 
 <script>
 import { Contest } from "../../model/contest/contest/contest";
 import { createContest } from "../../model/contest/contest/domainLogic/createContest";
-import { Create } from "../../model/contest/contestCreate";
 import InputText from "../general/InputText";
 import Button from "../general/Button";
 import InputDate from "../general/InputDate";
 import InputTime from "../general/InputTime";
 import errorHandler from "../../helpers/errorHandler";
 import LoadingIcon from "../general/LoadingIcon";
-import Alert from "../general/Alert";
 
 export default {
   name: "CreateContest",
@@ -130,7 +130,6 @@ export default {
     InputDate,
     InputTime,
     LoadingIcon,
-    Alert,
   },
 
   data() {
@@ -144,8 +143,6 @@ export default {
       isNameWarning: false,
       isStartAtWarning: false,
       isEndAtWarning: false,
-      alert: "",
-      isSuccess: false,
     };
   },
 
@@ -159,7 +156,7 @@ export default {
     },
 
     setDescription(description) {
-      this.contest.setDescription(description)
+      this.contest.setDescription(description);
     },
 
     setStartDate(inputValue) {
@@ -193,56 +190,26 @@ export default {
     },
 
     async handleCreate() {
-       if (!this.contest.getName() && !this.startDate && !this.endDate) {
-        this.isNameWarning = true;
-        this.isStartAtWarning = true;
-        this.isEndAtWarning = true;
-      } else if (!this.contest.getName()) {
-        this.isNameWarning = true;
-      } else if (!this.startDate || !this.startTime) {
-        this.isStartAtWarning = true;
-      } else if (!this.endDate || !this.endTime) {
-        this.isEndAtWarning = true;
-      } else {
-        this.setStartAt();
-        this.setEndAt();
-        try {
-          this.isLoading = true;
-          const data = await createContest(this.Contest);
-          switch (data.code) {
-            case "NOT_VALID_DATE":
-              this.isLoading = false;
-              this.alert = data.message;
-              break;
-            case "INVALID_STARTDATE":
-              this.isLoading = false;
-              this.alert = data.message;
-              break;
-            case "INVALID_ENDDATE":
-              this.isLoading = false;
-              this.alert = data.message;
-              break;
-            default:
-              this.isLoading = false;
-              this.isSuccess = true;
-              this.alert = data.message;
-          }
-          return data.data.id;
-        } catch (error) {
-          if (error.code == "NOT_VALID_DATE") {
-            this.isLoading = false;
-            this.alert = error.message;
-            alert(this.alert);
-          }
-          errorHandler(error);
-        }
+      this.setStartAt();
+      this.setEndAt();
+      // console.log(this.contest);
+      // check empty before POST
+      //
+      // 
+      try {
+        this.isLoading = true;
+        await createContest(this.contest);
+        this.isLoading = false;
+      } catch (error) {
+        this.isLoading = false;
+        setTimeout(errorHandler(error), 3000);
       }
     },
   },
 };
 </script>
 
-<style>
+<style scoped>
 .clear {
   clear: both;
 }

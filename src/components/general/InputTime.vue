@@ -75,9 +75,8 @@ export default {
       }
     },
   },
-  
-  emits: ['dataUpdated']
 
+  emits: ["dataUpdated"],
 };
 </script>
 
@@ -86,11 +85,13 @@ export default {
   -webkit-appearance: none;
   -moz-appearance: none;
   width: 4em;
-  height: 2.7em;
+  height: 3.1em;
+  line-height: 1.5em;
   appearance: none;
   outline: none;
   text-align: center;
-  padding: 10px;
   margin: 0 5px;
+  border: 1px solid #c2c7d0;
+  border-radius: 5px;
 }
 </style>

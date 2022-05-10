@@ -4,19 +4,19 @@ export default {
     // cách dùng: this.$store.state.endUser.info
     // hoặc dùng với mapState.
     return {
-      currentUserData: {}
+      user: {}
     };
   },
   mutations: {
-    setCurrentUser(state, currentUser) {
-      state.currentUserData = currentUser;
+    setUser(state, user) {
+      state.user = user;
     }
   },
   actions: {
     // cách dùng: this.$store.dispatch("endUser/setCurrentUser");
     // hoặc dùng với mapActions: mapActions: { initInfo: "endUser/setCurrentUser", }
-    setCurrentUser(state, currentUser) {
-      state.commit("setCurrentUser", currentUser);
+    setUser(state, user) {
+      state.commit("setUser", user);
     },
   },
   getters: {

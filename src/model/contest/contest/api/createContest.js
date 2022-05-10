@@ -13,10 +13,11 @@ class Request {
     assert(typeof description === 'string')
     this.description = description
 
-    assert(startAt instanceof Date)
+    // ISOString
+    assert(typeof startAt === 'string')
     this.startAt = startAt
 
-    assert(endAt instanceof Date)
+    assert(typeof endAt === 'string')
     this.endAt = endAt
   }
 }
@@ -38,12 +39,13 @@ class Response {
   }
 }
 
+// is there anything else ?
 async function callCreateContestAPI(request) {
   assert(request instanceof Request)
   throw new Error('Unimplemented')
 }
 
-module.exports = {
+export {
   Request,
   Response,
   callCreateContestAPI
