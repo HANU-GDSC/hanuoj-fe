@@ -1,45 +1,62 @@
 <template>
-  <div class="loginContainer">
-    <div class="loginContent" :class="{ loading: isLoading }">
-      <h2>Login</h2>
-      <InputText
-        :class="{ inputEmptyOrWrong: isWrongEmail }"
-        @dataUpdated="setEmailOrUsername"
-        :value="User.getEmail() || User.getUsername()"
-        :disable="isLoading"
-        :require="true"
-        placeholder="User's name or email"
-      />
-      <span class="emtyWarning" v-if="isWrongEmail">{{
-        warning.wrongEmail
-      }}</span>
-      <InputPass
-        :class="{ inputEmptyOrWrong: isWrongPassword }"
-        @dataUpdated="setPassword"
-        :disable="isLoading"
-        :require="true"
-        placeholder="Password"
-      /><br />
-      <span class="emtyWarning" v-if="isWrongPassword">{{
-        warning.wrongPassword
-      }}</span>
-      <div class="directContainer">
-        <a @click="directSignUp" :class="{ disabled: isLoading }">Sign up</a>
-        <a @click="directForgotPass" href="" :class="{ disabled: isLoading }"
-          >Forgot your password?</a
-        >
+  <!-- <div class="everythingContainer"> -->
+  <!-- form -->
+  <div class="formContainer">
+    <form action="" @keyup.enter="handleLogin">
+      <!-- form heading -->
+      <div class="formHeading">
+        <div class="logoContainer">
+          <div class="logo"></div>
+          <h2>High Code</h2>
+        </div>
+        <div class="singUpContainer">
+          No account?
+          <a href="" class="directToSignUp">Sign up</a>
+        </div>
+        <h1 class="formTitle">Sign in</h1>
       </div>
-      <Button
-        text="Login"
-        type="primary"
-        des="login"
-        :disable="isLoading"
-        @click="handleLogin"
-        @keydown.enter="handleLogin"
-      />
-    </div>
-    <LoadingIcon v-if="isLoading" />
+
+      <!--form body  -->
+      <div class="formBody">
+        <form action="">
+          <InputText
+            :class="{ inputEmptyOrWrong: isError }"
+            @dataUpdated="setEmailOrUsername"
+            :value="
+              this.$store.state.endUser.user.getEmail() ||
+              this.$store.state.endUser.user.getUsername()
+            "
+            :disable="isLoading"
+            :require="true"
+            placeholder="Username or email"
+          /><br />
+
+          <InputPass
+            :class="{ inputEmptyOrWrong: isError }"
+            @dataUpdated="setPassword"
+            :disable="isLoading"
+            :require="true"
+            placeholder="Password"
+          /><br />
+
+          <Button
+            text="Login"
+            type="primary"
+            des="login"
+            :disable="isLoading"
+            @click="handleLogin"
+          />
+          <LoadingIcon v-if="isLoading" />
+        </form>
+      </div>
+    </form>
   </div>
+
+  <!-- image -->
+  <div class="imgContainer">
+    <div class="img"></div>
+  </div>
+  <!-- </div> -->
 </template>
 
 <script>
@@ -63,26 +80,14 @@ export default {
 
   data() {
     return {
-      User: undefined,
-      warning: {
-        wrongEmail: "",
-        wrongPassword: "",
-      },
       isLoading: false,
-      isWrongEmail: false,
-      isWrongPassword: false,
+      isError: false,
+      isEmpty: false,
     };
   },
 
   created() {
-    // if local storage have accessToken -> return current user data
-    const accessToken = localStorage.getItem("accessToken");
-    if (accessToken) {
-      let currentUserData = JSON.parse(localStorage.getItem("currentUserData"));
-      return currentUserData;
-    }
-    // init login
-    this.User = User.init();
+    this.$store.state.endUser.user = User.init();
   },
 
   methods: {
@@ -92,14 +97,14 @@ export default {
       let filter =
         /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
       if (filter.test(value)) {
-        this.User.setEmail(value);
+        this.$store.state.endUser.user.setEmail(value);
       } else {
-        this.User.setUsername(value);
+        this.$store.state.endUser.user.setUsername(value);
       }
     },
 
     setPassword(password) {
-      this.User.setPassword(password);
+      this.$store.state.endUser.user.setPassword(password);
     },
 
     directSignUp() {
@@ -112,65 +117,22 @@ export default {
     },
 
     async handleLogin() {
-      if (
-        !this.User.getUsername() &&
-        !this.User.getEmail() &&
-        !this.User.getPassword()
-      ) {
-        this.isWrongEmail = true;
-        this.warning.wrongEmail = "Please enter your username or email";
-        this.isWrongPassword = true;
-        this.warning.wrongPassword = "Please enter your password";
-      } else if (!this.User.getUsername() && !this.User.getEmail()) {
-        this.isWrongEmail = true;
-        this.warning.wrongEmail = "Please enter your username or email";
-      } else if (!this.User.getPassword()) {
-        this.isWrongPassword = true;
-        this.warning.wrongPassword = "Please enter your password";
-      } else {
-        this.isLoading = true;
-        try {
-          const data = await login(this.User);
+      // need to check empty
+      //
+      // 
+      this.isLoading = true;
+      try {
+        const data = await login(this.$store.state.endUser.user);
 
-          // add accessToken to localStorage
-          localStorage.setItem("accessToken", data.data);
+        // add accessToken to localStorage
+        localStorage.setItem("accessToken", data);
 
-          // set current user data to VueX and localStorage
-          this.$store.dispatch("endUser/setCurrentUser", {
-            username: this.User.getUsername(),
-            email: this.User.getEmail(),
-            password: this.User.getPassword(),
-          });
-          localStorage.setItem(
-            "currentUserData",
-            JSON.stringify(this.$store.state.endUser.currentUserData)
-          );
-
-          // move to dashboard
-          this.$router.go("dashboard");
-          this.isLoading = false;
-        } catch (error) {
-          this.isLoading = false;
-          const response = error.response.data;
-          errorHandler(error);
-          switch (response.code) {
-            case "NON-EXISTENT_USERNAME_OR_EMAIL":
-              this.isLoading = false;
-              this.isWrongEmail = true;
-              this.warning.wrongEmail = "Your username/email is incorrect";
-              break;
-            case "INVALID_USERNAME":
-              this.isLoading = false;
-              this.isWrongEmail = true;
-              this.warning.wrongEmail = "your username/email is incorrect";
-              break;
-            case "WRONG_PASSWORD":
-              this.isLoading = false;
-              this.isWrongPassword = true;
-              this.warning.wrongPassword = "Your password is incorrect";
-              break;
-          }
-        }
+        // move to dashboard
+        // this.$router.go("dashboard");
+        this.isLoading = false;
+      } catch (error) {
+        this.isLoading = false;
+        setTimeout(errorHandler(error), 3000);
       }
     },
   },
@@ -191,59 +153,13 @@ export default {
   height: 100%;
 }
 
-.loginContainer {
-  position: relative;
-  width: 30vw;
-  min-width: 500px;
-  height: 550px;
-  min-height: 500px;
-  padding: 70px 40px;
-  margin: 11vh auto;
-  text-align: center;
-  border-radius: 5px;
-  border: 1px solid #0e65f1;
-}
-
-.loginContent {
-  position: absolute;
-  font-size: 17px;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  margin: 20px auto;
-}
-
-h2 {
-  margin: 20px;
-  font-size: 35px;
-  font-weight: 400;
-}
-
-input {
-  width: 80%;
-  height: 50px;
-  padding: 30px 20px;
-  margin: 10px 0;
-  font-size: 17px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-}
-
-.loginContainer button {
-  margin-top: 4em;
-  width: 7rem;
-  height: 3rem;
-  font-size: 16px;
-}
-
-div a {
-  margin: 0 60px;
-  color: #0e65f1;
-}
-
-input:focus-within {
-  border: 1px solid #0e65f1;
+.logo {
+  /* position: absolute;
+  left: 14.32%;
+  right: 83.07%;
+  top: 16.94%;
+  bottom: 78.43%; */
+  background: url("../assets/img/logoHighCode.png");
 }
 
 /* When user try to submit with empty or wrong user's name/password */
@@ -259,13 +175,41 @@ input:focus-within {
   margin-bottom: 1.2em;
   margin-left: 15%;
 }
-.loginContainer i {
-  line-height: 370px;
-  font-size: 5em;
+
+.formContainer {
+  position: relative;
+  margin-top: 1.2em;
+  width: 30%;
+  height: 60vh;
+  left: 196px;
+  top: 92px;
+
+  background: #ffffff;
+  box-shadow: 0px 4px 40px rgba(0, 0, 0, 0.25);
+  border-radius: 50px;
+  float: left;
 }
 
-.directContainer {
-  margin: 10px 0;
-  margin-bottom: 3rem;
+.formBody {
+  display: flex;
+  justify-content: center;
+}
+
+.imgContainer {
+  position: absolute;
+  left: 52.19%;
+  right: 3.33%;
+  top: 8.33%;
+  bottom: 12.59%;
+  display: flex;
+  justify-content: center;
+  float: right;
+}
+
+.img {
+  height: 35em;
+  width: 35em;
+  background: url("../assets/img/bag.png") no-repeat center;
+  background-size: cover;
 }
 </style>

@@ -24,6 +24,6 @@ class Problem {
   }
 }
 
-module.exports = {
+export {
   Problem
 }
