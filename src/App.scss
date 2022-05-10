@@ -87,7 +87,7 @@ html {
   font-family: var(--body-font);
   font-size: var(--normal-font-size);
   background: var(--body-color);
-  color: var(--text-color);
+  color: var(--first-color);
 }
 
 h1,
@@ -147,13 +147,13 @@ button {
 ::-webkit-scrollbar {
   width: 14px;
   padding: 1px;
-  // background:  var(--scroll-bar-color);
-  // border: 1px solid var(--line-color);
+  background:  var(--scroll-bar-color);
+  border: 1px solid var(--line-color);
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: hsla(0, 0%, 39%, 0.4);
+  background-color: var(--scroll-bar-color);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background-color: hsla(0, 0%, 39%, 0.7);
+  background-color: var(--first-color-alt);
 }
