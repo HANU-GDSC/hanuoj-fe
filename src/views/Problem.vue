@@ -6,7 +6,7 @@
                 <div class="problem" v-else>
 					<div class="problem__list">
 						<table>
-							<tr class="header">
+                            <tr class="header">
 								<td class="problem__collumn1">ID</td>
 								<td class="problem__collumn2">Name</td>
 								<td class="problem__collumn3">Acceptance</td>
@@ -14,11 +14,12 @@
 								<td class="problem__collumn5">Tags</td>
 								<td class="problem__collumn6">Status</td>
 							</tr>
-							<tr
+							<div
 								v-for="(problem, index) in problemList"
 								class="body" :key="index"
 							>
-							<div
+                
+							<tr
 								v-if="(currentPage - 1)*10 < index && index <= (currentPage - 1)*10 + 10"
 							>
 								<td class="problem__collumn1">{{index}}</td>
@@ -27,9 +28,11 @@
 								<td class="problem__collumn4">{{problem.difficulty}}</td>
 								<td class="problem__collumn5">Tags</td>
 								<td class="problem__collumn6">Status</td>
-							</div>
 							</tr>
+							</div>
 						</table>
+
+                        <div class="pagelist"></div>
 					</div>
                 </div>
 
@@ -46,6 +49,7 @@ import MainLayout from "../components/MainLayout";
 import Loading from "../components/Loading";
 import {listProblems} from "../model/practiceProblem/domainLogic/practiceProblem";
 import errorHandler from "../helpers/errorHandler";
+import {GetCoreProblemResponseData} from "../model/coreProblem/api/getCoreProblemApi"
 export default {
     name: "Problem",
     data() {
@@ -61,7 +65,6 @@ export default {
     },
     async created() {
 		await this.getProblems(1)
-		await this.getProblems(2)
 		this.loading = false
     },
 
@@ -70,9 +73,7 @@ export default {
 			try {
 				this.loading = true
 				const listData = await listProblems(currentPage - 1, 10)
-				
 				this.loading = false
-
 				console.log(listData);
 				for (let i = 0; i < listData.length; i++) {
 					this.problemList[(currentPage - 1) * 10 + i + 1] = {
