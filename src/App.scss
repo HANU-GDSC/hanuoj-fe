@@ -12,6 +12,7 @@
   --first-color-lighter: #F5EFF6;
   --text-color: #302F4E;
   --text-color-light: #9187C0;
+  --title-color:  #302F4E;
   --container-color: #fff;
   --stroke-color: #9288C1;
   --line-color: #c4c4c4;
@@ -127,13 +128,14 @@ button {
 }
 
 /*========== Variables Dark theme ==========*/
-#main.dark {
+#main.dark-theme {
   --first-color: #9288C1;
   --first-color-alt: #fff;
   --first-color-second: #C9C2E0;
   --first-color-lighter: #F5EFF6;
   --text-color: #fff;
   --text-color-light: #fff;
+  --title-color:  #fff;
   --container-color: #302F4E;
   --line-color: #c4c4c4;
   --scroll-bar-color: #9288C1;
