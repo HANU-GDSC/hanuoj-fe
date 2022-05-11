@@ -14,7 +14,7 @@
   --text-color-light: #9187C0;
   --title-color:  #302F4E;
   --container-color: #fff;
-  --stroke-color: #9288C1;
+  --stroke-color: #C9C2E0;
   --line-color: #c4c4c4;
   --scroll-bar-color: #9288C1;
   --scroll-thumb-color: #F5EFF6;
@@ -34,6 +34,15 @@
   --font-medium: 500;
   --font-semi-bold: 600;
   --font-black: 900;
+
+  /*========== Border Radius ==========*/
+  --boder-radius-small: 10px;
+  --boder-radius-medium: 20px;
+  --boder-radius-big: 50px;
+
+
+  /*========== Border Width ==========*/
+  --boder-radius-default: 1px;
 
   /*========== Margenes Bottom ==========*/
   --mb-0-25: 0.25rem;
@@ -87,6 +96,7 @@ html {
   font-size: var(--normal-font-size);
   background: var(--body-color);
   color: var(--first-color);
+  font-weight: var(--font-medium);
 }
 
 h1,
