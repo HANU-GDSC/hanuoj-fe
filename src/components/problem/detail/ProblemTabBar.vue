@@ -1,5 +1,5 @@
 <template>
-    <div :class="'tab-bar not-border-' + notBorder">
+    <div :class="'tab-bar'">
         <div class="nav">
             <div
                 v-for="(item, index) in tabBarList"
@@ -58,35 +58,32 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$nav-height: 40px;
 .tab-bar {
+    height: 100%;
+    background-color: var(--container-color);
     .nav {
         display: table;
-        height: $nav-height;
+        height: var(--nav-height);
         table-layout: fixed;
+        font-weight: var(--font-semi-bold);
         overflow: hidden;
         .nav-item {
             display: table-cell;
             width: 2%;
             text-align: center;
-            line-height: $nav-height;
-            border-bottom: 1px solid var(--line-color);
-            border-top: 1px solid var(--line-color);
+            line-height: var(--nav-height);
+            border-bottom: 1px solid var(--stroke-color);
             background-color: var(--container-color-darker);
-        }
-        .nav-item:not(:first-child) {
-            border-left: 1px solid var(--line-color);
-        }
-        .nav-item:hover {
             cursor: pointer;
         }
         .selected {
-            border-bottom: none;
-            background-color: var(--container-color) !important;
+            p {
+                color: var(--text-color);
+            }
         }
     }
     .content {
-        height: calc(100% - $nav-height);
+        height: calc(100% - var(--nav-height));
         background-color: var(--container-color);
         .content-item {
             overflow-y: auto;
@@ -99,11 +96,11 @@ $nav-height: 40px;
             display: none;
         }
         .content-item::-webkit-scrollbar:vertical {
-            border-left: 1px solid var(--line-color);
+            border-left: 1px solid var(--stroke-color);
             background: var(--container-color);
         }
         .content-item::-webkit-scrollbar:horizontal {
-            border-top: 1px solid var(--line-color);
+            border-top: 1px solid var(--stroke-color);
             background: var(--container-color);
         }
     }
@@ -111,14 +108,7 @@ $nav-height: 40px;
         display: block;
     }
     .content .content-item:last-child::-webkit-scrollbar {
-        border-top: 1px solid var(--line-color);
-    }
-}
-.tab-bar.not-border-top {
-    .nav {
-        .nav-item {
-            border-top: none;
-        }
+        border-top: 1px solid var(--stroke-color);
     }
 }
 </style>

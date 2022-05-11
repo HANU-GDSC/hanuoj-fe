@@ -1,4 +1,4 @@
-import languages from "../assets/languages/languages.json";
+import languages from "../assets/common/languages.json";
 import store from "../store/index";
 
 /**
@@ -27,13 +27,21 @@ export default function (input, language) {
 
     // string case
     if (typeof input === "string") {
-        input = input.toLowerCase();
+        let isUpperCase, firstLetterIsUpperCase;
+        if (input === input.toUpperCase())
+            isUpperCase = true;
+        if (input[0] === input[0].toUpperCase())
+            firstLetterIsUpperCase = true;
         for (let key in languages) {
-            if (languages[key][inputLanguage] === input) {
+            if (languages[key][inputLanguage] === input.toLowerCase()) {
                 translated = languages[key][currentLanguage];
                 break;
             }
         }
+        if (isUpperCase)
+            translated = translated.toUpperCase();
+        if (firstLetterIsUpperCase)
+            translated = translated[0].toUpperCase() + translated.slice(1);
     }
     return translated;
 }

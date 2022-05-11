@@ -1,21 +1,20 @@
 <template>
-    <div class="warper">
-        <MonacoEditor
-            class="monaco-editor"
-            :language="language"
-            :code="code"
-            :theme="getTheme"
-            :options="getOptions"
-            @mounted="onMounted"
-            @codeChange="onCodeChange"
-            v-if="reCreate"
-        >
-        </MonacoEditor>
-    </div>
+    <MonacoEditor
+        class="monaco-editor"
+        :language="languageConvert(language)"
+        :code="code"
+        :theme="getTheme"
+        :options="getOptions"
+        @mounted="onMounted"
+        @codeChange="onCodeChange"
+        v-if="reCreate"
+    >
+    </MonacoEditor>
 </template>
 
 <script>
 import MonacoEditor from "vue-monaco-editor";
+import converter from "../../../utils/languageConverter";
 
 export default {
     name: "app",
@@ -40,6 +39,9 @@ export default {
         },
         onCodeChange(editor) {
             this.$emit("dataUpdated", editor.getValue());
+        },
+        languageConvert(language) {
+            return converter(language);
         },
     },
     computed: {
@@ -74,5 +76,48 @@ export default {
     },
 };
 </script>
-<style scoped>
+<style lang="scss">
+.monaco-editor {
+    transition: none;
+    .monaco-editor.vs {
+    }
+    .monaco-editor.vs-dark {
+        .monaco-editor-background {
+            background-color: var(--container-color);
+        }
+        .glyph-margin {
+            background-color: var(--container-color);
+        }
+        .line-numbers {
+            color: #595c63;;
+        }
+        .current-line {
+            border-color: #5c5c5c77;
+        }
+        .token {
+            // color: #abb2bf;
+        }
+        .token.number {
+            color: #e5c07b;
+        }
+        .token.keyword {
+            color: #c678dd;
+        }
+        .token.string {
+            color: #98c379;
+        }
+        .token.identifier {
+            color: #b7bfce;
+        }
+        .token.delimiter {
+            color: #56b6c2;
+        }
+        .token.delimiter.curly, .token.delimiter.parenthesis, .token.delimiter.square {
+            color: rgb(235, 122, 122);
+        }
+        .token.comment {
+            color: #6e727b;
+        }
+    }
+}
 </style>

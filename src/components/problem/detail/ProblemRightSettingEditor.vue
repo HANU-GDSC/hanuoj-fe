@@ -248,7 +248,7 @@ export default {
     }
     hr {
         border: none;
-        border-bottom: 1px solid var(--line-color);
+        border-bottom: 1px solid var(--stroke-color);
     }
     input[type="number"]::-webkit-outer-spin-button,
     input[type="number"]::-webkit-inner-spin-button {
@@ -274,16 +274,16 @@ export default {
                 input {
                     width: 40%;
                     padding: 0 10px;
-                    border-top: 1px solid var(--line-color);
-                    border-bottom: 1px solid var(--line-color);
-                    color: var(--text-color);
+                    border-top: 1px solid var(--stroke-color);
+                    border-bottom: 1px solid var(--stroke-color);
+                    color: var(--first-color);
                     font-family: var(--body-font);
                     font-size: var(--normal-font-size);
                     text-align: center;
                     background-color: var(--container-color);
                 }
                 .fa-minus {
-                    border: 1px solid var(--line-color);
+                    border: 1px solid var(--stroke-color);
                     line-height: 40px;
                     aspect-ratio: 1/1;
                     text-align: center;
@@ -293,7 +293,7 @@ export default {
                     cursor: pointer;
                 }
                 .fa-plus {
-                    border: 1px solid var(--line-color);
+                    border: 1px solid var(--stroke-color);
                     line-height: 40px;
                     aspect-ratio: 1/1;
                     text-align: center;
@@ -337,14 +337,14 @@ export default {
                     position: relative;
                     height: 100%;
                     width: 63%;
-                    border: 1px solid var(--line-color);
+                    border: 1px solid var(--stroke-color);
                     background-color: var(--container-color-darker);
                 }
                 $margin-slider: 5px;
                 .switch-button::before {
                     position: absolute;
                     content: "";
-                    border: 1px solid var(--line-color);
+                    border: 1px solid var(--stroke-color);
                     background-color: var(--container-color);
                     top: $margin-slider;
                     bottom: $margin-slider;
@@ -369,7 +369,7 @@ export default {
             // padding: 2px 0;
             width: 40%;
             text-align: center;
-            border: 1px solid var(--line-color);
+            border: 1px solid var(--stroke-color);
             transition: all 0.2s;
             background-color: var(--container-color-darker);
             span {
@@ -388,7 +388,7 @@ export default {
         height: 40px;
     }
     .setting::-webkit-scrollbar {
-        border-left: 1px solid var(--line-color);
+        border-left: 1px solid var(--stroke-color);
     }
     .setting::-webkit-scrollbar-thumb {
         display: none;

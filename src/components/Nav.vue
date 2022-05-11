@@ -41,7 +41,11 @@ export default {
 
     computed: {
         routeCheck() {
-            // Không hiển thị nav bar khi đang ở trong auth hoặc public hoặc problem detail pages
+            // because vue router component load is async, this.$route is changed when loading component, which cause a nav view bug
+            // check if mete.type is undefined to prevent nav rendered in the first load
+            if (this.$route.meta.type === undefined)
+                return false
+            
             return !(
                 this.$route.meta.type === "auth" ||
                 this.$route.meta.type === "public" ||

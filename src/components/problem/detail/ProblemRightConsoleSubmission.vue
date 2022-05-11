@@ -28,7 +28,7 @@
                     `${translate({
                         en: "Runtime",
                         vi: "Thời gian chạy",
-                    })}:  ${submission.runtime.value} ms(${translate({
+                    })}:  ${submission.runTime} ms(${translate({
                         en: "millisecond",
                         vi: "mili giây",
                     })}).`
@@ -40,7 +40,7 @@
                     `${translate({
                         en: "Memory",
                         vi: "Bộ nhớ sở dụng",
-                    })}:  ${submission.memory.value} kb(${translate({
+                    })}:  ${submission.memory} kb(${translate({
                         en: "kilobyte",
                         vi: "kilobyte",
                     })}).`
@@ -54,7 +54,8 @@
             class="status wa"
             v-if="
                 submission.status === 'WA' &&
-                submission.failedTestCase.isSample &&
+                (submission.failedTestCaseDetail.isSample ||
+                    submission.failedTestCaseDetail.isSample === undefined) &&
                 !submissionIsEmpty
             "
         >
@@ -77,7 +78,7 @@
                 </p>
                 <Console
                     class="console"
-                    :text="submission.failedTestCase.input"
+                    :text="submission.failedTestCaseDetail.input"
                 />
             </div>
             <div class="group">
@@ -89,7 +90,10 @@
                         })
                     }}
                 </p>
-                <Console class="console" :text="submission.actualOutput" />
+                <Console
+                    class="console"
+                    :text="submission.failedTestCaseDetail.actualOutput"
+                />
             </div>
             <div class="group">
                 <p>
@@ -102,7 +106,7 @@
                 </p>
                 <Console
                     class="console"
-                    :text="submission.failedTestCase.expectedOutput"
+                    :text="submission.failedTestCaseDetail.expectedOutput"
                 />
             </div>
         </div>
@@ -110,7 +114,8 @@
             class="status wa"
             v-if="
                 submission.status === 'WA' &&
-                !submission.failedTestCase.isSample &&
+                !submission.failedTestCaseDetail.isSample &&
+                !submission.failedTestCaseDetail.isSample === undefined &&
                 !submissionIsEmpty
             "
         >

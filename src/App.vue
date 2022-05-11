@@ -17,6 +17,7 @@
 import routerWatcher from "./helpers/routerWatcher";
 import Nav from "./components/Nav";
 import AlertBox from "./components/general/Alert";
+import { login } from "./model/CoderAuth/domainLogic/User";
 
 import { deleteExpiredCode } from "./helpers/localStorage";
 
@@ -34,21 +35,14 @@ export default {
             return this.$store.state.general.theme;
         },
     },
-    created() {
+
+    async created() {
         // local storage setup
         this.$store.dispatch("general/initTheme");
         this.$store.dispatch("general/setLanguage");
         deleteExpiredCode();
-
-        // if local storage have accessToken -> return current user data
-        const accessToken = localStorage.getItem("accessToken");
-        if (accessToken) {
-            let currentUserData = JSON.parse(
-                localStorage.getItem("currentUserData")
-            );
-            return currentUserData;
-        }
     },
+
     watch: {
         $route(to, from) {
             routerWatcher(to, from);
@@ -56,8 +50,8 @@ export default {
         setBackGround() {
             document.body.style.backgroundColor =
                 this.$store.state.general.theme === "dark-theme"
-                    ? "hsl(230, 28%, 12%)"
-                    : "hsl(230, 60%, 99%)";
+                    ? "#4F3B78"
+                    : "#fff";
         },
     },
 };

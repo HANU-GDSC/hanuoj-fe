@@ -9,11 +9,11 @@
       <div class="inputContainer">
         <InputText
           :class="{ redBorder: isNameWarning }"
-          :value="name"
+          value=""
           :disable="false"
-          require="true"
+          :require="true"
           placeholder="name"
-          @dataUpdated="assignName"
+          @dataUpdated="setName"
         /><br />
         <span :class="{ warning: isNameWarning }" v-if="isNameWarning"
           >can not let be empty</span
@@ -28,17 +28,13 @@
       </label>
       <div class="inputContainer">
         <InputText
-          :class="{ redBorder: isDesWarning }"
           id="description"
-          :value="description"
+          value=""
           :disable="false"
-          require="true"
+          :require="false"
           placeholder="description"
-          @dataUpdated="assignDescription"
-        /><br />
-        <span :class="{ warning: isDesWarning }" v-if="isDesWarning"
-          >can not let be empty</span
-        >
+          @dataUpdated="setDescription"
+        />
       </div>
       <div class="clear"></div>
     </div>
@@ -52,17 +48,17 @@
           <!-- Start at -->
           <InputDate
             :class="{ redBorder: isStartAtWarning }"
-            :value="startDate"
+            value=""
             :disable="false"
-            require="true"
-            @dataUpdated="assignStartDate"
+            :require="true"
+            @dataUpdated="setStartDate"
           />
           <span class="at">at</span>
           <InputTime
-            :value="startTime"
+            value=""
             :disable="false"
-            require="true"
-            @dataUpdated="assignStartTime"
+            :require="true"
+            @dataUpdated="setStartTime"
           />
         </div>
         <span :class="{ warning: isStartAtWarning }" v-if="isStartAtWarning"
@@ -81,17 +77,17 @@
           <!-- End at -->
           <InputDate
             :class="{ redBorder: isEndAtWarning }"
-            :value="endDate"
+            value=""
             :disable="false"
-            require="true"
-            @dataUpdated="assignEndDate"
+            :require="true"
+            @dataUpdated="setEndDate"
           />
           <span class="at">at</span>
           <InputTime
-            :value="endTime"
+            value=""
             :disable="false"
-            require="true"
-            @dataUpdated="assignEndTime"
+            :require="true"
+            @dataUpdated="setEndTime"
           />
         </div>
         <span :class="{ warning: isEndAtWarning }" v-if="isEndAtWarning"
@@ -113,18 +109,17 @@
       <LoadingIcon />
     </div>
   </div>
-  <Alert :text="alert" type="primary" :isShow="isSuccess" @close="redirect"/>
 </template>
 
 <script>
+import { Contest } from "../../model/contest/contest/contest";
+import { createContest } from "../../model/contest/contest/domainLogic/createContest";
 import InputText from "../general/InputText";
 import Button from "../general/Button";
 import InputDate from "../general/InputDate";
 import InputTime from "../general/InputTime";
-import apiService from "../../helpers/apiService";
 import errorHandler from "../../helpers/errorHandler";
 import LoadingIcon from "../general/LoadingIcon";
-import Alert from "../general/Alert";
 
 export default {
   name: "CreateContest",
@@ -135,102 +130,86 @@ export default {
     InputDate,
     InputTime,
     LoadingIcon,
-    Alert,
   },
 
   data() {
     return {
-      name: "",
-      description: "",
+      contest: undefined,
       startDate: "",
       startTime: "",
       endDate: "",
       endTime: "",
       isLoading: false,
       isNameWarning: false,
-      isDesWarning: false,
       isStartAtWarning: false,
       isEndAtWarning: false,
-      alert: "",
-      isSuccess: false,
     };
   },
 
+  created() {
+    this.contest = Contest.create();
+  },
+
   methods: {
-    assignName(name) {
-      this.name = name;
+    setName(name) {
+      this.contest.setName(name);
     },
 
-    assignDescription(description) {
-      this.description = description;
+    setDescription(description) {
+      this.contest.setDescription(description);
     },
 
-    assignStartDate(inputValue) {
+    setStartDate(inputValue) {
       this.startDate = inputValue;
     },
 
-    assignStartTime(inputValue) {
+    setStartTime(inputValue) {
       this.startTime = inputValue;
     },
 
-    assignEndDate(inputValue) {
+    setEndDate(inputValue) {
       this.endDate = inputValue;
     },
 
-    assignEndTime(inputValue) {
+    setEndTime(inputValue) {
       this.endTime = inputValue;
     },
 
+    setStartAt() {
+      let startAt = new Date(this.startDate + " " + this.startTime);
+      this.contest.setStartAt(startAt);
+    },
+
+    setEndAt() {
+      const endAt = new Date(this.endDate + " " + this.endTime);
+      this.contest.setEndAt(endAt);
+    },
+
     redirect() {
-      this.$router.push("/contest")
+      this.$router.push("/contest");
     },
 
     async handleCreate() {
-      // convert to ISO date string
-      const startAt = new Date(this.startDate + " " + this.startTime);
-      const endAt = new Date(this.endDate + " " + this.endTime);
-
-      if (!this.name && !this.description && !this.startDate && !this.endDate) {
-        this.isNameWarning = true;
-        this.isDesWarning = true;
-        this.isStartAtWarning = true;
-        this.isEndAtWarning = true;
-      } else if (!this.name) {
-        this.isNameWarning = true;
-      } else if (!this.description) {
-        this.isDesWarning = true;
-      } else if (!this.startDate || !this.startTime) {
-        this.isStartAtWarning = true;
-      } else if (!this.endDate || !this.endTime) {
-        this.isEndAtWarning = true;
-      } else {
-        // POST
-        try {
-          // console.log(startAt + " ||| " + endAt)
-          this.isLoading = true;
-          const response = await apiService("POST", "contest/create", "", {
-            name: this.name,
-            description: this.description,
-            startAt: startAt.toISOString(),
-            endAt: endAt.toISOString(),
-          });
-
-          const data = response.data;
-          this.isLoading = false;
-          this.isSuccess = true;
-          this.alert = data.message;
-          return data.data.id;
-        } catch (error) {
-          this.isLoading = false;
-          errorHandler(error);
-        }
+      this.setStartAt();
+      this.setEndAt();
+      // console.log(this.contest);
+      // check empty before POST
+      //
+      // 
+      try {
+        this.isLoading = true;
+        await createContest(this.contest);
+        this.isLoading = false;
+      } catch (error) {
+        this.isLoading = false;
+        setTimeout(errorHandler(error), 3000);
       }
     },
   },
 };
 </script>
 
-<style>
+<style scoped>
 .clear {
   clear: both;
 }

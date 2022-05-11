@@ -2,9 +2,13 @@
     <div class="problem-setting">
         <div class="choose-language">
             <Select
-                class="select"
-                :selectList="languageList ? languageList : defaultLanguages"
-                :selected="$store.state.general.editorSettings.language"
+                :list="
+                    languageList.map((language) => ({
+                        name: languageConvert(language),
+                        value: language,
+                    }))
+                "
+                :selected="languageConvert($store.state.general.editorSettings.language)"
                 @dataUpdated="languageChanged"
             />
         </div>
@@ -94,10 +98,11 @@
 </template>
 
 <script>
-import Select from "./ProblemRightSettingSelect";
+import Select from "../../general/Select.vue";
 import EditorSetting from "./ProblemRightSettingEditor";
 import ModalBox from "../../general/ModalBox";
 import translate from "../../../helpers/translate";
+import programmingLanguages from "../../../assets/common/programmingLanguage.json"
 
 export default {
     name: "ProblemSetting",
@@ -110,28 +115,6 @@ export default {
         return {
             loading: false,
             showModal: false,
-            defaultLanguages: [
-                "html",
-                "css",
-                "typescript",
-                "javascript",
-                "java",
-                "python",
-                "c",
-                "c++",
-                "c#",
-                "ruby",
-                "php",
-                "golang",
-                "swift",
-                "scala",
-                "kotlin",
-                "objective-c",
-                "go",
-                "rust",
-                "lua",
-                "perl",
-            ],
         };
     },
     components: {
@@ -140,10 +123,13 @@ export default {
         ModalBox,
     },
     methods: {
-        languageChanged(language) {
+        languageChanged(item) {
             this.$store.dispatch("general/setEditorSettings", {
-                language,
+                language: item.value,
             });
+        },
+        languageConvert(language) {
+            return programmingLanguages.filter((programmingLanguage) => programmingLanguage.value === language)[0].name;
         },
         translate(input) {
             return translate(input);
@@ -161,13 +147,8 @@ export default {
     font-size: var(--normal-font-size);
     .choose-language {
         margin-right: auto;
-        margin-left: 4px;
+        margin-left: 5px;
         padding: 0;
-        .select {
-            border-top-left-radius: 5px;
-            width: 120px;
-            height: 31px;
-        }
     }
 }
 .problem-setting > * {
