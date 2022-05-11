@@ -23,7 +23,7 @@
             </TabBar>
         </div>
         <div class="console-button" @click="showConsole = !showConsole">
-            <p>console</p>
+            <span>console</span>
             <i
                 :class="'fas fa-caret-down ' + (showConsole ? 'flipped' : '')"
             ></i>
@@ -125,7 +125,7 @@ export default {
     background-color: var(--container-color);
     .console-window {
         position: absolute;
-        bottom: 65px;
+        bottom: var(--nav-height);
         left: -1px;
         right: -1px;
         height: 50vh;
@@ -142,14 +142,10 @@ export default {
         margin-right: auto;
         margin-left: 10px;
         min-width: 5rem;
-        height: 2.5rem;
-        padding: 0 5px;
+        padding: 5px;
         border: 1px solid var(--stroke-color);
         background: var(--container-color);
         border-radius: 10px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
         cursor: pointer;
 
         p {
@@ -158,7 +154,6 @@ export default {
 
         i {
             display: inline-block;
-            line-height: 35px;
             margin-left: 10px;
         }
 

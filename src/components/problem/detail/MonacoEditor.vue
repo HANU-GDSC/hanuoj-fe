@@ -16,22 +16,6 @@
 import MonacoEditor from "vue-monaco-editor";
 import converter from "../../../utils/languageConverter";
 
-function setBackground(self, bgColor) {
-    let style =
-        self.$store.state.general.theme === "dark-theme"
-            ? getComputedStyle(document.getElementById("main"))
-            : getComputedStyle(document.body);
-    const editorBackground = self.$el.querySelector(
-        ".monaco-editor-background.lines-content"
-    );
-    const sidebarBackground = self.$el.querySelector(".margin-view-overlays");
-    const sidebarGlyphMargin = self.$el.querySelector(".glyph-margin");
-
-    editorBackground.style.background = style.getPropertyValue(bgColor);
-    sidebarBackground.style.background = style.getPropertyValue(bgColor);
-    sidebarGlyphMargin.style.background = style.getPropertyValue(bgColor);
-}
-
 export default {
     name: "app",
     components: {
@@ -59,18 +43,6 @@ export default {
         languageConvert(language) {
             return converter(language);
         },
-        setColor() {
-            let editorBackground = null;
-            let intervalId = setInterval(() => {
-                editorBackground = this.$el.querySelector(
-                    ".monaco-editor-background.lines-content"
-                );
-                if (editorBackground) {
-                    clearInterval(intervalId);
-                    setBackground(this, "--container-color");
-                }
-            }, 100);
-        },
     },
     computed: {
         getTheme() {
@@ -82,36 +54,70 @@ export default {
             return this.$store.state.general.editorSettings;
         },
     },
-    mounted() {
-        this.setColor();
-    },
     watch: {
         language() {
             this.reCreate = false;
             setTimeout(() => {
                 this.reCreate = true;
             }, 0);
-            // this.setColor();
         },
         getOptions() {
             this.reCreate = false;
             setTimeout(() => {
                 this.reCreate = true;
             }, 0);
-            this.setColor();
         },
         getTheme() {
             this.reCreate = false;
             setTimeout(() => {
                 this.reCreate = true;
             }, 0);
-            this.setColor();
         },
     },
 };
 </script>
-<style scoped>
+<style lang="scss">
 .monaco-editor {
     transition: none;
+    .monaco-editor.vs {
+    }
+    .monaco-editor.vs-dark {
+        .monaco-editor-background {
+            background-color: var(--container-color);
+        }
+        .glyph-margin {
+            background-color: var(--container-color);
+        }
+        .line-numbers {
+            color: #595c63;;
+        }
+        .current-line {
+            border-color: #5c5c5c77;
+        }
+        .token {
+            // color: #abb2bf;
+        }
+        .token.number {
+            color: #e5c07b;
+        }
+        .token.keyword {
+            color: #c678dd;
+        }
+        .token.string {
+            color: #98c379;
+        }
+        .token.identifier {
+            color: #b7bfce;
+        }
+        .token.delimiter {
+            color: #56b6c2;
+        }
+        .token.delimiter.curly, .token.delimiter.parenthesis, .token.delimiter.square {
+            color: rgb(235, 122, 122);
+        }
+        .token.comment {
+            color: #6e727b;
+        }
+    }
 }
 </style>

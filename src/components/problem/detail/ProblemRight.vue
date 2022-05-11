@@ -64,18 +64,14 @@ export default {
     background: var(--container-color);
     .setting {
         width: 100%;
-        height: 65px;
+        height: var(--nav-height);
         border-bottom: 1px solid var(--stroke-color);
-    }
-    .editor {
-        width: 100%;
-        height: calc(100% - 125px);
     }
     .console {
         position: absolute;
         bottom: 0;
         width: 100%;
-        height: 65px;
+        height: var(--nav-height);
         vertical-align: bottom;
         border-top: 1px solid var(--stroke-color);
     }

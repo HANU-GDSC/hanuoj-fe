@@ -58,13 +58,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$nav-height: 65px;
 .tab-bar {
     height: 100%;
     background-color: var(--container-color);
     .nav {
         display: table;
-        height: $nav-height;
+        height: var(--nav-height);
         table-layout: fixed;
         font-weight: var(--font-semi-bold);
         overflow: hidden;
@@ -72,7 +71,7 @@ $nav-height: 65px;
             display: table-cell;
             width: 2%;
             text-align: center;
-            line-height: $nav-height;
+            line-height: var(--nav-height);
             border-bottom: 1px solid var(--stroke-color);
             background-color: var(--container-color-darker);
             cursor: pointer;
@@ -84,7 +83,7 @@ $nav-height: 65px;
         }
     }
     .content {
-        height: calc(100% - $nav-height);
+        height: calc(100% - var(--nav-height));
         background-color: var(--container-color);
         .content-item {
             overflow-y: auto;

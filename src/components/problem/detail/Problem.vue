@@ -179,5 +179,6 @@ $margin: 15px;
             height: calc(100%);
         }
     }
+    --nav-height: 60px;
 }
 </style>
