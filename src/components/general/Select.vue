@@ -66,10 +66,9 @@ export default {
     position: relative;
     width: fit-content;
     min-width: 5rem;
-    height: 2.5rem;
-    padding: 0 5px;
+    padding: 5px;
     margin: 5px;
-    border: 1px solid var(--line-color);
+    border: 1px solid var(--stroke-color);
     background: var(--container-color);
     border-radius: 10px;
     display: flex;
@@ -94,12 +93,9 @@ export default {
         left: 0;
         padding: 5px;
         min-width: 5rem;
-        border: 1px solid var(--line-color);
+        border: 1px solid var(--stroke-color);
         background: var(--container-color);
         border-radius: 10px;
-        li {
-            // text-align: center;
-        }
         &__item--selected {
             font-weight: bold;
         }

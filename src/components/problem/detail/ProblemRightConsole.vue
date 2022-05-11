@@ -28,12 +28,12 @@
                 :class="'fas fa-caret-down ' + (showConsole ? 'flipped' : '')"
             ></i>
         </div>
-        <Button @click="submit" class="button">
-            <span v-if="!isSubmitting">{{ translate("submit") }}</span>
+        <Button @click="runCode" class="button" :disable="isSubmitting">
+            <span v-if="!isRunning">{{ translate("run code") }}</span>
             <LoadingIcon v-else />
         </Button>
-        <Button @click="runCode" class="button">
-            <span v-if="!isRunning">{{ translate("run code") }}</span>
+        <Button @click="submit" class="button" type="darker" :disable="isSubmitting">
+            <span v-if="!isSubmitting">{{ translate("submit") }}</span>
             <LoadingIcon v-else />
         </Button>
     </div>
