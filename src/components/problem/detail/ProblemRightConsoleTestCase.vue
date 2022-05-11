@@ -15,7 +15,7 @@
                 }}
             </p>
             <div class="container">
-                <Console :text="sample.getInput() + '\n234\n123'" />
+                <Console :text="sample.getInput()" />
                 <Console :text="sample.getExpectedOutput()" />
             </div>
         </div>
