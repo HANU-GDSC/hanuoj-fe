@@ -147,6 +147,7 @@ export default {
     font-size: var(--normal-font-size);
     .choose-language {
         margin-right: auto;
+        margin-left: 5px;
         padding: 0;
     }
 }

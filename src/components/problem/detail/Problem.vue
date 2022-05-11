@@ -63,7 +63,9 @@ export default {
                 id: this.problem.getId(),
                 code: localStorage.getItem("problemID: " + this.problem.getId())
                     ? JSON.parse(
-                          localStorage.getItem("problemID: " + this.problem.getId())
+                          localStorage.getItem(
+                              "problemID: " + this.problem.getId()
+                          )
                       )["code"]
                     : "",
             });
@@ -88,7 +90,7 @@ export default {
                 automaticLayout: true,
                 cursorBlinking: "phase", // [blink | smooth | phase | solid | expand]
                 // not an option
-                language: this.problem.getAllowedProgrammingLanguages()[0]
+                language: this.problem.getAllowedProgrammingLanguages()[0],
             };
 
             const settingToSave = {};
@@ -113,7 +115,6 @@ export default {
                     attributes: true,
                 });
             });
-
         } catch (error) {
             this.problemNotFound = true;
             this.firstLoading = false;
@@ -128,25 +129,16 @@ export default {
 $header-height: 50px;
 $left-width: 40%;
 $margin: 15px;
-.light-theme .problem-detail {
-    background-color: var(--container-color-darker);
-    .content > * {
-        // box-shadow: 2px 2px 1px rgb(207, 207, 207);
-    }
-}
-.dark-theme .problem-detail {
-    .content > * {
-        // box-shadow: 2px 2px 1px rgb(32, 36, 58);
-    }
-}
+
 .problem-detail {
     position: fixed;
     width: 100%;
     height: 100%;
     top: 0;
     left: 0;
+    color: var(--first-color);
     .content > * {
-        border: 1px solid var(--line-color);
+        border: 1px solid var(--stroke-color);
         border-radius: 10px;
     }
     .content {

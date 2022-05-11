@@ -23,15 +23,23 @@ export default {
     white-space: pre-line;
     h1,
     h2 {
-        border-bottom: 1px solid var(--line-color);
+        border-bottom: 1px solid var(--stroke-color);
+    }
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        color: var(--first-color);
     }
     code {
         background: var(--container-color-darker);
-        border: 1px solid var(--line-color);
+        border: 1px solid var(--stroke-color);
         padding: 2px;
     }
     blockquote {
-        border-left: 4px solid var(--line-color);
+        border-left: 4px solid var(--stroke-color);
         padding: 0 10px;
         white-space: pre-line;
     }
@@ -69,7 +77,7 @@ export default {
     th,
     td {
         border-collapse: collapse;
-        border: 1px solid var(--line-color);
+        border: 1px solid var(--stroke-color);
     }
     th,
     td {
@@ -78,7 +86,7 @@ export default {
     table {
         thead {
             tr {
-                background-color: var(--container-color-darker);    
+                background-color: var(--container-color-darker);
             }
         }
         tr:nth-child(2n) {
@@ -95,14 +103,14 @@ export default {
         display: none;
     }
     code.hljs::-webkit-scrollbar {
-        border-top: 1px solid var(--line-color);
+        border-top: 1px solid var(--stroke-color);
     }
     code.hljs:hover::-webkit-scrollbar-thumb {
         display: block;
     }
     hr {
         border: none;
-        border-bottom: 1px solid var(--line-color);
+        border-bottom: 1px solid var(--stroke-color);
     }
 }
 </style>

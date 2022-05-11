@@ -8,7 +8,6 @@ async function getTestCases(coreProblemId) {
         const TestCasesData = await getTestCaseApi(
             new GetTestCaseRequest({coreProblemId})
         )
-        console.log(TestCasesData);
         return TestCasesData.map(testCase => new TestCase(testCase));
     } catch (error) {
         throw error;

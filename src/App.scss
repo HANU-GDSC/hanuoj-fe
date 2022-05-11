@@ -68,7 +68,6 @@
   box-sizing: border-box;
   padding: 0;
   margin: 0;
-  transition: all 0.1s;
 }
 .monaco-editor {
   .monaco-editor-hover.monaco-editor-background {
@@ -138,22 +137,23 @@ button {
   --title-color:  #fff;
   --container-color: #302F4E;
   --line-color: #c4c4c4;
+  --stroke-color: #C9C2E0;
   --scroll-bar-color: #9288C1;
   --scroll-thumb-color: #302F4E;
   --background-color: #4F3B78;
 }
 
 /*=============== SCROLL BAR ===============*/
-::-webkit-scrollbar {
-  width: 14px;
-  padding: 1px;
-  background:  var(--scroll-bar-color);
-  border: 1px solid var(--line-color);
-}
+// ::-webkit-scrollbar {
+//   width: 14px;
+//   padding: 1px;
+//   background:  var(--scroll-bar-color);
+//   border: 1px solid var(--line-color);
+// }
 
-::-webkit-scrollbar-thumb {
-  background-color: var(--scroll-bar-color);
-}
-::-webkit-scrollbar-thumb:hover {
-  background-color: var(--first-color-alt);
-}
+// ::-webkit-scrollbar-thumb {
+//   background-color: var(--scroll-bar-color);
+// }
+// ::-webkit-scrollbar-thumb:hover {
+//   background-color: var(--first-color-alt);
+// }

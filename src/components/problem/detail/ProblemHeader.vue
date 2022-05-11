@@ -101,28 +101,22 @@ $margin: 15px;
 
 .problem-header {
     position: relative;
+    display: flex;
     width: 100%;
     height: 100%;
-    // border: 1px solid red;
+    padding: 0 15px;
     .back {
-        position: absolute;
-        height: 70%;
-        aspect-ratio: 1/1;
-        top: 15%;
-        left: 1%;
-    }
-    .back {
-        i {
-            width: 100%;
-            text-align: center;
-            line-height: 210%;
-        }
-    }
-    .back:hover {
+        display: flex;
+        align-items: center;
         cursor: pointer;
     }
+    .problem-name {
+        display: flex;
+        align-items: center;
+        margin-left: 15px;
+    }
     .problem-info {
-        border: 1px solid var(--line-color) !important;
+        border: 1px solid var(--stroke-color) !important;
         border-radius: 10px;
         display: flex;
         width: 230px;
@@ -150,12 +144,7 @@ $margin: 15px;
         cursor: pointer;
     }
     .problem-info > *:not(:last-child) {
-        border-right: 1px solid var(--line-color);
-    }
-    h2 {
-        text-align: center;
-        height: 100%;
-        line-height: 50px;
+        border-right: 1px solid var(--stroke-color);
     }
 }
 </style>

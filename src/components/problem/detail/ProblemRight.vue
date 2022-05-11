@@ -61,22 +61,23 @@ export default {
     position: relative;
     width: 100%;
     height: 100%;
+    background: var(--container-color);
     .setting {
         width: 100%;
-        height: 50px;
-        border-bottom: 1px solid var(--line-color);
+        height: 65px;
+        border-bottom: 1px solid var(--stroke-color);
     }
     .editor {
         width: 100%;
-        height: calc(100% - 100px);
+        height: calc(100% - 125px);
     }
     .console {
         position: absolute;
         bottom: 0;
         width: 100%;
-        height: 50px;
+        height: 65px;
         vertical-align: bottom;
-        border-top: 1px solid var(--line-color);
+        border-top: 1px solid var(--stroke-color);
     }
 }
 </style>

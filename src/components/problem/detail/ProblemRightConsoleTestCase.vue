@@ -8,14 +8,14 @@
             <p>
                 {{
                     sampleTestCases.length != 1
-                        ? `${translate({ en: "case", vi: "đầu vào" })} ${
+                        ? `${translate({ en: "Test case", vi: "Đầu vào" })} ${
                               index + 1
                           }: `
                         : ""
                 }}
             </p>
             <div class="container">
-                <Console :text="sample.getInput()" />
+                <Console :text="sample.getInput() + '\n234\n123'" />
                 <Console :text="sample.getExpectedOutput()" />
             </div>
         </div>
@@ -53,16 +53,20 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$gap: 20px;
 .test-case {
-    padding: 5px;
+    padding: $gap;
     .test {
-        margin-bottom: 5px;
+        p {
+            margin-bottom: $gap/2;
+        }
+        margin-bottom: $gap;
         .container {
             display: flex;
             justify-content: space-between;
         }
         .container > * {
-            flex: 0 0 calc(50% - 5px);
+            flex: 0 0 calc(50% - $gap);
         }
     }
 }

@@ -1,7 +1,12 @@
 <template>
-    <pre class="console" :style="`max-height: calc(20px*${maxLine} + 20px);`">
-        {{ text }}
-    </pre>
+    <div class="wrapper">
+        <pre
+            class="console"
+            :style="`max-height: calc(20px*${maxLine} + 20px);`"
+        >
+            {{ text }}
+        </pre>
+    </div>
 </template>
 
 <script>
@@ -12,21 +17,30 @@ export default {
         maxLine: {
             type: Number,
             default: 3,
-        }
+        },
     },
 };
 </script>
 
 <style lang="scss" scoped>
-$lh: 19px;
-.console {
-    font-family: "Courier New", monospace;
-    white-space: pre-line;
-    padding: 10px;
-    line-height: $lh;
-    overflow-y: auto;
-    background-color: var(--container-color-darker);
-    border: 1px solid var(--line-color);
-    font-weight: bold;
+$lh: 22px;
+.wrapper {
+    overflow: hidden;
+    border-radius: 10px;
+    border: 1px solid var(--stroke-color);
+    .console {
+        font-family: "Courier New", monospace;
+        white-space: pre-line;
+        padding: 10px;
+        line-height: $lh;
+        overflow-y: auto;
+        font-weight: bold;
+    }
+    .console::-webkit-scrollbar-thumb {
+        display: none;
+    }
+    .console:hover::-webkit-scrollbar-thumb {
+        display: block;
+    }
 }
 </style>

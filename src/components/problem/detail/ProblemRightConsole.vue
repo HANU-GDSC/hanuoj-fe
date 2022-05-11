@@ -2,7 +2,7 @@
     <div class="problem-console">
         <div class="console-window" v-show="showConsole">
             <TabBar
-                :tabBarList="['test case', 'run code result', 'submission']"
+                :tabBarList="['Test case', 'Run code result', 'Submission']"
                 class="tab-bar"
                 :selected="consoleSelected"
                 @selectUpdated="
@@ -11,13 +11,13 @@
                     }
                 "
             >
-                <template v-slot:testcase>
+                <template v-slot:Testcase>
                     <TestCase :testCases="testCases" />
                 </template>
-                <template v-slot:runcoderesult>
+                <template v-slot:Runcoderesult>
                     <!-- <RunCode :runCodeResult="runCodeResult" /> -->
                 </template>
-                <template v-slot:submission>
+                <template v-slot:Submission>
                     <Submission :submission="{ ...submission }" />
                 </template>
             </TabBar>
@@ -29,12 +29,12 @@
             ></i>
         </div>
         <Button @click="submit" class="button">
-            <span v-if="!isSubmitting">{{ translate("submit") }}</span
-            ><LoadingIcon v-else />
+            <span v-if="!isSubmitting">{{ translate("submit") }}</span>
+            <LoadingIcon v-else />
         </Button>
         <Button @click="runCode" class="button">
-            <span v-if="!isRunning">{{ translate("run code") }}</span
-            ><LoadingIcon v-else />
+            <span v-if="!isRunning">{{ translate("run code") }}</span>
+            <LoadingIcon v-else />
         </Button>
     </div>
 </template>
@@ -90,7 +90,7 @@ export default {
                 submission.setProblemId(this.$route.params.id);
 
                 this.submission = await submit("123-abc-xyz", submission);
-                
+
                 this.isSubmitting = false;
                 this.showConsole = true;
                 this.consoleSelected = 2;
@@ -120,45 +120,55 @@ export default {
 <style lang="scss" scoped>
 .problem-console {
     position: relative;
+    display: flex;
+    align-items: center;
+    background-color: var(--container-color);
     .console-window {
         position: absolute;
-        bottom: calc(100% + 1px);
-        width: 100%;
+        bottom: 65px;
+        left: -1px;
+        right: -1px;
         height: 50vh;
-        background-color: var(--body-color);
         overflow: hidden;
-        .tab-bar {
-            height: 100%;
-            .test-case {
-                padding: 10px;
-            }
-            .run-code-result {
-                padding: 10px;
-            }
-        }
+        background-color: var(--body-color);
+        border: 1px solid var(--stroke-color);
+        border-bottom: none;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
     }
+
     .console-button {
-        float: left;
-        width: 20%;
-        margin: 0 10px;
-        line-height: 50px;
+        width: fit-content;
+        margin-right: auto;
+        margin-left: 10px;
+        min-width: 5rem;
+        height: 2.5rem;
+        padding: 0 5px;
+        border: 1px solid var(--stroke-color);
+        background: var(--container-color);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        cursor: pointer;
+
         p {
             display: inline-block;
         }
+
         i {
             display: inline-block;
             line-height: 35px;
             margin-left: 10px;
         }
+
         .flipped {
             transform: rotate(180deg);
         }
     }
-    .console-button:hover {
-        cursor: pointer;
-    }
+
     .button {
-        float: right;
+        margin-right: 10px;
     }
 }
 </style>

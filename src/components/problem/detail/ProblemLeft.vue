@@ -1,7 +1,7 @@
 <template>
     <div class="problem-left">
         <TabBar
-            :tabBarList="['problem', 'solution', 'discussion', 'submission']"
+            :tabBarList="['Problem', 'Solution', 'Discussion', 'Submission']"
             class="tab-bar"
             notBorder="top"
             :selected="tabBarSelected"
@@ -11,16 +11,16 @@
                 }
             "
         >
-            <template v-slot:problem>
+            <template v-slot:Problem>
                 <MarkdownRender :description="problem.getDescription()" class="problem-description" />
             </template>
-            <template v-slot:solution>
+            <template v-slot:Solution>
                 <p>solution</p>
             </template>
-            <template v-slot:discussion>
+            <template v-slot:Discussion>
                 <p>discussion</p>
             </template>
-            <template v-slot:submission>
+            <template v-slot:Submission>
                 <Submissions />
             </template>
         </TabBar>
@@ -53,8 +53,5 @@ export default {
     .problem-description {
         padding: 10px;
     }
-}
-.tab-bar {
-    height: 100%;
 }
 </style>
