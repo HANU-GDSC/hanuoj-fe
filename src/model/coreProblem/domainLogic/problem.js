@@ -11,7 +11,7 @@ async function getProblem(id) {
             new GetProblemRequest({ id })
         );
         const coreProblemData = await getCoreProblemApi(
-            new GetCoreProblemRequest({ coreProblemId: problemData.coreProblemId })
+            new GetCoreProblemRequest({ coreProblemProblemId: problemData.coreProblemProblemId })
         );            
         return new Problem(coreProblemData)
     } catch (error) {

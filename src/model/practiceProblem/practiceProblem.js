@@ -1,17 +1,17 @@
 class PracticeProblem {
     _id;
-    _coreProblemId;
+    _coreProblemProblemId;
     _categoryIds;
     _difficulty;
 
     constructor({
         id,
-        coreProblemId,
+        coreProblemProblemId,
         categoryIds,
         difficulty
     }) {
         this._id = id;
-        this._coreProblemId = coreProblemId;
+        this._coreProblemProblemId = coreProblemProblemId;
         this._categoryIds = categoryIds;
         this._difficulty = difficulty;
     }
@@ -19,15 +19,15 @@ class PracticeProblem {
     static init() {
         return new PracticeProblem({
             id: undefined,
-            coreProblemId: undefined,
+            coreProblemProblemId: undefined,
             difficulty: undefined,
         });
     }
 
-    setCoreProblemId(coreProblemId) {
-        if (typeof coreProblemId !== "string")
+    setCoreProblemProblemId(coreProblemProblemId) {
+        if (typeof coreProblemProblemId !== "string")
             throw new Error("CoreProblem id must be a string");
-        this._coreProblemId = coreProblemId;
+        this._coreProblemProblemId = coreProblemProblemId;
     }
 
     setCategoryIds(categoryIds) {
@@ -48,8 +48,8 @@ class PracticeProblem {
         return this._id;
     }
     
-    getCoreProblemId() {
-        return this._coreProblemId;
+    getCoreProblemProblemId() {
+        return this._coreProblemProblemId;
     }
 
     getCategoryIds() {

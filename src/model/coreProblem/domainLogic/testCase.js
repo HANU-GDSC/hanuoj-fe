@@ -3,10 +3,10 @@ import TestCase from "../testCase";
 import { GetTestCaseRequest, GetTestCaseResponse, getTestCaseApi } from "../api/getTestCaseApi";
 import { CreateTestCasesRequest, createTestCasesApi } from "../api/createTestCaseApi";
 
-async function getTestCases(coreProblemId) {
+async function getTestCases(coreProblemProblemId) {
     try {
         const TestCasesData = await getTestCaseApi(
-            new GetTestCaseRequest({coreProblemId})
+            new GetTestCaseRequest({coreProblemProblemId})
         )
         return TestCasesData.map(testCase => new TestCase(testCase));
     } catch (error) {

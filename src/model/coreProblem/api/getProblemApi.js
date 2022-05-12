@@ -24,12 +24,12 @@ class GetProblemResponseData {
     constructor({
         id,
         version,
-        coreProblemId,
+        coreProblemProblemId,
         difficulty
     }) {
         console.assert(typeof id === "string", `id: ${id} must be a string`);
         console.assert(typeof version === "number", `version: ${version} must be a number`);
-        console.assert(typeof coreProblemId === "string", `coreProblemId: ${coreProblemId} must be a string`);
+        console.assert(typeof coreProblemProblemId === "string", `coreProblemProblemId: ${coreProblemProblemId} must be a string`);
         console.assert(typeof difficulty == "string" &&
             (difficulty === "EASY") ||
             (difficulty === "MEDIUM") ||
@@ -37,7 +37,7 @@ class GetProblemResponseData {
         , `difficulty: ${difficulty} must be a string, enum[EASY, MEDIUM, HARD]`);
         this.id = id;
         this.version = version;
-        this.coreProblemId = coreProblemId;
+        this.coreProblemProblemId = coreProblemProblemId;
         this.difficulty = difficulty;
     };
 }

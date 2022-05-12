@@ -2,10 +2,10 @@ import apiService from "../../../helpers/apiService"
 
 class GetCoreProblemRequest {
     constructor({
-        coreProblemId
+        coreProblemProblemId
     }) {
-        console.assert(typeof coreProblemId === 'string', `${coreProblemId} must be a string`);
-        this.coreProblemId = coreProblemId;
+        console.assert(typeof coreProblemProblemId === 'string', `${coreProblemProblemId} must be a string`);
+        this.coreProblemProblemId = coreProblemProblemId;
     };
 };
 
@@ -51,7 +51,7 @@ class GetCoreProblemResponseData {
 async function getCoreProblemApi(req) {
     console.assert(req instanceof GetCoreProblemRequest, `req: ${req} must be an instance of GetCoreProblemRequest`);
     try {
-        const response = (await apiService("GET", `/practiceProblem/coreProblem/problem/${req.coreProblemId}`)).data
+        const response = (await apiService("GET", `/practiceProblem/coreProblem/problem/${req.coreProblemProblemId}`)).data
         return new GetCoreProblemResponse(response).data;
     } catch (error) {
         throw error;
