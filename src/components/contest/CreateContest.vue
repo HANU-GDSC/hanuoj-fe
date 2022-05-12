@@ -176,12 +176,18 @@ export default {
     },
 
     setStartAt() {
-      let startAt = new Date(this.startDate + " " + this.startTime);
+      const startAt = new Date(this.startDate + " " + this.startTime);
+      if (startAt < new Date().getTime()) {
+        alert("Start at must be later than now");
+      }
       this.contest.setStartAt(startAt);
     },
 
     setEndAt() {
       const endAt = new Date(this.endDate + " " + this.endTime);
+      if (endAt < new Date().getTime()) {
+        alert("End at must be later than now");
+      }
       this.contest.setEndAt(endAt);
     },
 
@@ -195,7 +201,7 @@ export default {
       // console.log(this.contest);
       // check empty before POST
       //
-      // 
+      //
       try {
         this.isLoading = true;
         await createContest(this.contest);
