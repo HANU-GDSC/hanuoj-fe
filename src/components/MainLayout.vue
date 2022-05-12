@@ -18,16 +18,18 @@ export default {
 <style lang="scss" scoped>
 .layout {
     position: relative;
-    display: flex;
     .main-content {
+        display: inline-block;
+        vertical-align: top;
+        width: 75%;
         border: 1px solid blue;
-        flex: 0 0 70%;
     }
     .side-bar {
-        flex: 0 0 30%;
+        display: inline-block;
+        vertical-align: top;
+        width: 25%;
         height: 100vh;
         position: sticky;
-        top: 0;
         overflow-y: hidden;
         border: 1px solid blue;
     }

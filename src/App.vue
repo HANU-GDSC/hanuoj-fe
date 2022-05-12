@@ -1,7 +1,7 @@
 <template>
     <!-- thẻ main có class là dark hoặc light, css màu sắc của các phần tử con đều phải dựa theo class chính này -->
     <div id="main" :class="$store.state.general.theme">
-        <Nav />
+        <Nav class="nav" />
         <div class="content">
             <router-view />
         </div>
@@ -60,6 +60,9 @@ export default {
 @import "./App.scss";
 #main {
     display: flex;
+}
+.nav {
+    flex: 0 0 15%;
 }
 .content {
     flex-grow: 1;

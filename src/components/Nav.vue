@@ -103,7 +103,6 @@ export default {
 <style lang="scss" scoped>
 #nav {
     position: relative;
-    flex: 0 0 15%;
     background-color: var(--container-color);
     height: 100vh;
 }
