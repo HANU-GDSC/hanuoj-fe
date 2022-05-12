@@ -44,7 +44,6 @@ export default {
 button {
     min-width: 5rem;
     border-radius: 10px;
-    border: none;
     padding: 8px;
     margin: 5px;
     overflow: hidden;

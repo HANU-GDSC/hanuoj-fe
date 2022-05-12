@@ -2,7 +2,7 @@
     <div class="select" @click="isOpening = !isOpening">
         <p class="select__text">{{ selected === null ? text : selected }}</p>
         <span :class="isOpening ? 'select__icon--flipped' : 'select__icon'">
-            <i class="fa-solid fa-circle-arrow-down"></i>
+            <Icon icon="bi:arrow-down-circle" />
         </span>
         <ul class="select__list" v-if="isOpening">
             <li
@@ -20,12 +20,17 @@
 </template>
 
 <script>
+import { Icon } from "@iconify/vue";
+
 export default {
     name: "Select",
     data() {
         return {
             isOpening: false,
         };
+    },
+    components: {
+        Icon,
     },
     props: {
         list: {
@@ -51,12 +56,10 @@ export default {
             this.$emit("dataUpdated", item);
         },
         getValue(name) {
-            const item = this.list.find(item => item.name === name)
-            if (value)
-                return item.value;
-            else
-                return "text";
-        }
+            const item = this.list.find((item) => item.name === name);
+            if (value) return item.value;
+            else return "text";
+        },
     },
 };
 </script>
@@ -66,23 +69,27 @@ export default {
     position: relative;
     width: fit-content;
     min-width: 5rem;
-    padding: 5px;
+    padding: 8px;
     margin: 5px;
+    display: flex;
+    align-items: center;
     border: 1px solid var(--stroke-color);
     background: var(--container-color);
     border-radius: 10px;
-    display: flex;
-    align-items: center;
     justify-content: space-between;
     cursor: pointer;
     &__text {
         margin-right: 5px;
     }
     &__icon {
+        display: flex;
+        align-items: center;
         transform: rotate(0deg);
         transition: transform 0.4s;
     }
     &__icon--flipped {
+        display: flex;
+        align-items: center;
         transform: rotate(180deg);
         transition: transform 0.4s;
     }
@@ -91,7 +98,7 @@ export default {
         z-index: 1000;
         top: calc(100% + 5px);
         left: 0;
-        padding: 5px;
+        padding: 8px;
         min-width: 5rem;
         border: 1px solid var(--stroke-color);
         background: var(--container-color);

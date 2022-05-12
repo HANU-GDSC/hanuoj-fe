@@ -188,7 +188,7 @@
             </h2>
             <Console
                 class="console"
-                :maxLine="100"
+                :maxLine="1000"
                 :text="submission.compilationMessage"
             />
         </div>

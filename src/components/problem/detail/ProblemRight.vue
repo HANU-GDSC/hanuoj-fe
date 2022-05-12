@@ -67,6 +67,9 @@ export default {
         height: var(--nav-height);
         border-bottom: 1px solid var(--stroke-color);
     }
+    .editor {
+        height: calc(100% + var(--nav-height) - 120px) !important;
+    }
     .console {
         position: absolute;
         bottom: 0;

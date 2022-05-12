@@ -2,7 +2,7 @@
     <div class="problem-console">
         <div class="console-window" v-show="showConsole">
             <TabBar
-                :tabBarList="['Test case', 'Run code result', 'Submission']"
+                :tabBarList="['Test case', 'Run code', 'Submission']"
                 class="tab-bar"
                 :selected="consoleSelected"
                 @selectUpdated="
@@ -14,25 +14,39 @@
                 <template v-slot:Testcase>
                     <TestCase :testCases="testCases" />
                 </template>
-                <template v-slot:Runcoderesult>
+                <template v-slot:Runcode>
                     <!-- <RunCode :runCodeResult="runCodeResult" /> -->
                 </template>
                 <template v-slot:Submission>
                     <Submission :submission="{ ...submission }" />
                 </template>
+                <template v-slot:Testcase-icon>
+                    <Icon icon="akar-icons:gear" />
+                </template>
+                <template v-slot:Runcode-icon>
+                    <Icon icon="bx:code-block" />
+                </template>
+                <template v-slot:Submission-icon>
+                    <Icon icon="akar-icons:check-box" />
+                </template>
             </TabBar>
         </div>
         <div class="console-button" @click="showConsole = !showConsole">
-            <span>console</span>
-            <i
-                :class="'fas fa-caret-down ' + (showConsole ? 'flipped' : '')"
-            ></i>
+            <span>Console</span>
+            <span :class="showConsole ? 'icon flipped' : 'icon'">
+                <Icon icon="bi:arrow-down-circle" />
+            </span>
         </div>
         <Button @click="runCode" class="button" :disable="isSubmitting">
             <span v-if="!isRunning">{{ translate("run code") }}</span>
             <LoadingIcon v-else />
         </Button>
-        <Button @click="submit" class="button" type="darker" :disable="isSubmitting">
+        <Button
+            @click="submit"
+            class="button"
+            type="darker"
+            :disable="isSubmitting"
+        >
             <span v-if="!isSubmitting">{{ translate("submit") }}</span>
             <LoadingIcon v-else />
         </Button>
@@ -40,6 +54,7 @@
 </template>
 
 <script>
+import { Icon } from "@iconify/vue";
 import TabBar from "./ProblemTabBar";
 import TestCase from "./ProblemRightConsoleTestCase";
 import RunCode from "./ProblemRightConsoleRunCode";
@@ -110,6 +125,7 @@ export default {
         Submission,
         LoadingIcon,
         Button,
+        Icon,
     },
     async created() {
         this.testCases = await getTestCases(this.problem.getId());
@@ -141,24 +157,22 @@ export default {
         width: fit-content;
         margin-right: auto;
         margin-left: 10px;
-        min-width: 5rem;
-        padding: 5px;
+        padding: 8px;
+        display: flex;
         border: 1px solid var(--stroke-color);
         background: var(--container-color);
         border-radius: 10px;
         cursor: pointer;
-
-        p {
-            display: inline-block;
-        }
-
-        i {
-            display: inline-block;
+        .icon {
             margin-left: 10px;
+            display: flex;
+            align-items: center;
+            transform: rotate(180deg);
+            transition: 0.3s;
         }
 
         .flipped {
-            transform: rotate(180deg);
+            transform: rotate(0deg);
         }
     }
 

@@ -33,7 +33,7 @@ const routes = [
 		meta: {
 			type: "protected",
 			navRender: true,
-			navIcon: "fa-solid fa-house-chimney"
+			navIcon: "fa6-solid:house-chimney"
 		}
 	},
 	{
@@ -43,7 +43,7 @@ const routes = [
 		meta: {
 			type: "protected",
 			navRender: true,
-			navIcon: "fa-solid fa-code"
+			navIcon: "fa-solid:laptop-code"
 		}
 	},
 	{
@@ -69,7 +69,7 @@ const routes = [
 		meta: {
 			type: "protected",
 			navRender: true,
-			navIcon: "fa-solid fa-trophy"
+			navIcon: "fa:free-code-camp"
 		}
 	},
 	{
@@ -87,7 +87,7 @@ const routes = [
 		meta: {
 			type: "protected",
 			navRender: true,
-			navIcon: "fa-solid fa-comments"
+			navIcon: "akar-icons:chat-bubble"
 		}
 	},
 	{
@@ -97,7 +97,7 @@ const routes = [
 		meta: {
 			type: "protected",
 			navRender: true,
-			navIcon: "fa-solid fa-medal"
+			navIcon: "icon-park-outline:ranking"
 		}
 	},
 	{
@@ -107,7 +107,7 @@ const routes = [
 		meta: {
 			type: "protected",
 			navRender: true,
-			navIcon: "fa-solid fa-question"
+			navIcon: "bi:question-circle"
 		}
 	},
 	{
@@ -117,7 +117,7 @@ const routes = [
 		meta: {
 			type: "protected",
 			navRender: true,
-			navIcon: "fa-solid fa-gear"
+			navIcon: "akar-icons:gear"
 		}
 	},
 	{

@@ -113,10 +113,14 @@ export default {
             color: #56b6c2;
         }
         .token.delimiter.curly, .token.delimiter.parenthesis, .token.delimiter.square {
-            color: rgb(235, 122, 122);
+            color: rgb(249, 102, 102);
         }
         .token.comment {
             color: #6e727b;
+        }
+        // js
+        .token.array.js {
+            color: rgb(249, 102, 102);
         }
     }
 }

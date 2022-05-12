@@ -1,5 +1,5 @@
 <template>
-    <div :class="'tab-bar'">
+    <div :class="'tab__bar--special'">
         <div class="nav">
             <div
                 v-for="(item, index) in tabBarList"
@@ -7,7 +7,13 @@
                 :key="index"
                 @click="switchTab(index)"
             >
-                <p>{{ translate(item) }}</p>
+                <div class="wrapper">
+                    <slot
+                        :name="rmSpace(item) + '-icon'"
+                        class="nav__icon"
+                    ></slot>
+                    <span class="nav-item-name">{{ translate(item) }}</span>
+                </div>
             </div>
         </div>
         <div class="content">
@@ -37,11 +43,6 @@ export default {
             default: 0,
         },
     },
-    // data() {
-    //     return {
-    //         selected: this.tabBarList[0],
-    //     };
-    // },
     methods: {
         rmSpace(str) {
             // remove space in string
@@ -54,20 +55,35 @@ export default {
             this.$emit("selectUpdated", index);
         },
     },
+    mounted() {
+        const nav = this.$el.getElementsByClassName("nav")[0];
+        const observer = new ResizeObserver(() => {
+            if (nav.clientWidth / this.tabBarList.length < 120) {
+                nav.classList.add("hide-item-name");
+            } else {
+                nav.classList.remove("hide-item-name");
+            }
+        });
+        observer.observe(nav, {
+            attributes: true,
+        });
+    },
 };
 </script>
 
-<style lang="scss" scoped>
-.tab-bar {
+<style lang="scss">
+.tab__bar--special {
     height: 100%;
     background-color: var(--container-color);
     .nav {
         display: table;
+        position: relative;
         height: var(--nav-height);
         table-layout: fixed;
         font-weight: var(--font-semi-bold);
         overflow: hidden;
         .nav-item {
+            position: relative;
             display: table-cell;
             width: 2%;
             text-align: center;
@@ -75,11 +91,35 @@ export default {
             border-bottom: 1px solid var(--stroke-color);
             background-color: var(--container-color-darker);
             cursor: pointer;
+            .wrapper {
+                position: relative;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                span {
+                    margin-left: 5px;
+                }
+            }
         }
         .selected {
-            p {
-                color: var(--text-color);
-            }
+            color: var(--text-color);
+        }
+        .selected:after {
+            position: absolute;
+            content: "";
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            bottom: 0;
+            height: 4px;
+            background-color: var(--first-color-alt);
+            border-radius: 5px 5px 0px 0px;
+        }
+    }
+    .hide-item-name {
+        .nav-item-name {
+            display: none;
         }
     }
     .content {
@@ -90,6 +130,7 @@ export default {
             height: 100%;
         }
     }
+
     // scroll bar
     .content {
         .content-item::-webkit-scrollbar-thumb {
@@ -103,12 +144,6 @@ export default {
             border-top: 1px solid var(--stroke-color);
             background: var(--container-color);
         }
-    }
-    .content:hover .content-item::-webkit-scrollbar-thumb {
-        display: block;
-    }
-    .content .content-item:last-child::-webkit-scrollbar {
-        border-top: 1px solid var(--stroke-color);
     }
 }
 </style>
