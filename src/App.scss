@@ -53,6 +53,9 @@
   --mb-2: 2rem;
   --mb-2-5: 2.5rem;
 
+  /*========== Margenes Bottom ==========*/
+  --padding-default: 8px;
+
   /*========== z index ==========*/
   --z-tooltip: 10;
   --z-fixed: 100;
@@ -87,7 +90,7 @@ html {
   font-family: var(--body-font);
   font-size: var(--normal-font-size);
   background: var(--body-color);
-  color: var(--first-color);
+  color: var(--text-color);
   font-weight: var(--font-medium);
 }
 
@@ -120,12 +123,13 @@ button,
 input {
   border: none;
   outline: none;
+  font-family: var(--body-font);
+  font-size: var(--normal-font-size);
+  font-weight: var(--font-medium);
 }
 
 button {
   cursor: pointer;
-  font-family: var(--body-font);
-  font-size: var(--normal-font-size);
 }
 
 /*========== Variables Dark theme ==========*/

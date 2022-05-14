@@ -103,7 +103,7 @@ export default {
             }
         }
         .selected {
-            color: var(--text-color);
+            color: var(--title-color);
         }
         .selected:after {
             position: absolute;
@@ -113,7 +113,6 @@ export default {
             width: 80%;
             bottom: 0;
             height: 4px;
-            background-color: var(--first-color-alt);
             border-radius: 5px 5px 0px 0px;
         }
     }
@@ -145,5 +144,12 @@ export default {
             background: var(--container-color);
         }
     }
+}
+
+.light-theme .selected:after {
+    background-color: var(--first-color-alt);
+}
+.dark-theme .selected:after {
+    background-color: #fff;
 }
 </style>

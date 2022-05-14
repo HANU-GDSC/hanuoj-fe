@@ -153,7 +153,7 @@ export default {
     a.router-link-active {
         .iconify,
         a {
-            color: var(--text-color);
+            color: var(--title-color);
         }
         .ver-line {
             display: block;
@@ -163,7 +163,7 @@ export default {
             left: 0;
             top: 50%;
             transform: translateY(-50%);
-            background-color: var(--title-color) !important;
+            background-color: var(--title-color);
             clip-path: polygon(0 0, 100% 12%, 100% 89%, 0 100%, 0% 75%, 0% 25%);
         }
     }

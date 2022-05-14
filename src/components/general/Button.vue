@@ -33,7 +33,7 @@ export default {
     methods: {
         click() {
             if (!this.disable) {
-                this.$emit("click");
+                this.$emit("clicked");
             }
         },
     },
@@ -44,8 +44,7 @@ export default {
 button {
     min-width: 5rem;
     border-radius: 10px;
-    padding: 8px;
-    margin: 5px;
+    padding: var(--padding-default);
     overflow: hidden;
 }
 
@@ -60,9 +59,13 @@ button {
 }
 
 // darker
-.darker {
-    color: var(--container-color);
-    background-color: var(--first-color-alt);;
+.light-theme .darker {
+    color: #fff;
+    background-color: var(--first-color-alt);
+}
+.dark-theme .darker {
+    color: var(--first-color-alt);
+    background-color: #fff;
 }
 
 /* disable */
