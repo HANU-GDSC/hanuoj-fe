@@ -153,7 +153,7 @@ export default {
     a.router-link-active {
         .iconify,
         a {
-            color: var(--first-color-alt);
+            color: var(--text-color);
         }
         .ver-line {
             display: block;
