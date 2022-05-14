@@ -10,7 +10,7 @@
   --first-color-alt: #302F4E;
   --first-color-second: #C9C2E0;
   --first-color-lighter: #F5EFF6;
-  --text-color: #302F4E;
+  --text-color: #9288C1;
   --text-color-light: #9187C0;
   --title-color:  #302F4E;
   --container-color: #fff;
@@ -78,14 +78,6 @@
   padding: 0;
   margin: 0;
 }
-.monaco-editor {
-  .monaco-editor-hover.monaco-editor-background {
-    transition: none;
-  }
-  .monaco-editor-hover.monaco-editor-background * {
-    transition: none;
-  }
-}
 
 html {
   scroll-behavior: smooth;
@@ -139,7 +131,7 @@ button {
 /*========== Variables Dark theme ==========*/
 #main.dark-theme {
   --first-color: #9288C1;
-  --first-color-alt: #fff;
+  --first-color-alt: #302F4E;
   --first-color-second: #C9C2E0;
   --first-color-lighter: #F5EFF6;
   --text-color: #fff;
