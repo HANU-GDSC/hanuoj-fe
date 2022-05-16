@@ -20,13 +20,14 @@ class Request {
 
 class Response {
   constructor({ code, message, data }) {
-    assert(typeof code === "string");
+    // arguments maybe null in some cases
+    assert(typeof code === "string" || code === null);
     this.code = code;
 
-    assert(typeof message === "string");
+    assert(typeof message === "string" || message === null);
     this.message = message;
 
-    assert(typeof data === "string");
+    assert(typeof data === "string" || data === null);
     this.data = data;
   }
 }
