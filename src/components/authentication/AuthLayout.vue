@@ -35,9 +35,10 @@ export default {
         max-width: 450px;
         max-height: 800px;
         height: 90%;
+        padding: 20px;
         border-radius: 20px;
         background-color: var(--container-color);
-        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     }
 }
 .img {
@@ -51,10 +52,22 @@ export default {
 }
 @media only screen and (max-width: 850px) {
     .layout-content {
-        width: 100vw;
+        width: 100%;
     }
     .img {
         display: none;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .layout-content {
+        &__box {
+            width: 100%;
+            height: 100%;
+            max-width: unset;
+            max-height: unset;
+            border-radius: 0;
+        }
     }
 }
 </style>
