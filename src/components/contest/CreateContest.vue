@@ -1,109 +1,111 @@
 <template>
   <h2>Create contest</h2>
-  <div class="container">
-    <div class="inputGroup">
-      <label for="" class="inputTag">
-        Contest Name
-        <span class="requiredIndicator">*</span>
-      </label>
-      <div class="inputContainer">
-        <InputText
-          :class="{ redBorder: isNameWarning }"
-          value=""
-          :disable="false"
-          :require="true"
-          placeholder="name"
-          @dataUpdated="setName"
-        /><br />
-        <span :class="{ warning: isNameWarning }" v-if="isNameWarning"
-          >can not let be empty</span
-        >
-      </div>
-      <div class="clear"></div>
-    </div>
-    <div class="inputGroup">
-      <label for="" class="inputTag">
-        Description
-        <span class="requiredIndicator">*</span>
-      </label>
-      <div class="inputContainer">
-        <InputText
-          id="description"
-          value=""
-          :disable="false"
-          :require="false"
-          placeholder="description"
-          @dataUpdated="setDescription"
-        />
-      </div>
-      <div class="clear"></div>
-    </div>
-    <div class="inputGroup">
-      <label for="" class="inputTag">
-        Start Time
-        <span class="requiredIndicator">*</span>
-      </label>
-      <div class="inputContainer">
-        <div class="inputDateAndTime" :class="{ border: isStartAtWarning }">
-          <!-- Start at -->
-          <InputDate
-            :class="{ redBorder: isStartAtWarning }"
+  <!-- <form action="" @keyup.enter="handleCreate"> -->
+    <div class="container">
+      <div class="inputGroup">
+        <label for="" class="inputTag">
+          Contest Name
+          <span class="requiredIndicator">*</span>
+        </label>
+        <div class="inputContainer">
+          <InputText
+            :class="{ redBorder: isNameWarning }"
             value=""
             :disable="false"
             :require="true"
-            @dataUpdated="setStartDate"
-          />
-          <span class="at">at</span>
-          <InputTime
+            placeholder="name"
+            @dataUpdated="setName"
+          /><br />
+          <span :class="{ warning: isNameWarning }" v-if="isNameWarning"
+            >can not let be empty</span
+          >
+        </div>
+        <div class="clear"></div>
+      </div>
+      <div class="inputGroup">
+        <label for="" class="inputTag">
+          Description
+          <span class="requiredIndicator">*</span>
+        </label>
+        <div class="inputContainer">
+          <InputText
+            id="description"
             value=""
             :disable="false"
             :require="true"
-            @dataUpdated="setStartTime"
+            placeholder="description"
+            @dataUpdated="setDescription"
           />
         </div>
-        <span :class="{ warning: isStartAtWarning }" v-if="isStartAtWarning"
-          >can not let be empty</span
-        >
+        <div class="clear"></div>
       </div>
-      <div class="clear"></div>
-    </div>
-    <div class="inputGroup">
-      <label for="" class="inputTag">
-        End Time
-        <span class="requiredIndicator">*</span>
-      </label>
-      <div class="inputContainer">
-        <div class="inputDateAndTime" :class="{ border: isEndAtWarning }">
-          <!-- End at -->
-          <InputDate
-            :class="{ redBorder: isEndAtWarning }"
-            value=""
-            :disable="false"
-            :require="true"
-            @dataUpdated="setEndDate"
-          />
-          <span class="at">at</span>
-          <InputTime
-            value=""
-            :disable="false"
-            :require="true"
-            @dataUpdated="setEndTime"
-          />
+      <div class="inputGroup">
+        <label for="" class="inputTag">
+          Start Time
+          <span class="requiredIndicator">*</span>
+        </label>
+        <div class="inputContainer">
+          <div class="inputDateAndTime" :class="{ border: isStartAtWarning }">
+            <!-- Start at -->
+            <InputDate
+              :class="{ redBorder: isStartAtWarning }"
+              value=""
+              :disable="false"
+              :require="true"
+              @dataUpdated="setStartDate"
+            />
+            <span class="at">at</span>
+            <InputTime
+              value=""
+              :disable="false"
+              :require="true"
+              @dataUpdated="setStartTime"
+            />
+          </div>
+          <span :class="{ warning: isStartAtWarning }" v-if="isStartAtWarning"
+            >can not let be empty</span
+          >
         </div>
-        <span :class="{ warning: isEndAtWarning }" v-if="isEndAtWarning"
-          >can not let be empty</span
-        >
+        <div class="clear"></div>
       </div>
-      <div class="clear"></div>
+      <div class="inputGroup">
+        <label for="" class="inputTag">
+          End Time
+          <span class="requiredIndicator">*</span>
+        </label>
+        <div class="inputContainer">
+          <div class="inputDateAndTime" :class="{ border: isEndAtWarning }">
+            <!-- End at -->
+            <InputDate
+              :class="{ redBorder: isEndAtWarning }"
+              value=""
+              :disable="false"
+              :require="true"
+              @dataUpdated="setEndDate"
+            />
+            <span class="at">at</span>
+            <InputTime
+              value=""
+              :disable="false"
+              :require="true"
+              @dataUpdated="setEndTime"
+            />
+          </div>
+          <span :class="{ warning: isEndAtWarning }" v-if="isEndAtWarning"
+            >can not let be empty</span
+          >
+        </div>
+        <div class="clear"></div>
+      </div>
+      <Button
+        text="Create"
+        type="primary"
+        des="submit form"
+        :disable="false"
+        @click="handleCreate"
+      />
     </div>
-    <Button
-      text="Create"
-      type="primary"
-      des="submit form"
-      :disable="false"
-      @click="handleCreate"
-    />
-  </div>
+  <!-- </form> -->
   <div class="modal" :class="{ block: isLoading }">
     <div class="modalContent">
       <LoadingIcon />
@@ -204,8 +206,9 @@ export default {
       //
       try {
         this.isLoading = true;
-        await createContest(this.contest);
+        const response = await createContest(this.contest);
         this.isLoading = false;
+        this.redirect();
       } catch (error) {
         this.isLoading = false;
         setTimeout(errorHandler(error), 3000);

@@ -1,62 +1,85 @@
 <template>
-  <!-- <div class="everythingContainer"> -->
-  <!-- form -->
-  <div class="formContainer">
-    <form action="" @keyup.enter="handleLogin">
-      <!-- form heading -->
-      <div class="formHeading">
-        <div class="logoContainer">
-          <div class="logo"></div>
-          <h2>High Code</h2>
+  <AuthLayout>
+    <!-- form -->
+    <template #layoutcontent>
+      <div class="form">
+        <!-- form heading -->
+        <div class="form__heading flex--space-between">
+          <div class="form__heading__logoContainer">
+            <img src="../assets/img/logoHighCode.png" alt="logo" />
+            <h2>High Code</h2>
+          </div>
+          <div class="form__singUp">
+            <a href="register" class="form__singUp--noAcc">No account?</a><br />
+            <a href="register" class="form__singUp--signUp">Sign up</a>
+          </div>
         </div>
-        <div class="singUpContainer">
-          No account?
-          <a href="" class="directToSignUp">Sign up</a>
+
+        <!--form body  -->
+        <div class="form__body">
+          <h1 class="form__body__title">Sign in</h1>
+          <div class="form__body__button flex--space-between">
+            <button class="form__body__button--google">
+              <span>
+                <img src="../assets/img/google.png" />
+                Sign up with Google
+              </span>
+            </button>
+
+            <button class="form__body__button--github">
+              <img src="../assets/img/github.png" alt="" />
+            </button>
+          </div>
+          <form action="" @submit.prevent="handleLogin">
+            <div class="form__body__inputGroup">
+              <span class="form__body__inputGroup--title">
+                <p>Username or Email Address</p> </span
+              >
+              <InputText
+                :class="{ inputEmptyOrWrong: isError }"
+                @dataUpdated="setEmailOrUsername"
+                :value="
+                  this.$store.state.endUser.user.getEmail() ||
+                  this.$store.state.endUser.user.getUsername()
+                "
+                :disable="isLoading"
+                :require="true"
+                placeholder="Username or email"
+              />
+            </div>
+
+            <div class="form__body__inputGroup">
+              <span class="form__body__inputGroup--title flex--space-between">
+                <p>Password</p>
+                <a href="">Forgot Password?</a>
+              </span>
+              <InputPass
+                :class="{ inputEmptyOrWrong: isError }"
+                @dataUpdated="setPassword"
+                :disable="isLoading"
+                :require="true"
+                placeholder="Password"
+              />
+            </div>
+
+            <Button
+              text="Sign in"
+              type="primary"
+              des="login"
+              :disable="isLoading"
+              @click="handleLogin"
+            />
+            <LoadingIcon v-if="isLoading" />
+          </form>
         </div>
-        <h1 class="formTitle">Sign in</h1>
       </div>
+    </template>
 
-      <!--form body  -->
-      <div class="formBody">
-        <form action="">
-          <InputText
-            :class="{ inputEmptyOrWrong: isError }"
-            @dataUpdated="setEmailOrUsername"
-            :value="
-              this.$store.state.endUser.user.getEmail() ||
-              this.$store.state.endUser.user.getUsername()
-            "
-            :disable="isLoading"
-            :require="true"
-            placeholder="Username or email"
-          /><br />
-
-          <InputPass
-            :class="{ inputEmptyOrWrong: isError }"
-            @dataUpdated="setPassword"
-            :disable="isLoading"
-            :require="true"
-            placeholder="Password"
-          /><br />
-
-          <Button
-            text="Login"
-            type="primary"
-            des="login"
-            :disable="isLoading"
-            @click="handleLogin"
-          />
-          <LoadingIcon v-if="isLoading" />
-        </form>
-      </div>
-    </form>
-  </div>
-
-  <!-- image -->
-  <div class="imgContainer">
-    <div class="img"></div>
-  </div>
-  <!-- </div> -->
+    <!-- image -->
+    <template #image>
+      <img class="rightImage" src="../assets/img/bag.png" alt="a bag" />
+    </template>
+  </AuthLayout>
 </template>
 
 <script>
@@ -66,6 +89,7 @@ import InputPass from "../components/general/InputPass";
 import errorHandler from "../helpers/errorHandler";
 import LoadingIcon from "../components/general/LoadingIcon";
 import User from "../model/CoderAuth/User";
+import AuthLayout from "../components/authentication/AuthLayout.vue";
 import { login } from "../model/CoderAuth/domainLogic/User";
 
 export default {
@@ -76,6 +100,7 @@ export default {
     Button,
     InputPass,
     LoadingIcon,
+    AuthLayout,
   },
 
   data() {
@@ -119,7 +144,7 @@ export default {
     async handleLogin() {
       // need to check empty
       //
-      // 
+      //
       this.isLoading = true;
       try {
         const data = await login(this.$store.state.endUser.user);
@@ -153,21 +178,12 @@ export default {
   height: 100%;
 }
 
-.logo {
-  /* position: absolute;
-  left: 14.32%;
-  right: 83.07%;
-  top: 16.94%;
-  bottom: 78.43%; */
-  background: url("../assets/img/logoHighCode.png");
-}
-
 /* When user try to submit with empty or wrong user's name/password */
 .inputEmptyOrWrong {
   border: 1px solid #f10e0e;
 }
 
-.emtyWarning {
+.emptyWarning {
   display: block;
   text-align: left;
   color: #f10e0e;
@@ -176,40 +192,141 @@ export default {
   margin-left: 15%;
 }
 
-.formContainer {
-  position: relative;
-  margin-top: 1.2em;
-  width: 30%;
-  height: 60vh;
-  left: 196px;
-  top: 92px;
+.flex--space-between {
+  display: flex;
+  justify-content: space-between;
+}
 
+.form {
   background: #ffffff;
-  box-shadow: 0px 4px 40px rgba(0, 0, 0, 0.25);
-  border-radius: 50px;
-  float: left;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25);
+  border-radius: 35px;
+  padding: 3em 2.5em;
 }
 
-.formBody {
+.form__heading {
+  margin-bottom: 10px;
+}
+
+.form__heading__logoContainer {
   display: flex;
+}
+
+.form__heading__logoContainer img {
+  width: 2em;
+  height: 2em;
+}
+
+.form__heading__logoContainer h2 {
+  font-size: 16px;
+  margin-left: 8px;
+  margin-top: 6px;
+}
+
+.form__singUp {
+  text-align: right;
+  color: #7b61ff;
+  font-weight: 600;
+}
+
+.form__singUp a {
+  color: #7b61ff;
+}
+
+.form__singUp--signUp {
+  text-decoration: underline;
+}
+
+.form__body {
+}
+
+.form__body__title {
+  font-size: 2.5em;
+  margin-bottom: 0.8em;
+}
+
+.form__body__button {
+  margin-bottom: 2em;
+}
+
+.form__body__button--google {
+  background: #7b61ff;
+  border-radius: 16px;
+  justify-content: center;
+  text-align: center;
+  padding: 0 4em;
+  height: 3em;
+}
+
+.form__body__button--google:hover {
+  background: #302f4e;
+}
+
+.form__body__button--google span {
+  font-weight: 600;
+  font-size: 15px;
+  display: flex;
+  color: #ffffff;
+  align-items: center;
   justify-content: center;
 }
 
-.imgContainer {
-  position: absolute;
-  left: 52.19%;
-  right: 3.33%;
-  top: 8.33%;
-  bottom: 12.59%;
-  display: flex;
-  justify-content: center;
-  float: right;
+.form__body__button--google span img {
+  margin-right: 10px;
+  width: 1.5em;
 }
 
-.img {
-  height: 35em;
-  width: 35em;
-  background: url("../assets/img/bag.png") no-repeat center;
-  background-size: cover;
+.form__body__button--github {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  border: 1px solid #302f4e;
+  border-radius: 10px;
+  width: 3em;
+  height: 3em;
+}
+
+.form__body__button--github:hover {
+  background: #302f4e56;
+}
+
+.form__body__button--github img {
+  width: 1.2em;
+}
+
+.form__body__inputGroup {
+  margin-bottom: 1em;
+}
+
+.form__body__inputGroup--title {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.form__body__inputGroup--title p {
+  margin-left: 2px;
+  margin-bottom: 12px;
+}
+
+.form__body__inputGroup--title a {
+  color: #7b61ff;
+  text-decoration: underline;
+}
+
+.form__body__inputGroup input {
+  border: 1px solid #9288c1;
+  border-radius: 12px;
+  width: 100%;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 12px;
+  height: 2.8em;
+  padding: 20px;
+  margin-bottom: 16px;
+}
+
+.rightImage {
+  margin-right: 20px;
 }
 </style>

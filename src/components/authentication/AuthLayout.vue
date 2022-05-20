@@ -1,27 +1,27 @@
 <template>
-    <div class="container">
-        <div class="layout-content">
-            <div class="layout-content__box">
-                <slot name="layoutcontent"></slot>
-            </div>
-        </div>
-        <div class="img">
-            <slot name="image"></slot>
-        </div>
+  <div class="container">
+    <div class="layout-content">
+      <div class="layout-content__box">
+        <slot name="layoutcontent"></slot>
+      </div>
     </div>
+    <div class="img">
+      <slot name="image"></slot>
+    </div>
+  </div>
 </template>
 
 <script>
 export default {
-    name: "AuthLayout",
+  name: "AuthLayout",
 };
 </script>
 
 <style lang="scss" scoped>
 .container {
-    width: 100vw;
-    height: 100vh;
-    display: flex;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
 }
 .layout-content {
     width: 55%;
@@ -42,13 +42,13 @@ export default {
     }
 }
 .img {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 45%;
-    height: 100%;
-    padding: 10px;
-    overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 45%;
+  height: 100%;
+  padding: 10px;
+  overflow: hidden;
 }
 @media only screen and (max-width: 850px) {
     .layout-content {
