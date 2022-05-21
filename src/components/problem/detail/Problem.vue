@@ -4,13 +4,13 @@
         <ProblemNotFound v-if="problemNotFound" />
         <div class="content" v-if="!firstLoading && !problemNotFound">
             <div class="header" v-show="!fullScreen">
-                <ProblemHeader :problem="problem" />
+                <Header :problem="problem" />
             </div>
             <div class="left" v-show="!fullScreen">
-                <ProblemLeft :problem="problem" />
+                <Left :problem="problem" />
             </div>
             <div :class="fullScreen ? 'right right-full-screen' : 'right'">
-                <ProblemRight
+                <Right
                     :fullScreen="fullScreen"
                     :problem="problem"
                     @enterFullScreen="fullScreen = true"
@@ -22,9 +22,9 @@
 </template>
 
 <script>
-import ProblemHeader from "./ProblemHeader";
-import ProblemLeft from "./ProblemLeft";
-import ProblemRight from "./ProblemRight";
+import Header from "./Header";
+import Left from "./Left";
+import Right from "./Right";
 import Loading from "../../Loading";
 import ProblemNotFound from "./ProblemNotFound";
 
@@ -44,9 +44,9 @@ export default {
         };
     },
     components: {
-        ProblemHeader,
-        ProblemLeft,
-        ProblemRight,
+        Header,
+        Left,
+        Right,
         Loading,
         ProblemNotFound,
     },

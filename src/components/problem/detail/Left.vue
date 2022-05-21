@@ -47,7 +47,7 @@ import { Icon } from "@iconify/vue";
 
 import TabBar from "./ProblemTabBar";
 import MarkdownRender from "../../general/MarkdownRender";
-import Submissions from "./ProblemLeftSubmissions";
+import Submissions from "./LeftSubmissions";
 
 export default {
     name: "ProblemLeft",

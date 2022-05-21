@@ -137,7 +137,7 @@
 
 <script>
 import { mapState } from "vuex";
-import Select from "./ProblemRightSettingSelect";
+import Select from "./RightSettingSelect";
 import translate from "../../../helpers/translate";
 
 export default {

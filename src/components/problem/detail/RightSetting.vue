@@ -99,7 +99,7 @@
 
 <script>
 import Select from "../../general/Select.vue";
-import EditorSetting from "./ProblemRightSettingEditor";
+import EditorSetting from "./RightSettingEditor";
 import ModalBox from "../../general/ModalBox";
 import translate from "../../../helpers/translate";
 import programmingLanguages from "../../../assets/common/programmingLanguage.json"

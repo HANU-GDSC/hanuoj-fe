@@ -1,6 +1,6 @@
 <template>
     <div class="problem-right">
-        <ProblemSetting
+        <Setting
             class="setting"
             :fullScreen="fullScreen"
             :languageList="languages"
@@ -18,13 +18,13 @@
                 })
             "
         />
-        <ProblemConsole class="console" :problem="problem"/>
+        <Console class="console" :problem="problem"/>
     </div>
 </template>
 
 <script>
-import ProblemSetting from "./ProblemRightSetting";
-import ProblemConsole from "./ProblemRightConsole";
+import Setting from "./RightSetting";
+import Console from "./RightConsole";
 import MonacoEditor from "./MonacoEditor";
 import translate from "../../../helpers/translate";
 
@@ -38,8 +38,8 @@ export default {
         return {};
     },
     components: {
-        ProblemSetting,
-        ProblemConsole,
+        Setting,
+        Console,
         MonacoEditor,
     },
     computed: {

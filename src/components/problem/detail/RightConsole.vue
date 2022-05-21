@@ -56,9 +56,9 @@
 <script>
 import { Icon } from "@iconify/vue";
 import TabBar from "./ProblemTabBar";
-import TestCase from "./ProblemRightConsoleTestCase";
-import RunCode from "./ProblemRightConsoleRunCode";
-import Submission from "./ProblemRightConsoleSubmission";
+import TestCase from "./RightConsoleTestCase";
+import RunCode from "./RightConsoleRunCode";
+import Submission from "./RightConsoleSubmission";
 import LoadingIcon from "../../general/LoadingIcon";
 import Button from "../../general/Button";
 
