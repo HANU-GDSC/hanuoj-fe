@@ -33,10 +33,10 @@
           <form action="" @submit.prevent="handleLogin">
             <div class="form__body__inputGroup">
               <span class="form__body__inputGroup--title">
-                <p>Username or Email Address</p> </span
-              >
+                <p>Username or Email Address</p>
+              </span>
               <InputText
-                :class="{ inputEmptyOrWrong: isError }"
+                :class="{ warning: isUsernameEmpty }"
                 @dataUpdated="setEmailOrUsername"
                 :value="
                   this.$store.state.endUser.user.getEmail() ||
@@ -54,7 +54,7 @@
                 <a href="">Forgot Password?</a>
               </span>
               <InputPass
-                :class="{ inputEmptyOrWrong: isError }"
+                :class="{ warning: isPasswordsEmpty }"
                 @dataUpdated="setPassword"
                 :disable="isLoading"
                 :require="true"
@@ -63,13 +63,14 @@
             </div>
 
             <Button
-              text="Sign in"
-              type="primary"
               des="login"
               :disable="isLoading"
-              @click="handleLogin"
-            />
-            <LoadingIcon v-if="isLoading" />
+              @clicked="handleLogin"
+              type="darker"
+            >
+              <span>Sign in</span>
+              <LoadingIcon v-if="isLoading" />
+            </Button>
           </form>
         </div>
       </div>
@@ -107,7 +108,8 @@ export default {
     return {
       isLoading: false,
       isError: false,
-      isEmpty: false,
+      isUsernameEmpty: false,
+      isPasswordsEmpty: false,
     };
   },
 
@@ -136,28 +138,40 @@ export default {
       this.$router.push("register");
     },
 
+    checkEmpty() {
+      if (
+        this.$store.state.endUser.user.getEmail() ||
+        (this.$store.state.endUser.user.getUsername() &&
+          this.$store.state.endUser.user.getPassword())
+      ) {
+        return true;
+      }
+
+      return false;
+    },
+
     // where ?
     directForgotPass() {
       this.router.push("");
     },
 
     async handleLogin() {
-      // need to check empty
-      //
-      //
-      this.isLoading = true;
-      try {
-        const data = await login(this.$store.state.endUser.user);
+      // check empty
+      if (this.checkEmpty()) {
+        this.isLoading = true;
+        try {
+          const data = await login(this.$store.state.endUser.user);
 
-        // add accessToken to localStorage
-        localStorage.setItem("accessToken", data);
+          // add accessToken to localStorage
+          localStorage.setItem("accessToken", data);
 
-        // move to dashboard
-        // this.$router.go("dashboard");
-        this.isLoading = false;
-      } catch (error) {
-        this.isLoading = false;
-        setTimeout(errorHandler(error), 3000);
+          // move to dashboard
+          this.$router.go("dashboard");
+          this.isLoading = false;
+        } catch (error) {
+          this.isLoading = false;
+          setTimeout(errorHandler(error), 3000);
+        }
       }
     },
   },
@@ -179,7 +193,7 @@ export default {
 }
 
 /* When user try to submit with empty or wrong user's name/password */
-.inputEmptyOrWrong {
+.warning {
   border: 1px solid #f10e0e;
 }
 
@@ -198,10 +212,7 @@ export default {
 }
 
 .form {
-  background: #ffffff;
-  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25);
-  border-radius: 35px;
-  padding: 3em 2.5em;
+  padding: 2em 1em;
 }
 
 .form__heading {
@@ -315,8 +326,6 @@ export default {
 }
 
 .form__body__inputGroup input {
-  border: 1px solid #9288c1;
-  border-radius: 12px;
   width: 100%;
   font-size: 18px;
   font-weight: 500;

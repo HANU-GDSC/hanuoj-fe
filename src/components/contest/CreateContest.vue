@@ -1,6 +1,6 @@
 <template>
   <h2>Create contest</h2>
-  <!-- <form action="" @keyup.enter="handleCreate"> -->
+  <form action="" @submit.prevent="handleCreate">
     <div class="container">
       <div class="inputGroup">
         <label for="" class="inputTag">
@@ -102,10 +102,10 @@
         type="primary"
         des="submit form"
         :disable="false"
-        @click="handleCreate"
+        @clicked="handleCreate"
       />
     </div>
-  <!-- </form> -->
+  </form>
   <div class="modal" :class="{ block: isLoading }">
     <div class="modalContent">
       <LoadingIcon />
@@ -197,21 +197,31 @@ export default {
       this.$router.push("/contest");
     },
 
+    checkEmpty() {
+      if (
+        this.contest.getName() &&
+        this.contest.getDescription() &&
+        this.contest.getStartAt() &&
+        this.contest.getEndAt()
+      ) {
+        return true;
+      }
+      return false;
+    },
+
     async handleCreate() {
       this.setStartAt();
       this.setEndAt();
-      // console.log(this.contest);
-      // check empty before POST
-      //
-      //
-      try {
-        this.isLoading = true;
-        const response = await createContest(this.contest);
-        this.isLoading = false;
-        this.redirect();
-      } catch (error) {
-        this.isLoading = false;
-        setTimeout(errorHandler(error), 3000);
+      if (this.checkEmpty()) {
+        try {
+          this.isLoading = true;
+          const response = await createContest(this.contest);
+          this.isLoading = false;
+          this.redirect();
+        } catch (error) {
+          this.isLoading = false;
+          setTimeout(errorHandler(error), 3000);
+        }
       }
     },
   },
