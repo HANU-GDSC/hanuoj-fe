@@ -1,258 +1,241 @@
 <template>
-  <Loading v-if="firstLoading" />
-  <div>
-    <h1>Create Problem Form</h1>
-    <form>
-      <div>
-        <label for="name">Problem Name: </label>
-        <InputText
-          name="name"
-          @dataUpdated="handleNameInput($event)"
-          value=""
-          :disable="false"
-          :require="true"
-          placeholder="Enter Problem's Name"
-        />
-      </div>
-      <div>
-        <label for="description">Description</label>
-        <textarea
-          v-model="this.problemSubmit.createCoreProblemInput.description"
-        ></textarea>
-      </div>
-      <div>
-        <h3>Description output:</h3>
-        <MarkdownRender
-          :description="this.problemSubmit.createCoreProblemInput.description"
-        />
-      </div>
-      <div>
-        <label for="difficulty">Difficulty</label>
-        <InputRadio
-          name="difficulty"
-          @dataUpdated="handleDifficulty($event)"
-          :values="listDifficulty"
-          checked="Easy"
-          :disable="false"
-          :require="true"
-        />
-      </div>
-      <LanguageSelection
-        v-for="(components, index) in language"
-        :key="index"
-        :languageList="this.languageList"
-        @dataUpdated="getLanguageList($event, index)"
-        @languageListUpdate="updateLanguageList($event)"
-      />
-      <Button
-        text="Add Language"
-        type="primary"
-        des="Add Language"
-        :disabled="this.addLanguageButtonDisable"
-        @click="addLanguage"
-      />
-      <Button
-        text="Delete language"
-        type="primary"
-        des="Delete Language"
-        :disabled="this.deleteLanguageButtonDisable"
-        @click="deleteLanguage"
-      />
+  <h1>Create Problem Form</h1>
+  <Pages :amount="2" :current="current">
+    <template v-slot:1>
+      <div class="create__general">
+        <table>
+          <tr>
+            <td><label for="name"> Name </label></td>
+            <td class="input__input">
+              <InputText
+                name="name"
+                @dataUpdated="handleNameInput($event)"
+                value=""
+                :disable="false"
+                :require="true"
+                placeholder="Enter Problem's Name"
+              ></InputText>
+            </td>
+          </tr>
 
-      <!-- category -->
+          <tr>
+            <td><label for="difficulty"> Difficulty </label></td>
+            <td>
+              <Select
+                @dataUpdated="handleDifficultyInput($event)"
+                :list="this.listDifficulty"
+                :selected="this.difficulty"
+                text="Choose Dificulty"
+              >
+              </Select>
+            </td>
+          </tr>
+          <tr>
+            <td><label for="description">Description</label></td>
+            <td>
+              <textarea
+                name="description"
+                class="textarea__description"
+                v-model="this.description"
+                @change="handleDescription($event)"
+              ></textarea>
+            </td>
+          </tr>
+        </table>
 
-      <CreateTestCase
-        v-for="(components, index) in testCase"
-        :key="index"
-        @dataUpdated="handleTestCase($event, index)"
-      />
-      <Button
-        text="Add Test Case"
-        type="primary"
-        des="Add Test Case"
-        :disabled="false"
-        @click="addTestCase"
-      />
-      <Button
-        text="Delete this Test Case"
-        type="primary"
-        des="Delete Test Case"
-        :disabled="this.deleteTestCaseButtonDisable"
-        @click="deleteTestCase"
-      />
-      <Button
-        text="Submit"
-        type="submit"
-        des="Submit"
-        :disabled="false"
-        @click="submit"
-      />
-    </form>
-  </div>
+        <div class="review">
+          <div>Review</div>
+          <MarkdownRender class="markdownw" :description="this.description" />
+        </div>
+      </div>
+      <div class="language__list">
+        <LanguageSelect @dataUpdated="handleLanguageInput($event)" />
+      </div>
+      <div class="center">
+        <Button text="Next" type="primary" des="Next" @clicked="nextPage()" />
+      </div>
+    </template>
+    <template v-slot:2>
+      <TestCaseTable @dataUpdated="handleTestCases($event)" />
+      <div class="center">
+        <Button text="Back" des="Back" @clicked="backPage()" />
+        <Button text="Submit" des="Submit" @clicked="submit()" /></div
+    ></template>
+  </Pages>
 </template>
 
 <script>
-import Loading from "../../Loading";
-import InputText from "../../general/InputText.vue";
-import InputRadio from "../../general/InputRadio.vue";
-import CreateTestCase from "./TestCase.vue";
+import Pages from "../../../components/general/Pages.vue";
+import TestCaseTable from "./TestCaseTable.vue";
+import InputText from "../../../components/general/InputText.vue";
+import Select from "../../../components/general/Select.vue";
+import LanguageSelect from "./LanguageSelect.vue";
+import MarkdownRender from "../../../components/general/MarkdownRender.vue";
 import Button from "../../general/Button.vue";
-import LanguageSelection from "./LanguageSelection.vue";
-import MarkDownRender from "../../general/MarkdownRender.vue";
-import apiService from "../../../helpers/apiService";
-import errorHandler from "../../../helpers/errorHandler";
+// import { createProblem } from "../../../model/coreProblem/domainLogic/problem"
+import Problem from "../../../model/coreProblem/problem";
+import PracticeProblem from "../../../model/practiceProblem/practiceProblem";
+
+import { createProblem } from "../../../model/practiceProblem/domainLogic/coreProblem/problem";
+import {getPracticeProblem} from "../../../model/practiceProblem/domainLogic/problem"
+import {createTestCases} from "../../../model/practiceProblem/domainLogic/coreProblem/testCase"
+import errorHandler from "../../../helpers/errorHandler"
 export default {
-  name: "CreateProblem",
   components: {
-    Loading,
+    Pages,
     InputText,
-    InputRadio,
-    CreateTestCase,
+    Select,
+    LanguageSelect,
+    MarkdownRender,
     Button,
-    LanguageSelection,
-    MarkDownRender,
+    TestCaseTable,
   },
-
   created() {
-    //call APi get List Description
-    this.firstLoading = false;
+    this.problem = Problem.create();
+    this.practiceProblem = PracticeProblem.init();
+    this.practiceProblem.setDifficulty("EASY");
   },
-
   data() {
     return {
+      problem: undefined,
+      practiceProblem: undefined,
+      description: "",
+      current: 1,
+      difficulty: "Easy",
       listDifficulty: [
-        { name: "Easy", value: "Easy" },
-        { name: "Medium", value: "Medium" },
-        { name: "Hard", value: "Hard" },
+        { name: "Easy", value: "EASY" },
+        { name: "Medium", value: "MEDIUM" },
+        { name: "Hard", value: "HARD" },
       ],
-      languageList: [
-        { name: "Java", value: "JAVA", selected: false },
-        { name: "Python", value: "Python", selected: false },
-        { name: "JavaScript", value: "JAVASCRIPT", selected: false },
-        { name: "C++", value: "CPLUSPLUS", selected: false },
-      ],
-      addLanguageButtonDisable: false,
-      deleteLanguageButtonDisable: true,
-      deleteTestCaseButtonDisable: true,
-      testCase: [CreateTestCase],
-      testCaseSubmit: [{}],
-      language: [LanguageSelection],
-      languageSubmit: [{}],
-      firstLoading: true,
-      problemSubmit: {
-        createCoreProblemInput: {
-          name: "",
-          description: "",
-          createTestCaseInputs: [{}],
-          createMemoryLimitInputs: [{}],
-          createTimeLimitInputs: [{}],
-          allowedProgrammingLanguages: [],
-        },
-        categoryIds: [1],
-        difficulty: "",
-      },
+      description: "",
+
+      testCases: [],
     };
   },
   methods: {
     handleNameInput(input) {
-      this.problemSubmit.createCoreProblemInput.name = input;
+      this.problem.setName(input);
     },
-    updateLanguageList(event) {
-      this.languageList = [
-        { name: "Java", value: "JAVA", selected: false },
-        { name: "Python", value: "Python", selected: false },
-        { name: "JavaScript", value: "JAVASCRIPT", selected: false },
-        { name: "C++", value: "CPLUSPLUS", selected: false },
-      ];
-      this.problemSubmit.createCoreProblemInput.allowedProgrammingLanguages.forEach(
-        (selected) => {
-          this.languageList.forEach((element) => {
-            if (element.value === selected) {
-              element.selected = true;
-            }
-          });
-        }
+
+    handleDifficultyInput(input) {
+      this.practiceProblem.setDifficulty(input.value);
+      this.difficulty = input.name;
+    },
+
+    handleDescription() {
+      this.problem.setDescription(this.description);
+    },
+
+    handleLanguageInput(input) {
+      this.problem.setMemoryLimits(input.memoryLimit);
+      this.problem.setTimeLimits(input.timeLimit);
+      this.problem.setAllowedProgrammingLanguages(
+        input.allowedProgrammingLanguages
       );
     },
-    handleDifficulty(input) {
-      this.problemSubmit.difficulty = input;
-    },
-    checkAddButton() {
-      if (this.language.length >= 4) {
-        this.addLanguageButtonDisable = true;
-      }
-      if (this.language.length < 4) {
-        this.addLanguageButtonDisable = false;
-      }
-    },
-    addTestCase(event) {
-      event.preventDefault();
-      this.testCase.push(CreateTestCase);
-      if (this.testCase.length >= 1) {
-        this.deleteTestCaseButtonDisable = false;
-      }
-    },
-    deleteTestCase(event) {
-      event.preventDefault();
-      this.testCase.pop();
-      this.problemSubmit.createCoreProblemInput.createTestCaseInputs.pop();
-      if (this.testCase.length <= 1) {
-        this.deleteTestCaseButtonDisable = true;
-      }
-    },
-    getLanguageList(object, index) {
-      this.problemSubmit.createCoreProblemInput.allowedProgrammingLanguages[
-        index
-      ] = object.language;
 
-      this.problemSubmit.createCoreProblemInput.createTimeLimitInputs[index] = {
-        programmingLanguage: object.language,
-        timeLimit: object.timeLimit,
-      };
+    handleTestCases(input) {
+      this.testCases = input;
+    },
 
-      this.problemSubmit.createCoreProblemInput.createMemoryLimitInputs[index] =
-        {
-          programmingLanguage: object.language,
-          timeLimit: object.memoryLimit,
-        };
+    nextPage() {
+      this.current += 1;
     },
-    // Submit API
-    async submit(event) {
-      event.preventDefault();
-      const res = await apiService(
-        "POST",
-        "/practiceProblem/problem",
-        this.problemSubmit
-      );
+    backPage() {
+      this.current -= 1;
     },
-    addLanguage(event) {
-      event.preventDefault();
-      this.language.push(LanguageSelection);
-      if (this.language.length >= 1) {
-        this.deleteTestCaseButtonDisable = false;
+
+    async submit() {
+      try {
+        this.practiceProblem.setCategoryIds([]);
+        var id = await createProblem(this.problem, this.practiceProblem);
+        var coreProblem = await getPracticeProblem(id);
+        this.testCases = this.testCases.map((testCase) => {
+          testCase.setProblemId(coreProblem.getCoreProblemProblemId());
+          return testCase;
+        })
+        console.log(this.testCases);
+        var test = await createTestCases(this.testCases)
+        console.log(test);
+      } catch (error) {
+        errorHandler(error);
       }
-      this.checkAddButton();
-    },
-    deleteLanguage(event) {
-      event.preventDefault();
-      this.language.pop();
-      if (this.language.length <= 1) {
-        this.deleteTestCaseButtonDisable = true;
-      }
-      this.checkAddButton();
-    },
-    handleTestCase(object, index) {
-      this.problemSubmit.createCoreProblemInput.createTestCaseInputs[index] =
-        object;
+      
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+.create__general {
+  width: calc(100% - 2rem);
+  border: 1px solid red;
+  table {
+    border: 1px solid blue;
+    display: inline-block;
+    vertical-align: top;
+    width: calc(50% - 10px);
+  }
+  .review {
+    border: 1px solid green;
+    float: right;
+    vertical-align: top;
+    width: calc(50% - 10px);
+    overflow-y: auto;
+  }
+}
+
 label {
-  display: inline;
-  text-align: right;
-  width: 150px;
+  width: 300px;
+  max-width: 3000px;
+  padding: 30px;
+}
+
+input {
+  width: 100%;
+  border: 2px solid var(--line-color);
+  border-radius: 4px;
+}
+
+.textarea__description {
+  width: 100%;
+  height: 100px;
+  max-height: 100px;
+  max-width: 500px;
+}
+
+.textarea__review {
+  width: 100%;
+  height: 156px;
+  max-height: 156px;
+}
+
+td {
+  vertical-align: top;
+}
+
+textarea {
+  resize: none;
+}
+h1 {
+  text-align: center;
+  padding: 20px;
+}
+
+.language__list {
+  width: 100%;
+}
+
+.input__input {
+  width: 70%;
+  max-width: 70%;
+}
+
+.markdownw {
+  // border: 1px solid var(--line-color)
+}
+
+.center {
+  text-align: center;
 }
 </style>

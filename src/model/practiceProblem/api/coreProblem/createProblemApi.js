@@ -52,7 +52,6 @@ class createProblemResponse {
 
 async function createProblemApi(req) {
     assert(req instanceof CreateProblemRequest);
-    console.log(req);
     try {
         const response = (await apiService("POST", "/practiceProblem/problem", {}, req)).data;
         return new createProblemResponse(response).data;
