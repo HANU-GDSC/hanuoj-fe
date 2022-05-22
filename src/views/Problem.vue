@@ -14,13 +14,10 @@
                                 <td class="problem__collumn5">Tags</td>
                                 <td class="problem__collumn6">Status</td>
                             </tr>
-                            <tr
-                                class="problem__item"
-                                v-for="(problem, index) in problemList"
-                                :key="index"
-                                v-show="true"
-                            >
-                                <template
+                            <template v-for="(problem, index) in problemList">
+                                <tr
+                                    class="problem__item"
+                                    :key="index"
                                     v-if="
                                         (currentPage - 1) * 10 < index &&
                                         index <= (currentPage - 1) * 10 + 10
@@ -29,21 +26,23 @@
                                     <td class="problem__collumn1">
                                         {{ index }}
                                     </td>
-                                    <td class="problem__collumn2">Name</td>
+                                    <td class="problem__collumn2">
+                                        {{ problem.name }}
+                                    </td>
                                     <td class="problem__collumn3">50%</td>
                                     <td class="problem__collumn4">
                                         {{ problem.difficulty }}
                                     </td>
                                     <td class="problem__collumn5">New</td>
                                     <td class="problem__collumn6">Done</td>
-                                </template>
-                            </tr>
+                                </tr>
+                            </template>
                         </tbody>
                     </table>
                 </div>
                 <div class="pagelist">Pagelist</div>
             </template>
-            
+
             <template v-slot:right>
                 <p>sidebar go here</p>
             </template>
@@ -54,9 +53,10 @@
 <script>
 import MainLayout from "../components/MainLayout";
 import Loading from "../components/Loading";
-import { listProblems } from "../model/practiceProblem/domainLogic/practiceProblem";
+import { listProblems } from "../model/practiceProblem/domainLogic/problem";
 import errorHandler from "../helpers/errorHandler";
-import { GetCoreProblemResponseData } from "../model/coreProblem/api/getCoreProblemApi";
+import { getProblemById } from "../model/practiceProblem/domainLogic/coreProblem/problem";
+
 export default {
     name: "Problem",
     data() {
@@ -81,13 +81,27 @@ export default {
                 this.loading = true;
                 const listData = await listProblems(currentPage - 1, 10);
                 this.loading = false;
-                console.log(listData);
+
+                const coreProblemPromise = [];
+
                 for (let i = 0; i < listData.length; i++) {
                     this.problemList[(currentPage - 1) * 10 + i + 1] = {
-                        id: i,
+                        id: (currentPage - 1) * 10 + i + 1,
                         difficulty: listData[i].getDifficulty(),
                     };
+
+                    coreProblemPromise.push(
+                        getProblemById(listData[i].getCoreProblemProblemId())
+                    );
+                    console.log(listData[i]);
                 }
+
+                const coreProblems = await Promise.all(coreProblemPromise);
+                coreProblems.forEach((coreProblem, i) => {
+                    this.problemList[(currentPage - 1) * 10 + i + 1].name =
+                        coreProblem.getName();
+                });
+
                 console.log(this.problemList);
             } catch (error) {
                 errorHandler(error);
@@ -135,7 +149,7 @@ td {
             border-bottom-right-radius: 10px;
             border-top-right-radius: 10px;
         }
-        &:hover{
+        &:hover {
             color: var(--first-color-alt);
             border-color: var(--first-color-alt);
         }

@@ -17,7 +17,6 @@
 import routerWatcher from "./helpers/routerWatcher";
 import Nav from "./components/Nav";
 import AlertBox from "./components/general/Alert";
-import { login } from "./model/CoderAuth/domainLogic/User";
 
 import { deleteExpiredCode } from "./helpers/localStorage";
 
