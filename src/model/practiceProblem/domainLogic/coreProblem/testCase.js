@@ -1,7 +1,7 @@
 import { assert } from "@vue/compiler-core";
-import TestCase from "../testCase";
-import { GetTestCaseRequest, GetTestCaseResponse, getTestCaseApi } from "../api/getTestCaseApi";
-import { CreateTestCasesRequest, createTestCasesApi } from "../api/createTestCaseApi";
+import TestCase from "../../../coreProblem/testCase";
+import { GetTestCaseRequest, GetTestCaseResponse, getTestCaseApi } from "../../api/coreProblem/getTestCaseApi";
+import { CreateTestCasesRequest, createTestCasesApi } from "../../api/coreProblem/createTestCaseApi";
 
 async function getTestCases(coreProblemProblemId) {
     try {

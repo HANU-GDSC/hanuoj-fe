@@ -1,4 +1,4 @@
-import apiService from "../../../helpers/apiService"
+import apiService from "../../../../helpers/apiService";
 
 class GetCoreProblemRequest {
     constructor({

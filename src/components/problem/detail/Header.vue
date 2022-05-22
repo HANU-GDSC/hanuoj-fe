@@ -31,7 +31,7 @@
 
 <script>
 
-import { getPracticeProblem } from "../../../model/practiceProblem/domainLogic/practiceProblem";
+import { getPracticeProblem } from "../../../model/practiceProblem/domainLogic/problem";
 import { getLike } from "../../../model/practiceProblem/domainLogic/like";
 import { getDislike } from "../../../model/practiceProblem/domainLogic/dislike";
 import PracticeProblem from "../../../model/practiceProblem/practiceProblem";

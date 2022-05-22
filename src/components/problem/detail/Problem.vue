@@ -28,8 +28,8 @@ import Right from "./Right";
 import Loading from "../../Loading";
 import ProblemNotFound from "./ProblemNotFound";
 
-import { getProblemById } from "../../../model/coreProblem/domainLogic/problem";
-import { getPracticeProblem } from "../../../model/practiceProblem/domainLogic/practiceProblem";
+import { getProblemById } from "../../../model/practiceProblem/domainLogic/coreProblem/problem";
+import { getPracticeProblem } from "../../../model/practiceProblem/domainLogic/problem";
 
 import errorHandler from "../../../helpers/errorHandler";
 

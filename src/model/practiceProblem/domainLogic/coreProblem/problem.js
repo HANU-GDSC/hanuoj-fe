@@ -1,8 +1,8 @@
 import { assert } from "@vue/compiler-core";
-import Problem from "../problem";
-import PracticeProblem from "../../practiceProblem/practiceProblem";
-import { GetCoreProblemRequest, GetCoreProblemResponse, getCoreProblemApi } from '../api/getCoreProblemApi';
-import { CreateProblemRequest, CreateCoreProblemInput, createProblemResponse, createProblemApi } from "../api/createProblemApi";
+import Problem from "../../../coreProblem/problem";
+import PracticeProblem from "../../practiceProblem";
+import { GetCoreProblemRequest, GetCoreProblemResponse, getCoreProblemApi } from '../../api/coreProblem/getCoreProblemApi';
+import { CreateProblemRequest, CreateCoreProblemInput, createProblemResponse, createProblemApi } from "../../api/coreProblem/createProblemApi";
 
 async function getProblemById(id) {
     assert(typeof id === 'string');

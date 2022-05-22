@@ -1,5 +1,5 @@
-import { submitRequest, submitResponse, submitApi } from "../api/submitApi";
-import Submission from "../submission";
+import { submitRequest, submitResponse, submitApi } from "../../api/coreProblem/submitApi";
+import Submission from "../../../coreProblem/submission";
 
 async function submit(coderId, submission) {
     try {

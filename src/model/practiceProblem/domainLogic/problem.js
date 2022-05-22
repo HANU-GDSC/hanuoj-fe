@@ -1,4 +1,4 @@
-import { GetProblemRequest, GetProblemResponse, getProblemApi } from "../../coreProblem/api/getProblemApi";
+import { GetProblemRequest, GetProblemResponse, getProblemApi } from "../api/coreProblem/getProblemApi";
 import { ListProblemRequest, ListProblemResponse, listProblemApi } from "../api/listProblem";
 import PracticeProblem from "../practiceProblem";
 
