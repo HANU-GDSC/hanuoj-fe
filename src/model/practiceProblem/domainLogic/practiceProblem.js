@@ -9,7 +9,7 @@ async function getPracticeProblem(id) {
         );
         return new PracticeProblem({
             id: problemData.id,
-            coreProblemId: problemData.coreProblemId,
+            coreProblemProblemId: problemData.coreProblemProblemId,
             difficulty: problemData.difficulty
         });
     } catch (error) {

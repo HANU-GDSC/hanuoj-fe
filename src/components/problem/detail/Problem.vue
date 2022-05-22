@@ -28,7 +28,8 @@ import Right from "./Right";
 import Loading from "../../Loading";
 import ProblemNotFound from "./ProblemNotFound";
 
-import { getProblem } from "../../../model/coreProblem/domainLogic/problem";
+import { getProblemById } from "../../../model/coreProblem/domainLogic/problem";
+import { getPracticeProblem } from "../../../model/practiceProblem/domainLogic/practiceProblem";
 
 import errorHandler from "../../../helpers/errorHandler";
 
@@ -54,7 +55,8 @@ export default {
     async created() {
         try {
             // __________create a problem__________
-            this.problem = await getProblem(this.$route.params.id);
+            const coreProblemProblemId = await (await getPracticeProblem(this.$route.params.id)).getCoreProblemProblemId();
+            this.problem = await getProblemById(coreProblemProblemId);
 
             this.firstLoading = false;
 
