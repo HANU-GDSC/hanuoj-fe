@@ -62,7 +62,7 @@ export default {
     data() {
         return {
             loading: true,
-            currentPage: 1,
+            currentPage: 3,
             problemList: [],
         };
     },
@@ -71,7 +71,7 @@ export default {
         MainLayout,
     },
     async created() {
-        await this.getProblems(1);
+        await this.getProblems(3);
         this.loading = false;
     },
 
