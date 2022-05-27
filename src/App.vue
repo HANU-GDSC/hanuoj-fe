@@ -1,5 +1,4 @@
 <template>
-    <!-- thẻ main có class là dark hoặc light, css màu sắc của các phần tử con đều phải dựa theo class chính này -->
     <div id="main" :class="$store.state.general.theme">
         <Nav class="nav" />
         <div class="content">
@@ -47,10 +46,13 @@ export default {
             routerWatcher(to, from);
         },
         setBackGround() {
+            const theme = this.$store.state.general.theme;
             document.body.style.backgroundColor =
-                this.$store.state.general.theme === "dark-theme"
-                    ? "#4F3B78"
-                    : "#fff";
+                theme === "dark-theme" ? "#4F3B78" : "#fff";
+            if (theme === "dark-theme")
+                document.documentElement.classList.add('dark');
+            else
+                document.documentElement.classList.remove('dark');
         },
     },
 };
@@ -60,8 +62,11 @@ export default {
 #main {
     display: flex;
 }
-.nav {
-    flex: 0 0 15%;
+#nav {
+    flex: 0 0 150px;
+    @media (max-width: 800px) {
+        flex: 0 0 60px;
+    }
 }
 .content {
     flex-grow: 1;

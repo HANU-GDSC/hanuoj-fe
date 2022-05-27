@@ -1,38 +1,60 @@
 <template>
     <button
-        :type="type"
         :title="des"
-        :class="type"
-        :disabled="disable"
+        class="relative rounded-lg text-base p-2.5"
+        :class="disabled ? 'disabled' : type"
+        :disabled="disabled"
         @click="click()"
     >
-        {{ text }}
-        <slot></slot>
+
+        <span :class="loading ? 'opacity-0' : ''">
+            {{ text }}
+        </span>
+
+        <LoadingIcon
+            v-if="loading"
+            class="
+                absolute
+                top-1/2
+                left-1/2
+                transform
+                -translate-x-1/2 -translate-y-1/2
+            "
+        />
+
     </button>
 </template>
 
 <script>
+import LoadingIcon from "../general/LoadingIcon.vue";
+
 export default {
     name: "Button",
-
     props: {
         text: String,
         type: {
             type: String,
-            default: "default",
+            default: "primary",
         },
-        disable: {
+        disabled: {
+            type: Boolean,
+            default: false,
+        },
+        loading: {
             type: Boolean,
             default: false,
         },
         des: {
             type: String,
+            default: "",
         },
     },
-
+    components: {
+        LoadingIcon,
+    },
     methods: {
         click() {
-            if (!this.disable) {
+            if (!this.disabled && !this.loading) {
                 this.$emit("clicked");
             }
         },
@@ -41,45 +63,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-button {
-    min-width: 5rem;
-    border-radius: 10px;
-    padding: var(--padding-default);
-    overflow: hidden;
+.disabled {
+    @apply bg-indigo-100 text-indigo-300 cursor-not-allowed;
 }
-
-// default
-.default {
-    color: var(--first-color);
-    background-color: var(--container-color);
-    border: 1px solid var(--stroke-color);
-}
-.default:hover {
-
-}
-
-// darker
-.light-theme .darker {
-    color: #fff;
-    background-color: var(--first-color-alt);
-}
-.dark-theme .darker {
-    color: var(--first-color-alt);
-    background-color: #fff;
-}
-
-/* disable */
-
-.btnDisable {
-    pointer-events: none;
-}
-
-/* hiệu ứng khi hover */
-button:hover {
-
-}
-/* hiệu ứng khi press */
-button:active {
-
+.primary {
+    @apply bg-indigo-700 text-white hover:bg-indigo-800 active:bg-indigo-900 focus:ring-2 focus:ring-indigo-900
+    dark:bg-white dark:text-indigo-900 dark:hover:bg-indigo-100 dark:active:bg-indigo-200 dark:focus:ring-indigo-300;
 }
 </style>

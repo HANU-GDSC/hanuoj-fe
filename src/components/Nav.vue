@@ -3,10 +3,10 @@
         <div class="fixed-content">
             <router-link to="/">
                 <img
-                    src="https://cdn.thukyluat.vn/nhch-images//CauHoi_Hinh/9eb6abaa-8cda-456c-ad66-26ba4da23ffe.jpg"
+                    src="https://static.independent.co.uk/s3fs-public/thumbnails/image/2019/11/01/17/istock-169941361.jpg?quality=75&width=982&height=726&auto=webp"
                     alt="logo"
                 />
-                <h4>HANU Online Judge</h4></router-link
+                <h4>Hi Code</h4></router-link
             >
 
             <!-- route from 0 -->
@@ -26,7 +26,7 @@
                 >
                     <div class="ver-line"></div>
                     <Icon :icon="route.icon" :inline="true" />
-                    <a>{{ route.name }}</a>
+                    <span>{{ route.name }}</span>
                 </router-link>
                 <!-- to length-3 -->
                 <hr />
@@ -46,10 +46,9 @@
                 >
                     <div class="ver-line"></div>
                     <Icon :icon="route.icon" :inline="true" />
-                    <a>{{ route.name }}</a>
+                    <span>{{ route.name }}</span>
                 </router-link>
                 <!-- to length-1 (end) -->
-
             </div>
         </div>
     </div>
@@ -101,76 +100,59 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+a {
+    text-decoration: none !important;
+}
+
 #nav {
-    position: relative;
+    @apply relative h-screen;
     background-color: var(--container-color);
-    height: 100vh;
 }
+
 .fixed-content {
-    position: sticky;
-    top: 0;
-    padding-top: 5px;
+    @apply sticky;
 }
+
 .fixed-content > a {
-    display: block;
-    margin: 0 var(--mb-0-25) var(--mb-1) var(--mb-0-25);
+    @apply flex p-2 align-middle;
     img {
-        display: inline-block;
-        vertical-align: top;
-        width: 30%;
+        @apply w-1/3;
+        @media (max-width: 800px) {
+            @apply w-full;
+        }
     }
     h4 {
-        display: inline-block;
-        width: 70%;
-        font-size: var(--normal-font-size);
-        text-align: center;
-        color: var(--title-color);
+        @apply text-center w-2/3;
+        @media (max-width: 800px) {
+            @apply hidden;
+        }
     }
 }
+
 .page-group {
-    color: var(--first-color);
-    font-weight: var(--font-semi-bold);
+    @apply mt-2;
     a.page {
-        position: relative;
-        display: block;
-        padding: 10px 8px 10px 10%;
-        color: var(--text-color-light);
-        font-size: var(--normal-font-size);
+        @apply relative flex items-center p-3;
         .iconify {
-            color: var(--first-color);
-            margin-right: var(--mb-0-5);
+            @apply mr-1;
         }
-        a:hover {
-            text-decoration: none;
+        span {
+            @media (max-width: 800px) {
+                @apply hidden;
+            }
         }
-        @media screen and (max-width: 900px) {
-            font-size: var(--smaller-font-size);
+        @media (max-width: 800px) {
+            @apply justify-center;
         }
-    }
-    a.page:hover {
-        text-decoration: none !important;
     }
     a.router-link-active {
-        .iconify,
-        a {
-            color: var(--title-color);
-        }
         .ver-line {
-            display: block;
-            position: absolute;
-            width: 3px;
-            height: 70%;
-            left: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            background-color: var(--title-color);
-            clip-path: polygon(0 0, 100% 12%, 100% 89%, 0 100%, 0% 75%, 0% 25%);
+            @apply block absolute w-1 left-0 rounded-r inset-y-1 bg-black dark:bg-white;
         }
     }
     hr {
-        width: 85%;
-        margin: 7% auto;
-        border: none;
+        @apply w-5/6 m-auto my-2;
+        // margin: 7% auto;
         border-top: 1px solid var(--first-color);
     }
 }

@@ -58,7 +58,7 @@ $gap: 20px;
     padding: $gap;
     .test {
         p {
-            margin-bottom: $gap/2;
+            margin-bottom: calc($gap / 2);
         }
         margin-bottom: $gap;
         .container {
