@@ -29,6 +29,9 @@ export default {
 
 <style lang="scss" scoped>
 .primary {
-    @apply border-white dark:border-indigo-900
+    @apply border-slate-50 dark:border-slate-900
+}
+.secondary {
+    @apply border-slate-900 dark:border-slate-50
 }
 </style>
