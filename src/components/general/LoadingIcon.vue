@@ -1,23 +1,37 @@
 <template>
-    <i class="fa-solid fa-gear"></i>
+    <div class="flex justify-center items-center">
+        <div
+            style="border-top-color: transparent;"
+            class="
+                rounded-full
+                h-8
+                w-8
+                border-4
+                border-t-transparent
+                animate-spin
+            "
+            :class="type"
+        ></div>
+    </div>
 </template>
 
 <script>
 export default {
     name: "LoadingIcon",
+    props: {
+        type: {
+            type: String,
+            default: 'primary'
+        }
+    }
 };
 </script>
 
 <style lang="scss" scoped>
-i {
-    animation: spin 2000ms infinite linear;
+.primary {
+    @apply border-slate-50 dark:border-slate-900
 }
-@keyframes spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
+.secondary {
+    @apply border-slate-900 dark:border-slate-50
 }
 </style>

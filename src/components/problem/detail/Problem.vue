@@ -58,8 +58,6 @@ export default {
             const coreProblemProblemId = await (await getPracticeProblem(this.$route.params.id)).getCoreProblemProblemId();
             this.problem = await getProblemById(coreProblemProblemId);
 
-            this.firstLoading = false;
-
             // __________restore the code of problem from local storage (if exist)__________
             this.$store.dispatch("problem/setCurrentProblemsCode", {
                 id: this.problem.getId(),
@@ -103,20 +101,7 @@ export default {
                         : defaultSettings[key];
             });
             this.$store.dispatch("general/setEditorSettings", settingToSave);
-
-            // __________handle resize__________
-            this.$nextTick(() => {
-                const left = this.$el.getElementsByClassName("left")[0];
-                const right = this.$el.getElementsByClassName("right")[0];
-                const observer = new MutationObserver((mutations) => {
-                    right.style.width = `calc(100% - 45px - ${left.style.width})`;
-                    if (left.style.display === "none")
-                        right.removeAttribute("style");
-                });
-                observer.observe(left, {
-                    attributes: true,
-                });
-            });
+            this.firstLoading = false;
         } catch (error) {
             this.problemNotFound = true;
             this.firstLoading = false;
@@ -130,55 +115,35 @@ export default {
 <style lang="scss" scoped>
 $header-height: 50px;
 $left-width: 40%;
-$margin: 15px;
+$gap: 15px;
 
 .problem-detail {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    color: var(--first-color);
+    @apply fixed w-full h-full top-0 left-0;
     .content > * {
         border: 1px solid var(--stroke-color);
         border-radius: 10px;
     }
     .content {
-        width: 100%;
-        height: 100%;
+        @apply grid w-full h-full;
+        grid-template-areas: "header header" "left right";
+        grid-template-columns: min-content;
+        grid-template-rows: min-content;
+        gap: $gap;
+        padding: $gap;
         .header {
-            position: relative;
-            width: 100%;
-            height: $header-height;
-            border: none;
-            box-shadow: none;
+            grid-area: header;
+            @apply relative;
         }
         .left {
-            position: relative;
-            left: $margin;
-            width: calc($left-width);
-            height: calc(100% - $header-height - $margin);
-            float: left;
-            overflow: hidden;
-            resize: horizontal;
-            transition: resize 0s;
+            grid-area: left;
+            @apply relative resize-x overflow-hidden;
         }
         .right {
-            position: relative;
-            right: $margin;
-            width: calc(100% - $left-width - $margin - $margin - $margin);
-            height: calc(100% - $header-height - $margin);
-            float: right;
-            overflow: hidden;
-            transition: width 0s;
+            grid-area: right;
+            @apply relative overflow-hidden;
         }
         .right-full-screen {
-            float: none;
-            right: 0;
-            border-radius: 0;
-            position: relative;
-            width: calc(100%);
-            height: calc(100%);
+            @apply rounded-none;
         }
     }
     --nav-height: 60px;
