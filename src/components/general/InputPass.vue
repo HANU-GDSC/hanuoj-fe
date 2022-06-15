@@ -1,10 +1,10 @@
 <template>
     <input
         type="password"
-        :value="value"
-        :placeholder="placeholder"
+        :disabled="disabled"
         :required="require"
-        :disabled="disable"
+        :placeholder="placeholder"
+        :value="value"
         @input="dataUpdated"
     />
 </template>
@@ -17,7 +17,7 @@ export default {
             type: String,
             default: "",
         },
-        disable: {
+        disabled: {
             type: Boolean,
             default: false,
         },
@@ -40,17 +40,11 @@ export default {
 
 <style lang="scss" scoped>
 input {
-    border-radius: 10px;
-    padding: var(--padding-default);
-    color: var(--text-color);
-    font-weight: var(--font-medium);
-    background: var(--container-color);
+    @apply rounded-xl p-2.5 focus:outline-none border focus:ring-1 bg-transparent
+    text-black border-slate-700 hover:border-slate-800 focus:border-slate-900 focus:ring-slate-900
+    dark:text-white dark:border-slate-300 dark:hover:border-slate-200 dark:focus:border-slate-100 dark:focus:ring-slate-100;
 }
-input::placeholder {
-    color: var(--first-color-second);
-    font-weight: var(--font-medium);
-}
-.light-theme input {
-    border: 1px solid var(--stroke-color);
+input[disabled] {
+    @apply text-slate-300 border-slate-300 hover:border-slate-300 focus:border-slate-300 cursor-not-allowed;
 }
 </style>
