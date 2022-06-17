@@ -39,33 +39,40 @@
         </div>
         <div class="form-group">
           <InputText
-            :class="{ warning: isUsernameEmpty }"
+            :class="{ warning: invalidusername }"
             @dataUpdated="setUsername"
+            @input="invalidusername = false"
             :value=" this.$store.state.endUser.user.getUsername()"
             placeholder="Enter your name"
             :disable="false"
             :require="true"
           />
+          <span class="warning" v-if="invalidusername">{{ warning.username }}</span>
           <InputText
-            :class="{ warning: isEmailEmpty }"
+            :class="{ warning:  invalidemail }"
             @dataUpdated="setEmail"
+           @input="invalidemail = false"
             :value=" this.$store.state.endUser.user.getEmail()"
             placeholder="Enter your email"
             :disable="false"
             :require="true"
           />
+          <span class="warning" v-if="invalidemail">{{ warning.email }}</span>
           <InputPass
-           :class="{ warning: isPasswordEmpty }"
+           :class="{ warning: invalidpassword }"
             @dataUpdated="setPassword"
+            @input="invalidpassword = false"
             value=""
             placeholder="Create password"
             :disable="false"
             :require="true"
           />
+          <span class="warning" v-if="this.invalidpassword">{{ warning.password }}</span>
          </div>
         <div class="signup">
-          <button>Sign Up</button>
-          <LoadingIcon v-if="isLoading" />
+          <button
+          @clicked="handleSubmit">Sign Up</button>
+          <LoadingIcon/>
         </div>
       </form>
       </div>
@@ -93,47 +100,70 @@ export default {
   },
   data() {
     return {
-      isLoading: false,
-      isUsernameEmpty: false,
-      isPasswordsEmpty: false,
-      isEmailEmpty: false,
+      invalidusername: false,
+      invalidemail: false,
+      invalidpassword: false,
+      warning: {
+        username: "",
+        email: "",
+        password: "",
+      },
     };
   },
   created() {
     this.$store.state.endUser.user = User.init();
   },
   methods: {
-    setUsername(value) {
-      this.$store.state.endUser.user.setUsername(value);
+    setUsername(username) {
+         this.$store.state.endUser.user.setUsername(username); 
     },
-    setPassword(value) {
-      this.$store.state.endUser.user.setPassword(value);
+    setEmail(email) {
+        this.$store.state.endUser.user.setEmail(email);
     },
-    setEmail(value) {
-      this.$store.state.endUser.user.setEmail(value);
+      setPassword(password) {
+      this.$store.state.endUser.user.setPassword(password);
     },
-     checkEmpty() {
-      if (
-        this.$store.state.endUser.user.getEmail() ||
-        (this.$store.state.endUser.user.getUsername() &&
-          this.$store.state.endUser.user.getPassword())
-      ) {
+    checkUsername(){
+      let filter =/^[a-z][^\W_]{7,14}$/i
+      const input = this.$store.state.endUser.user.getUsername();
+      if(!filter.test(input) || input === ""){
+          this.invalidusername = true;
+          this.warning.username = "Username must be 8-15 characters and start with a letter!";
+          return false;
+      } else {
         return true;
       }
-
-      return false;
     },
+      checkEmail(){
+      let filter = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const input = this.$store.state.endUser.user.getEmail();
+      if(!filter.test(input) || input == ""){
+          this.invalidemail = true;
+          this.warning.email = "Must be in form email !";
+          return false;
+      } else {
+        return true;
+      }
+      },
+      checkPassword(){
+       let filter =/^(?=.*[A-Z])[^:&.~\s]{5,20}$/;
+       const input = this.$store.state.endUser.user.getPassword()
+      if(!filter.test(input) || input == ""){
+        this.invalidpassword = true;
+        this.warning.password = "Password must be 5-20 characters with at least one upper case";
+        return false;
+      } else {
+        return true;
+      }
+      },
     async handleSubmit() {
   
-   if (this.checkEmpty()){
-        this.isLoading = true;
+   if (this.checkUsername() && this.checkEmail() && this.checkPassword()){
         try {
          const data = await register(this.$store.state.endUser.user);
           console.log(data);
-          this.isLoading = false;
           this.$router.push("/login");
         } catch (error) {
-          this.isLoading = false;
           errorHandler(error);
         }
       }
@@ -221,10 +251,9 @@ h1 {
 .signup button:hover{
   background-color: #7b61ff;
 }
-.emtyWarning {
+.warning {
   display: block;
   text-align: left;
   color: #f10e0e;
-  margin-left: 30px;
 }
 </style>
