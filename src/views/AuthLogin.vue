@@ -2,7 +2,7 @@
   <AuthLayout>
     <!-- form -->
     <template #layoutcontent>
-      <div class="form">
+      <div class="form" :class="{ loading: isLoading }">
         <!-- form heading -->
         <div class="form__heading flex--space-between">
           <div class="form__heading__logoContainer">
@@ -10,8 +10,18 @@
             <h2>High Code</h2>
           </div>
           <div class="form__singUp">
-            <a href="register" class="form__singUp--noAcc">No account?</a><br />
-            <a href="register" class="form__singUp--signUp">Sign up</a>
+            <a
+              href="register"
+              class="form__singUp--noAcc"
+              :class="{ disabled: isLoading }"
+              >No account?</a
+            ><br />
+            <a
+              href="register"
+              class="form__singUp--signUp"
+              :class="{ disabled: isLoading }"
+              >Sign up</a
+            >
           </div>
         </div>
 
@@ -19,66 +29,78 @@
         <div class="form__body">
           <h1 class="form__body__title">Sign in</h1>
           <div class="form__body__button flex--space-between">
-            <button class="form__body__button--google">
+            <button
+              class="form__body__button--google"
+              :class="{ disabled: isLoading }"
+            >
               <span>
                 <img src="../assets/img/google.png" />
                 Sign up with Google
               </span>
             </button>
 
-            <button class="form__body__button--github">
+            <button
+              class="form__body__button--github"
+              :class="{ disabled: isLoading }"
+            >
               <img src="../assets/img/github.png" alt="" />
             </button>
           </div>
-          <form action="" @submit.prevent="handleLogin">
-            <div class="form__body__inputGroup">
-              <span class="form__body__inputGroup--title">
-                <p>Username or Email Address</p>
-              </span>
-              <InputText
-                :class="{ warning: isUsernameEmpty }"
-                @dataUpdated="setEmailOrUsername"
-                :value="
-                  this.$store.state.endUser.user.getEmail() ||
-                  this.$store.state.endUser.user.getUsername()
-                "
-                :disable="isLoading"
-                :require="true"
-                placeholder="Username or email"
-              />
-            </div>
+          <!-- <form action="" @submit.prevent="handleLogin"> -->
+          <div class="form__body__inputGroup">
+            <span class="form__body__inputGroup--title">
+              <p>Username or Email Address</p>
+            </span>
+            <InputText
+              :class="{ warning: isUsernameEmpty }"
+              @dataUpdated="setEmailOrUsername"
+              :value="
+                this.$store.state.endUser.user.getEmail() ||
+                this.$store.state.endUser.user.getUsername()
+              "
+              :disabled="isLoading"
+              :require="true"
+              placeholder="Username or email"
+              @input="this.isUsernameEmpty = false"
+            />
+            <p class="form__body__inputGroup--warningMessage" v-show="this.isUsernameEmpty">Can't let be empty</p>
+          </div>
 
-            <div class="form__body__inputGroup">
-              <span class="form__body__inputGroup--title flex--space-between">
-                <p>Password</p>
-                <a href="">Forgot Password?</a>
-              </span>
-              <InputPass
-                :class="{ warning: isPasswordsEmpty }"
-                @dataUpdated="setPassword"
-                :disable="isLoading"
-                :require="true"
-                placeholder="Password"
-              />
-            </div>
+          <div class="form__body__inputGroup">
+            <span class="form__body__inputGroup--title flex--space-between">
+              <p>Password</p>
+              <a href="">Forgot Password?</a>
+            </span>
+            <InputPass
+              :class="{ warning: isPasswordsEmpty }"
+              @dataUpdated="setPassword"
+              :disabled="isLoading"
+              :require="true"
+              placeholder="Password"
+              @input="this.isPasswordsEmpty = false"
+            />
+            <p class="form__body__inputGroup--warningMessage" v-show="this.isPasswordsEmpty">Can't let be empty</p>
+          </div>
 
-            <Button
-              des="login"
-              :disable="isLoading"
-              @clicked="handleLogin"
-              type="darker"
-            >
-              <span>Sign in</span>
-              <LoadingIcon v-if="isLoading" />
-            </Button>
-          </form>
+          <Button
+            des="login"
+            :disabled="isLoading"
+            @clicked="handleLogin"
+            text="Login"
+            type="primary"
+          />
+          <!-- </form> -->
         </div>
       </div>
     </template>
 
     <!-- image -->
     <template #image>
-      <img class="rightImage" src="../assets/img/bag.png" alt="a bag" />
+      <img
+        class="rightImage"
+        src="../assets/img/loginBoy.png"
+        alt="Vũ Đặng Anh Quân"
+      />
     </template>
   </AuthLayout>
 </template>
@@ -125,7 +147,8 @@ export default {
         /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
       if (filter.test(value)) {
         this.$store.state.endUser.user.setEmail(value);
-      } else {
+      } 
+      else {
         this.$store.state.endUser.user.setUsername(value);
       }
     },
@@ -138,16 +161,26 @@ export default {
       this.$router.push("register");
     },
 
-    checkEmpty() {
-      if (
+    checkEmailOrUsername() {
+      const input =
         this.$store.state.endUser.user.getEmail() ||
-        (this.$store.state.endUser.user.getUsername() &&
-          this.$store.state.endUser.user.getPassword())
-      ) {
-        return true;
+        this.$store.state.endUser.user.getUsername();
+      // console.log(input);
+      if (!input || input === "" || !input.trim()) {
+        this.isUsernameEmpty = true;
+        return false;
       }
+      return true;
+    },
 
-      return false;
+    checkPassword() {
+      const input = this.$store.state.endUser.user.getPassword();
+      // console.log(input);
+      if (!input || input === "" || !input.trim()) {
+        this.isPasswordsEmpty = true;
+        return false;
+      }
+      return true;
     },
 
     // where ?
@@ -157,7 +190,7 @@ export default {
 
     async handleLogin() {
       // check empty
-      if (this.checkEmpty()) {
+      if (this.checkEmailOrUsername() && this.checkPassword()) {
         this.isLoading = true;
         try {
           const data = await login(this.$store.state.endUser.user);
@@ -185,6 +218,7 @@ export default {
 
 .disabled {
   pointer-events: none;
+  cursor: default;
 }
 
 .content {
@@ -194,16 +228,7 @@ export default {
 
 /* When user try to submit with empty or wrong user's name/password */
 .warning {
-  border: 1px solid #f10e0e;
-}
-
-.emptyWarning {
-  display: block;
-  text-align: left;
-  color: #f10e0e;
-  font-size: 12px;
-  margin-bottom: 1.2em;
-  margin-left: 15%;
+  --stroke-color: #f10e0e;
 }
 
 .flex--space-between {
@@ -212,7 +237,7 @@ export default {
 }
 
 .form {
-  padding: 2em 1em;
+  padding: 3em 4em;
 }
 
 .form__heading {
@@ -248,9 +273,6 @@ export default {
   text-decoration: underline;
 }
 
-.form__body {
-}
-
 .form__body__title {
   font-size: 2.5em;
   margin-bottom: 0.8em;
@@ -265,7 +287,7 @@ export default {
   border-radius: 16px;
   justify-content: center;
   text-align: center;
-  padding: 0 4em;
+  padding: 0 12vw;
   height: 3em;
 }
 
@@ -333,6 +355,13 @@ export default {
   height: 2.8em;
   padding: 20px;
   margin-bottom: 16px;
+}
+
+.form__body__inputGroup--warningMessage {
+  color: red;
+  margin-left: 1rem;
+  margin-top: -0.9rem;
+  font-size: 14px;
 }
 
 .rightImage {
