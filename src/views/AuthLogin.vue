@@ -46,50 +46,60 @@
               <img src="../assets/img/github.png" alt="" />
             </button>
           </div>
-          <!-- <form action="" @submit.prevent="handleLogin"> -->
-          <div class="form__body__inputGroup">
-            <span class="form__body__inputGroup--title">
-              <p>Username or Email Address</p>
-            </span>
-            <InputText
-              :class="{ warning: isUsernameEmpty }"
-              @dataUpdated="setEmailOrUsername"
-              :value="
-                this.$store.state.endUser.user.getEmail() ||
-                this.$store.state.endUser.user.getUsername()
-              "
-              :disabled="isLoading"
-              :require="true"
-              placeholder="Username or email"
-              @input="this.isUsernameEmpty = false"
-            />
-            <p class="form__body__inputGroup--warningMessage" v-show="this.isUsernameEmpty">Can't let be empty</p>
-          </div>
+          <form action="" @submit.prevent="handleLogin">
+            <div class="form__body__inputGroup">
+              <span class="form__body__inputGroup--title">
+                <p>Username or Email Address</p>
+              </span>
+              <InputText
+                :class="{ warning: isUsernameEmpty }"
+                @dataUpdated="setEmailOrUsername"
+                :value="
+                  this.$store.state.endUser.user.getEmail() ||
+                  this.$store.state.endUser.user.getUsername()
+                "
+                :disabled="isLoading"
+                :require="true"
+                placeholder="Username or email"
+                @input="this.isUsernameEmpty = false"
+              />
+              <p
+                class="form__body__inputGroup--warningMessage"
+                v-show="this.isUsernameEmpty"
+              >
+                Can't let be empty
+              </p>
+            </div>
 
-          <div class="form__body__inputGroup">
-            <span class="form__body__inputGroup--title flex--space-between">
-              <p>Password</p>
-              <a href="">Forgot Password?</a>
-            </span>
-            <InputPass
-              :class="{ warning: isPasswordsEmpty }"
-              @dataUpdated="setPassword"
-              :disabled="isLoading"
-              :require="true"
-              placeholder="Password"
-              @input="this.isPasswordsEmpty = false"
-            />
-            <p class="form__body__inputGroup--warningMessage" v-show="this.isPasswordsEmpty">Can't let be empty</p>
-          </div>
+            <div class="form__body__inputGroup">
+              <span class="form__body__inputGroup--title flex--space-between">
+                <p>Password</p>
+                <a href="">Forgot Password?</a>
+              </span>
+              <InputPass
+                :class="{ warning: isPasswordsEmpty }"
+                @dataUpdated="setPassword"
+                :disabled="isLoading"
+                :require="true"
+                placeholder="Password"
+                @input="this.isPasswordsEmpty = false"
+              />
+              <p
+                class="form__body__inputGroup--warningMessage"
+                v-show="this.isPasswordsEmpty"
+              >
+                Can't let be empty
+              </p>
+            </div>
 
-          <Button
-            des="login"
-            :disabled="isLoading"
-            @clicked="handleLogin"
-            text="Login"
-            type="primary"
-          />
-          <!-- </form> -->
+            <Button
+              des="login"
+              :disabled="isLoading"
+              @clicked="handleLogin"
+              text="Login"
+              type="primary"
+            />
+          </form>
         </div>
       </div>
     </template>
@@ -97,7 +107,12 @@
     <!-- image -->
     <template #image>
       <img
-        class="rightImage"
+        class="rightImage img1"
+        src="../assets/img/colorLoginBg.png"
+        alt="color"
+      />
+      <img
+        class="rightImage img2"
         src="../assets/img/loginBoy.png"
         alt="Vũ Đặng Anh Quân"
       />
@@ -147,8 +162,7 @@ export default {
         /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
       if (filter.test(value)) {
         this.$store.state.endUser.user.setEmail(value);
-      } 
-      else {
+      } else {
         this.$store.state.endUser.user.setUsername(value);
       }
     },
@@ -212,6 +226,7 @@ export default {
 </script>
 
 <style scoped>
+/* common css */
 .loading {
   opacity: 0.4;
 }
@@ -236,6 +251,7 @@ export default {
   justify-content: space-between;
 }
 
+/* form part */
 .form {
   padding: 3em 4em;
 }
@@ -256,7 +272,7 @@ export default {
 .form__heading__logoContainer h2 {
   font-size: 16px;
   margin-left: 8px;
-  margin-top: 6px;
+  margin-top: -2px;
 }
 
 .form__singUp {
@@ -287,7 +303,7 @@ export default {
   border-radius: 16px;
   justify-content: center;
   text-align: center;
-  padding: 0 12vw;
+  min-width: 85%;
   height: 3em;
 }
 
@@ -364,7 +380,17 @@ export default {
   font-size: 14px;
 }
 
+/* Image part */
 .rightImage {
+  position: absolute;
   margin-right: 20px;
+}
+
+.img1 {
+  z-index: 10;
+}
+
+.img2 {
+  z-index: 20;
 }
 </style>
