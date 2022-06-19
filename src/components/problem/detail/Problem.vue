@@ -113,16 +113,11 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-$header-height: 50px;
 $left-width: 40%;
 $gap: 15px;
 
 .problem-detail {
     @apply fixed w-full h-full top-0 left-0;
-    .content > * {
-        border: 1px solid var(--stroke-color);
-        border-radius: 10px;
-    }
     .content {
         @apply grid w-full h-full;
         grid-template-areas: "header header" "left right";
@@ -136,14 +131,15 @@ $gap: 15px;
         }
         .left {
             grid-area: left;
-            @apply relative resize-x overflow-hidden;
+            width: 40vw;
+            @apply relative resize-x overflow-hidden rounded-xl border border-slate-900 dark:border-none;
         }
         .right {
             grid-area: right;
-            @apply relative overflow-hidden;
-        }
+            @apply relative overflow-hidden rounded-xl border border-slate-900 dark:border-none;
+        } 
         .right-full-screen {
-            @apply rounded-none;
+            @apply fixed inset-0 rounded-none;
         }
     }
     --nav-height: 60px;

@@ -19,19 +19,11 @@ export default {
 .auth-container {
     @apply flex justify-between w-screen h-screen;
 }
-    .content-box {
-        @apply h-full p-5 w-1/2;
-        background-color: var(--container-color);
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    }
+.content-box {
+    @apply h-full p-5 w-1/2 bg-white shadow-2xl;
+}
 .img {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 45%;
-    height: 100%;
-    padding: 10px;
-    overflow: hidden;
+    @apply flex justify-center items-center w-3/5 h-full p-3 overflow-hidden;
 }
 @media only screen and (max-width: 850px) {
     .content-box {

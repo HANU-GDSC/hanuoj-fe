@@ -23,7 +23,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$lh: 22px;
+$lh: 20px;
 .wrapper {
     overflow: hidden;
     border-radius: 10px;

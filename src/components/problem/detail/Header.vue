@@ -83,12 +83,14 @@ export default {
         try {
             const [practiceProblem, like, dislike] = await Promise.all([
                 getPracticeProblem(this.$route.params.id),
-                getLike(this.$route.params.id),
-                await getDislike(this.$route.params.id)
+                // getLike(this.$route.params.id),
+                // getDislike(this.$route.params.id)
             ])
             this.practiceProblem = practiceProblem;
-            this.like = like.getLikeCount();
-            this.dislike = dislike.getDislikeCount();
+            // this.like = like.getLikeCount();
+            // this.dislike = dislike.getDislikeCount();
+            this.like = 0;
+            this.dislike = 0;
         } catch (error) {
             errorHandler(error);
         }
@@ -97,34 +99,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$margin: 15px;
-
 .problem-header {
-    position: relative;
-    display: flex;
-    width: 100%;
-    height: 100%;
-    padding: 0 15px;
+    @apply relative flex items-center p-0;
     .back {
-        display: flex;
-        align-items: center;
-        cursor: pointer;
+        @apply cursor-pointer ml-3;
     }
     .problem-name {
-        display: flex;
-        align-items: center;
-        margin-left: 15px;
+        @apply ml-3;
     }
     .problem-info {
-        border: 1px solid var(--stroke-color) !important;
-        border-radius: 10px;
-        display: flex;
-        width: 230px;
-        position: absolute;
-        top: 10px;
-        bottom: 10px;
-        right: $margin;
-        border: 1px;
+        @apply absolute right-0 border flex rounded-xl w-1/3 border-slate-900 dark:border-slate-100;
         .EASY {
             color: rgb(43, 223, 43);
         }
@@ -136,15 +120,10 @@ $margin: 15px;
         }
     }
     .problem-info > * {
-        flex: 1 1 0px;
-        text-align: center;
-        line-height: 30px;
-    }
-    .problem-info:hover {
-        cursor: pointer;
+        @apply text-center flex-1 p-1 cursor-pointer;
     }
     .problem-info > *:not(:last-child) {
-        border-right: 1px solid var(--stroke-color);
+        @apply border-r border-slate-900 dark:border-slate-100;
     }
 }
 </style>

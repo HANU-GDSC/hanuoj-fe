@@ -105,8 +105,7 @@ a {
 }
 
 #nav {
-    @apply relative h-screen;
-    background-color: var(--container-color);
+    @apply relative h-screen bg-white dark:bg-slate-900;
 }
 
 .fixed-content {
@@ -132,7 +131,7 @@ a {
 .page-group {
     @apply mt-2;
     a.page {
-        @apply relative flex items-center p-3;
+        @apply relative flex items-center p-3 text-slate-400 dark:text-slate-500;
         .iconify {
             @apply mr-1;
         }
@@ -146,14 +145,13 @@ a {
         }
     }
     a.router-link-active {
+        @apply text-slate-800 dark:text-slate-50;
         .ver-line {
-            @apply block absolute w-1 left-0 rounded-r inset-y-1 bg-black dark:bg-white;
+            @apply block absolute w-1 left-0 rounded-r inset-y-1 bg-slate-800 dark:bg-slate-50;
         }
     }
     hr {
-        @apply w-5/6 m-auto my-2;
-        // margin: 7% auto;
-        border-top: 1px solid var(--first-color);
+        @apply w-5/6 m-auto my-2 border-t border-slate-900 dark:border-slate-400;
     }
 }
 </style>

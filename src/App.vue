@@ -48,7 +48,7 @@ export default {
         setBackGround() {
             const theme = this.$store.state.general.theme;
             document.body.style.backgroundColor =
-                theme === "dark-theme" ? "#4F3B78" : "#fff";
+                theme === "dark-theme" ? "rgba(30, 41, 59, 1)" : "#fff";
             if (theme === "dark-theme")
                 document.documentElement.classList.add('dark');
             else
