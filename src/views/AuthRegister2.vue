@@ -14,22 +14,22 @@
               href="register"
               class="form__singUp--noAcc"
               :class="{ disabled: isLoading }"
-              >No account?</a
+              >Have account?</a
             ><br />
             <a
               href="register"
               class="form__singUp--signUp"
               :class="{ disabled: isLoading }"
-              >Sign up</a
+              >Sign in</a
             >
           </div>
         </div>
 
         <!--form body  -->
         <div class="form__body">
-          <h1 class="form__body__title">Sign In</h1>
+          <h1 class="form__body__title">Sign Up</h1>
 
-          <!-- third-party button -->
+          <!-- Third-party buttons -->
           <!-- <div class="form__body__button flex--space-between">
             <button
               class="form__body__button--google"
@@ -51,48 +51,74 @@
 
           <form action="" @submit.prevent="handleLogin">
             <div class="form__body__inputGroup">
+              <!-- Email -->
               <span class="form__body__inputGroup--title">
-                <p>Username or Email Address</p>
+                <p>Email</p>
               </span>
               <InputText
-                :class="{ warning: isUsernameEmpty }"
-                @dataUpdated="setEmailOrUsername"
-                :value="
-                  this.$store.state.endUser.user.getEmail() ||
-                  this.$store.state.endUser.user.getUsername()
-                "
+                @dataUpdated="setEmail"
+                :value="input.email"
                 :disabled="isLoading"
                 :require="true"
-                placeholder="Username or email"
-                @input="this.isUsernameEmpty = false"
+                placeholder="Enter your email"
               />
-              <p
+              <!-- <p
                 class="form__body__inputGroup--warningMessage"
-                v-show="this.isUsernameEmpty"
               >
                 Can't let be empty
-              </p>
+              </p> -->
             </div>
-
+            <!-- Username -->
+            <div class="form__body__inputGroup">
+              <span class="form__body__inputGroup--title">
+                <p>Username</p>
+              </span>
+              <InputText
+                @dataUpdated="setUsername"
+                :value="input.username"
+                :disabled="isLoading"
+                :require="true"
+                placeholder="Enter your username"
+              />
+              <!-- <p
+                class="form__body__inputGroup--warningMessage"
+              >
+                Can't let be empty
+              </p> -->
+            </div>
+            <!-- Password -->
             <div class="form__body__inputGroup">
               <span class="form__body__inputGroup--title flex--space-between">
                 <p>Password</p>
-                <a href="">Forgot Password?</a>
               </span>
               <InputPass
-                :class="{ warning: isPasswordsEmpty }"
                 @dataUpdated="setPassword"
                 :disabled="isLoading"
                 :require="true"
                 placeholder="Password"
-                @input="this.isPasswordsEmpty = false"
               />
-              <p
+              <!-- <p
                 class="form__body__inputGroup--warningMessage"
-                v-show="this.isPasswordsEmpty"
               >
                 Can't let be empty
-              </p>
+              </p> -->
+            </div>
+            <!-- Confirm your password -->
+            <div class="form__body__inputGroup">
+              <span class="form__body__inputGroup--title flex--space-between">
+                <p>Confirm password</p>
+              </span>
+              <InputPass
+                @dataUpdated="passwordConfirmValidation"
+                :disabled="isLoading"
+                :require="true"
+                placeholder="Confirm your password"
+              />
+              <!-- <p
+                class="form__body__inputGroup--warningMessage"
+              >
+                Can't let be empty
+              </p> -->
             </div>
 
             <Button
@@ -111,7 +137,7 @@
     <template #image>
       <img
         class="rightImage img2"
-        src="../assets/img/signInBoy.png"
+        src="../assets/img/SignUpBoy.png"
         alt="Vũ Đặng Anh Quân"
       />
     </template>
@@ -126,7 +152,7 @@ import errorHandler from "../helpers/errorHandler";
 import LoadingIcon from "../components/general/LoadingIcon";
 import User from "../model/CoderAuth/User";
 import AuthLayout from "../components/authentication/AuthLayout.vue";
-import { login } from "../model/CoderAuth/domainLogic/User";
+import { register } from "../model/CoderAuth/domainLogic/User";
 
 export default {
   name: "AuthLogin",
@@ -142,9 +168,11 @@ export default {
   data() {
     return {
       isLoading: false,
-      isError: false,
-      isUsernameEmpty: false,
-      isPasswordsEmpty: false,
+      input: {
+        email: "",
+        username: "",
+        password: "",
+      },
     };
   },
 
@@ -152,71 +180,76 @@ export default {
     this.$store.state.endUser.user = User.init();
   },
 
+  watch: {
+    confirmPassword(value) {
+      this.input.password = value;
+      this.passwordConfirmValidation(value);
+    },
+  },
+
   methods: {
-    setEmailOrUsername(value) {
-      // check input type is email or username
-      // email -> setEmail, username -> setUsername
+    setEmail(value) {
+      if (this.emailValidation(value)) {
+        this.input.email = value;
+      }
+    },
+
+    setUsername(value) {
+      if (this.usernameValidation(value)) {
+        this.input.username = value;
+      }
+    },
+
+    setPassword(value) {
+      if (this.passWordValidation(value)) {
+        this.input.password = value;
+      }
+    },
+
+    emailValidation(value) {
       let filter =
         /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
       if (filter.test(value)) {
-        this.$store.state.endUser.user.setEmail(value);
-      } else {
-        this.$store.state.endUser.user.setUsername(value);
+        return true;
+      }
+      return false;
+    },
+
+    usernameValidation(value) {
+      let filter = /^[a-z][^\W_]{7,14}$/i;
+      if (filter.test(value) && value.length >= 8) {
+        return true;
+      }
+      return false;
+    },
+
+    passWordValidation(value) {
+      // first letter is Uppercase
+      let filter = /^(?=.*[A-Z])[^:&.~\s]{5,20}$/;
+      if (filter.test(value) && value.length >= 8) {
+        this.input.password = value;
       }
     },
 
-    setPassword(password) {
-      this.$store.state.endUser.user.setPassword(password);
-    },
-
-    directSignUp() {
-      this.$router.push("register");
-    },
-
-    checkEmailOrUsername() {
-      const input =
-        this.$store.state.endUser.user.getEmail() ||
-        this.$store.state.endUser.user.getUsername();
-      // console.log(input);
-      if (!input || input === "" || !input.trim()) {
-        this.isUsernameEmpty = true;
-        return false;
+    passwordConfirmValidation(value) {
+      if (this.input.password != value) {
+        console.log("wrong password");
       }
-      return true;
-    },
-
-    checkPassword() {
-      const input = this.$store.state.endUser.user.getPassword();
-      // console.log(input);
-      if (!input || input === "" || !input.trim()) {
-        this.isPasswordsEmpty = true;
-        return false;
-      }
-      return true;
-    },
-
-    // where ?
-    directForgotPass() {
-      this.router.push("");
     },
 
     async handleLogin() {
-      // check empty
-      if (this.checkEmailOrUsername() && this.checkPassword()) {
+      this.$store.state.endUser.user.setEmail(this.input.email);
+      this.$store.state.endUser.user.setUsername(this.input.username);
+      this.$store.state.endUser.user.setPassword(this.input.password);
+      try {
         this.isLoading = true;
-        try {
-          const data = await login(this.$store.state.endUser.user);
-
-          // add accessToken to localStorage
-          localStorage.setItem("accessToken", data);
-
-          // move to dashboard
-          this.$router.go("dashboard");
-          this.isLoading = false;
-        } catch (error) {
-          this.isLoading = false;
-          setTimeout(errorHandler(error), 3000);
-        }
+        const response = await register(this.$store.state.endUser.user);
+        // console.log(response);
+        this.$router.go("dashboard");
+        this.isLoading = false;
+      } catch (error) {
+        this.isLoading = false;
+        setTimeout(errorHandler(error), 3000);
       }
     },
   },
@@ -376,6 +409,10 @@ export default {
   margin-left: 1rem;
   margin-top: -0.9rem;
   font-size: 14px;
+}
+
+Button {
+  margin-top: 10px;
 }
 
 /* Image part */
