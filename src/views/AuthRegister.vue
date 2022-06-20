@@ -11,13 +11,13 @@
           </div>
           <div class="form__singUp">
             <a
-              href="register"
+              href="login"
               class="form__singUp--haveAcc"
               :class="{ disabled: isLoading }"
               >Have account?</a
             ><br />
             <a
-              href="register"
+              href="login"
               class="form__singUp--signUp"
               :class="{ disabled: isLoading }"
               >Sign in</a
@@ -114,11 +114,10 @@
                 :require="true"
                 placeholder="Confirm your password"
               />
-              <!-- <p
-                class="form__body__inputGroup--warningMessage"
-              >
-                Can't let be empty
-              </p> -->
+              <p class="form__body__inputGroup--warningMessage"
+              v-if="isError.confirmPassword">
+                not match password
+              </p>
             </div>
 
             <Button
@@ -168,6 +167,13 @@ export default {
   data() {
     return {
       isLoading: false,
+      isError: {
+        email: false,
+        username: false,
+        password: false,
+        confirmPassword: false,
+      },
+
       input: {
         email: "",
         username: "",
@@ -233,7 +239,9 @@ export default {
 
     passwordConfirmValidation(value) {
       if (this.input.password != value) {
-        console.log("wrong password");
+        this.isError.confirmPassword = true;
+      } else {
+        this.isError.confirmPassword = false;
       }
     },
 
@@ -415,17 +423,4 @@ Button {
   margin-top: 10px;
 }
 
-/* Image part */
-.rightImage {
-  position: absolute;
-  margin-right: 20px;
-}
-
-.img1 {
-  z-index: 10;
-}
-
-.img2 {
-  z-index: 20;
-}
 </style>

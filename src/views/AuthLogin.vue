@@ -377,18 +377,4 @@ export default {
   margin-top: -0.9rem;
   font-size: 14px;
 }
-
-/* Image part */
-.rightImage {
-  position: absolute;
-  margin-right: 20px;
-}
-
-.img1 {
-  z-index: 10;
-}
-
-.img2 {
-  z-index: 20;
-}
 </style>
