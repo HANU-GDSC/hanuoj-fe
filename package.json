@@ -1,35 +1,38 @@
 {
-    "name": "hanu_online_judge_client",
-    "version": "0.1.0",
-    "private": true,
-    "scripts": {
-        "serve": "vue-cli-service serve",
-        "build": "vue-cli-service build"
-    },
-    "dependencies": {
-        "autoprefixer": "^9.8.8",
-        "axios": "^0.25.0",
-        "core-js": "^3.6.5",
-        "postcss": "^7.0.39",
-        "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.17",
-        "vue": "^3.0.0",
-        "vue-monaco-editor": "^0.0.19",
-        "vue-router": "^4.0.12",
-        "vue3-markdown-it": "^1.0.10",
-        "vuex": "^4.0.2"
-    },
-    "devDependencies": {
-        "@iconify/vue": "^3.2.1",
-        "@vue/cli-plugin-babel": "~4.5.0",
-        "@vue/cli-plugin-router": "~4.5.0",
-        "@vue/cli-plugin-vuex": "~4.5.0",
-        "@vue/cli-service": "~4.5.0",
-        "@vue/compiler-sfc": "^3.0.0",
-        "copy-webpack-plugin": "^10.2.4",
-        "css-loader": "^6.7.1",
-        "file-loader": "^6.2.0",
-        "sass": "^1.49.8",
-        "sass-loader": "^10.1.1",
-        "style-loader": "^2.0.0"
-    }
+  "name": "hanu_online_judge_client",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build"
+  },
+  "dependencies": {
+    "autoprefixer": "^9.8.8",
+    "axios": "^0.25.0",
+    "core-js": "^3.6.5",
+    "postcss": "^7.0.39",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.17",
+    "vue": "^3.0.0",
+    "vue-class-component": "^8.0.0-0",
+    "vue-monaco-editor": "^0.0.19",
+    "vue-router": "^4.0.12",
+    "vue3-markdown-it": "^1.0.10",
+    "vuex": "^4.0.2"
+  },
+  "devDependencies": {
+    "@iconify/vue": "^3.2.1",
+    "@vue/cli-plugin-babel": "~4.5.0",
+    "@vue/cli-plugin-router": "~4.5.0",
+    "@vue/cli-plugin-typescript": "^4.5.18",
+    "@vue/cli-plugin-vuex": "~4.5.0",
+    "@vue/cli-service": "~4.5.0",
+    "@vue/compiler-sfc": "^3.0.0",
+    "copy-webpack-plugin": "^10.2.4",
+    "css-loader": "^6.7.1",
+    "file-loader": "^6.2.0",
+    "sass": "^1.49.8",
+    "sass-loader": "^10.1.1",
+    "style-loader": "^2.0.0",
+    "typescript": "~4.1.5"
+  }
 }
