@@ -62,11 +62,12 @@
                 :require="true"
                 placeholder="Enter your email"
               />
-              <!-- <p
+              <p
                 class="form__body__inputGroup--warningMessage"
+                v-show="isError.email"
               >
-                Can't let be empty
-              </p> -->
+                Must be a email type
+              </p>
             </div>
             <!-- Username -->
             <div class="form__body__inputGroup">
@@ -80,11 +81,12 @@
                 :require="true"
                 placeholder="Enter your username"
               />
-              <!-- <p
+              <p
                 class="form__body__inputGroup--warningMessage"
+                v-show="isError.username"
               >
-                Can't let be empty
-              </p> -->
+                Username must have at least 8 character
+              </p>
             </div>
             <!-- Password -->
             <div class="form__body__inputGroup">
@@ -97,11 +99,13 @@
                 :require="true"
                 placeholder="Password"
               />
-              <!-- <p
+              <p
                 class="form__body__inputGroup--warningMessage"
+                v-show="isError.password"
               >
-                Can't let be empty
-              </p> -->
+                Must have both number and character. At least 1 character is
+                Uppercase and length > = 8
+              </p>
             </div>
             <!-- Confirm your password -->
             <div class="form__body__inputGroup">
@@ -109,20 +113,28 @@
                 <p>Confirm password</p>
               </span>
               <InputPass
-                @dataUpdated="passwordConfirmValidation"
+                @dataUpdated="setConfirmPassword"
                 :disabled="isLoading"
                 :require="true"
                 placeholder="Confirm your password"
               />
-              <p class="form__body__inputGroup--warningMessage"
-              v-if="isError.confirmPassword">
+              <p
+                class="form__body__inputGroup--warningMessage"
+                v-show="isError.confirmPassword"
+              >
                 not match password
               </p>
             </div>
 
             <Button
               des="login"
-              :disabled="isLoading"
+              :disabled="
+                isLoading ||
+                !input.email ||
+                !input.username ||
+                !input.password ||
+                !input.confirmPassword
+              "
               @clicked="handleLogin"
               text="Login"
               type="primary"
@@ -178,6 +190,7 @@ export default {
         email: "",
         username: "",
         password: "",
+        confirmPassword: "",
       },
     };
   },
@@ -187,9 +200,21 @@ export default {
   },
 
   watch: {
-    confirmPassword(value) {
+    email(value) {
+      this.input.email = value;
+      this.emailValidation(value);
+    },
+    username(value) {
+      this.input.username = value;
+      this.usernameValidation(value);
+    },
+    password(value) {
       this.input.password = value;
-      this.passwordConfirmValidation(value);
+      this.passwordValidation(value);
+    },
+    confirmPassword(value) {
+      this.input.confirmPassword = value;
+      this.setConfirmPassword(value);
     },
   },
 
@@ -216,48 +241,75 @@ export default {
       let filter =
         /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
       if (filter.test(value)) {
+        this.isError.email = false;
         return true;
+      } else {
+        this.isError.email = true;
+        return false;
       }
-      return false;
     },
 
     usernameValidation(value) {
       let filter = /^[a-z][^\W_]{7,14}$/i;
       if (filter.test(value) && value.length >= 8) {
+        this.isError.username = false;
+        return true;
+      } else {
+        this.isError.username = true;
+        return false;
+      }
+    },
+
+    passWordValidation(value) {
+      // first letter is Uppercase
+      let filter = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$$/;
+      if (filter.test(value) && value.length >= 8) {
+        this.isError.password = false;
+        return true;
+      } else {
+        this.isError.password = true;
+        return false;
+      }
+    },
+
+    setConfirmPassword(value) {
+      if (this.input.password != value) {
+        this.isError.confirmPassword = true;
+        return false;
+      } else {
+        this.input.confirmPassword = value;
+        this.isError.confirmPassword = false;
+        return true;
+      }
+    },
+
+    repOK() {
+      if (
+        this.emailValidation(this.input.email) &&
+        this.usernameValidation(this.input.username) &&
+        this.passWordValidation(this.input.password) &&
+        this.setConfirmPassword(this.input.confirmPassword)
+      ) {
         return true;
       }
       return false;
     },
 
-    passWordValidation(value) {
-      // first letter is Uppercase
-      let filter = /^(?=.*[A-Z])[^:&.~\s]{5,20}$/;
-      if (filter.test(value) && value.length >= 8) {
-        this.input.password = value;
-      }
-    },
-
-    passwordConfirmValidation(value) {
-      if (this.input.password != value) {
-        this.isError.confirmPassword = true;
-      } else {
-        this.isError.confirmPassword = false;
-      }
-    },
-
     async handleLogin() {
-      this.$store.state.endUser.user.setEmail(this.input.email);
-      this.$store.state.endUser.user.setUsername(this.input.username);
-      this.$store.state.endUser.user.setPassword(this.input.password);
-      try {
-        this.isLoading = true;
-        const response = await register(this.$store.state.endUser.user);
-        // console.log(response);
-        this.$router.go("dashboard");
-        this.isLoading = false;
-      } catch (error) {
-        this.isLoading = false;
-        setTimeout(errorHandler(error), 3000);
+      if (this.repOK()) {
+        try {
+          this.$store.state.endUser.user.setEmail(this.input.email);
+          this.$store.state.endUser.user.setUsername(this.input.username);
+          this.$store.state.endUser.user.setPassword(this.input.password);
+          this.isLoading = true;
+          const response = await register(this.$store.state.endUser.user);
+          // console.log(response);
+          this.$router.go("dashboard");
+          this.isLoading = false;
+        } catch (error) {
+          this.isLoading = false;
+          setTimeout(errorHandler(error), 3000);
+        }
       }
     },
   },
@@ -280,7 +332,6 @@ export default {
   height: 100%;
 }
 
-/* When user try to submit with empty or wrong user's name/password */
 .warning {
   --stroke-color: #f10e0e;
 }
@@ -422,5 +473,4 @@ export default {
 Button {
   margin-top: 10px;
 }
-
 </style>
