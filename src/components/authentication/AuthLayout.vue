@@ -1,9 +1,9 @@
 <template>
     <div class="auth-container">
-        <div class="content-box">
+        <div class="content-container">
             <slot name="layoutcontent"></slot>
         </div>
-        <div class="img">
+        <div class="img-container">
             <slot name="image"></slot>
         </div>
     </div>
@@ -17,19 +17,19 @@ export default {
 
 <style lang="scss" scoped>
 .auth-container {
-    @apply flex justify-between w-screen h-screen;
+    @apply flex justify-between h-screen;
 }
-.content-box {
+.content-container {
     @apply h-full p-5 w-1/2 bg-white shadow-2xl;
 }
-.img {
+.img-container {
     @apply flex justify-center items-center w-3/5 h-full p-3 overflow-hidden;
 }
 @media only screen and (max-width: 850px) {
-    .content-box {
+    .content-container {
         width: 100%;
     }
-    .img {
+    .img-container {
         display: none;
     }
 }

@@ -1,13 +1,14 @@
 <template>
-    Landing
+  
 </template>
 
 <script>
 export default {
-    name: "Landing",
-};
-
+    name: 'Listproblem',
+    
+}
 </script>
 
 <style>
+
 </style>

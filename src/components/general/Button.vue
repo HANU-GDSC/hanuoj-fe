@@ -6,11 +6,9 @@
         :disabled="disabled"
         @click="click()"
     >
-
         <span :class="loading ? 'opacity-0' : ''">
             {{ text }}
         </span>
-
         <LoadingIcon
             v-if="loading"
             class="
@@ -22,7 +20,6 @@
             "
             :type="type"
         />
-
     </button>
 </template>
 
