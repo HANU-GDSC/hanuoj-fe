@@ -240,7 +240,6 @@ export default {
     async handleLogin() {
       // check empty
       if (this.repOK()) {
-        console.log(this.input);
         try {
           this.setUser();
           this.isLoading = true;
@@ -254,7 +253,7 @@ export default {
           this.isLoading = false;
         } catch (error) {
           this.isLoading = false;
-          setTimeout(errorHandler(error), 3000);
+          errorHandler(error)
         }
       }
     },
