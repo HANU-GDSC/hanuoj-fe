@@ -62,9 +62,9 @@ import Submission from "./RightConsoleSubmission";
 import LoadingIcon from "../../general/LoadingIcon";
 import Button from "../../general/Button";
 
-import SubmissionModel from "../../../model/coreProblem/submission";
-import { getTestCases } from "../../../model/practiceProblem/domainLogic/coreProblem/testCase";
-import { submit } from "../../../model/practiceProblem/domainLogic/coreProblem/submission";
+// import SubmissionModel from "../../../model/coreProblem/submission";
+// import { getTestCases } from "../../../model/practiceProblem/domainLogic/coreProblem/testCase";
+// import { submit } from "../../../model/practiceProblem/domainLogic/coreProblem/submission";
 
 import translate from "../../../helpers/translate";
 import errorHandler from "../../../helpers/errorHandler";

@@ -55,7 +55,7 @@
 import InputNum from "../../../components/general/InputNum.vue";
 import InputText from "../../../components/general/InputText.vue";
 import InputCheck from "../../../components/general/InputCheck.vue";
-import TestCase from "../../../model/coreProblem/testCase";
+// import TestCase from "../../../model/coreProblem/testCase";
 export default {
   components: {
     InputNum,

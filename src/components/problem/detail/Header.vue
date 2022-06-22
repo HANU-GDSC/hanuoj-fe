@@ -5,9 +5,9 @@
         </div>
         <h2 class="problem-name">{{ problem.getName() }}</h2>
         <div class="problem-info">
-            <div :class="'difficulty ' + practiceProblem.getDifficulty()">
+            <!-- <div :class="'difficulty ' + practiceProblem.getDifficulty()">
                 {{ translate(practiceProblem.getDifficulty()).toUpperCase() }}
-            </div>
+            </div> -->
             <div class="like" @click="likeClicked">
                 {{ like ? likeCount + 1 : likeCount }}
                 <i
@@ -31,13 +31,6 @@
 
 <script>
 
-import { getPracticeProblem } from "../../../model/practiceProblem/domainLogic/problem";
-import { getLike } from "../../../model/practiceProblem/domainLogic/like";
-import { getDislike } from "../../../model/practiceProblem/domainLogic/dislike";
-import PracticeProblem from "../../../model/practiceProblem/practiceProblem";
-import Like from "../../../model/practiceProblem/like";
-import Dislike from "../../../model/practiceProblem/dislike";
-
 import translate from "../../../helpers/translate";
 import errorHandler from "../../../helpers/errorHandler";
 
@@ -49,9 +42,7 @@ export default {
             likeCount: 0,
             dislike: false,
             dislikeCount: 0,
-            practiceProblem: new PracticeProblem({
-                difficulty: ""
-            }),
+            practiceProblem: {}
         };
     },
     props: {
@@ -81,14 +72,7 @@ export default {
     },
     async created() {
         try {
-            const [practiceProblem, like, dislike] = await Promise.all([
-                getPracticeProblem(this.$route.params.id),
-                // getLike(this.$route.params.id),
-                // getDislike(this.$route.params.id)
-            ])
             this.practiceProblem = practiceProblem;
-            // this.like = like.getLikeCount();
-            // this.dislike = dislike.getDislikeCount();
             this.like = 0;
             this.dislike = 0;
         } catch (error) {

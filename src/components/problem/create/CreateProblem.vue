@@ -73,12 +73,12 @@ import LanguageSelect from "./LanguageSelect.vue";
 import MarkdownRender from "../../../components/general/MarkdownRender.vue";
 import Button from "../../general/Button.vue";
 // import { createProblem } from "../../../model/coreProblem/domainLogic/problem"
-import Problem from "../../../model/coreProblem/problem";
-import PracticeProblem from "../../../model/practiceProblem/practiceProblem";
+// import Problem from "../../../model/coreProblem/problem";
+// import PracticeProblem from "../../../model/practiceProblem/problem";
 
-import { createProblem } from "../../../model/practiceProblem/domainLogic/coreProblem/problem";
-import {getPracticeProblem} from "../../../model/practiceProblem/domainLogic/problem"
-import {createTestCases} from "../../../model/practiceProblem/domainLogic/coreProblem/testCase"
+// import { createProblem } from "../../../model/practiceProblem/domainLogic/coreProblem/problem";
+// import {getPracticeProblem} from "../../../model/practiceProblem/domainLogic/problem"
+// import {createTestCases} from "../../../model/practiceProblem/domainLogic/coreProblem/testCase"
 import errorHandler from "../../../helpers/errorHandler"
 export default {
   components: {

@@ -53,9 +53,9 @@
 <script>
 import MainLayout from "../components/MainLayout";
 import Loading from "../components/Loading";
-import { listProblems } from "../model/practiceProblem/domainLogic/problem";
 import errorHandler from "../helpers/errorHandler";
-import { getProblemById } from "../model/practiceProblem/domainLogic/coreProblem/problem";
+// import { listProblems } from "../model/practiceProblem/domainLogic/problem";
+// import { getProblemById } from "../model/practiceProblem/domainLogic/coreProblem/problem";
 
 export default {
     name: "Problem",
@@ -93,7 +93,6 @@ export default {
                     coreProblemPromise.push(
                         getProblemById(listData[i].getCoreProblemProblemId())
                     );
-                    console.log(listData[i]);
                 }
 
                 const coreProblems = await Promise.all(coreProblemPromise);
@@ -102,7 +101,6 @@ export default {
                         coreProblem.getName();
                 });
 
-                console.log(this.problemList);
             } catch (error) {
                 errorHandler(error);
             }

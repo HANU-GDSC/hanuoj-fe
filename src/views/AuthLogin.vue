@@ -124,9 +124,9 @@ import Button from "../components/general/Button";
 import InputPass from "../components/general/InputPass";
 import errorHandler from "../helpers/errorHandler";
 import LoadingIcon from "../components/general/LoadingIcon";
-import User from "../model/CoderAuth/User";
-import AuthLayout from "../components/authentication/AuthLayout.vue";
-import { login } from "../model/CoderAuth/domainLogic/User";
+// import User from "../model/CoderAuth/User";
+// import AuthLayout from "../components/authentication/AuthLayout.vue";
+// import { login } from "../model/CoderAuth/domainLogic/User";
 
 export default {
   name: "AuthLogin",
