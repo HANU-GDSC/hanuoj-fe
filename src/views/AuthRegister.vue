@@ -161,9 +161,10 @@ import Button from "../components/general/Button";
 import InputPass from "../components/general/InputPass";
 import errorHandler from "../helpers/errorHandler";
 import LoadingIcon from "../components/general/LoadingIcon";
-// import User from "../model/CoderAuth/User";
-// import AuthLayout from "../components/authentication/AuthLayout.vue";
-// import { register } from "../model/CoderAuth/domainLogic/User";
+import User from "../model/coder/user";
+import { login } from "../model/coder/domainLogic/auth";
+import { register } from "../model/coder/domainLogic/auth";
+import AuthLayout from "../components/authentication/AuthLayout";
 
 export default {
   name: "AuthLogin",
@@ -196,7 +197,7 @@ export default {
   },
 
   created() {
-    this.$store.state.endUser.user = User.init();
+    this.$store.state.endUser.user = new User();
   },
 
   watch: {
@@ -295,20 +296,24 @@ export default {
       return false;
     },
 
+    async login() {
+      const data = await login(this.$store.state.endUser.user);
+
+      // add accessToken to localStorage
+      localStorage.setItem("accessToken", data);
+    },
+
     async handleRegister() {
       if (this.repOK()) {
         try {
           this.$store.state.endUser.user.setEmail(this.input.email);
-          this.$store.state.endUser.user.setUsername(this.input.username);
+          this.$store.state.endUser.user.setName(this.input.username);
           this.$store.state.endUser.user.setPassword(this.input.password);
           this.isLoading = true;
           await register(this.$store.state.endUser.user);
 
           // auto sign in after signup success
-          const data = await login(this.$store.state.endUser.user);
-
-          // add accessToken to localStorage
-          localStorage.setItem("accessToken", data);
+          await this.login();
           this.$router.go("dashboard");
           this.isLoading = false;
         } catch (error) {

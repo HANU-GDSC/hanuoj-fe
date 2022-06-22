@@ -57,10 +57,7 @@
               <InputText
                 :class="{ warning: isUsernameEmpty }"
                 @dataUpdated="setEmailOrUsername"
-                :value="
-                  this.$store.state.endUser.user.getEmail() ||
-                  this.$store.state.endUser.user.getUsername()
-                "
+                :value="input.username || input.email"
                 :disabled="isLoading"
                 :require="true"
                 placeholder="Username or email"
@@ -124,9 +121,9 @@ import Button from "../components/general/Button";
 import InputPass from "../components/general/InputPass";
 import errorHandler from "../helpers/errorHandler";
 import LoadingIcon from "../components/general/LoadingIcon";
-// import User from "../model/CoderAuth/User";
-// import AuthLayout from "../components/authentication/AuthLayout.vue";
-// import { login } from "../model/CoderAuth/domainLogic/User";
+import { login } from "../model/coder/domainLogic/auth";
+import AuthLayout from "../components/authentication/AuthLayout";
+import User from "../model/coder/user";
 
 export default {
   name: "AuthLogin",
@@ -153,7 +150,7 @@ export default {
   },
 
   created() {
-    this.$store.state.endUser.user = User.init();
+    this.$store.state.endUser.user = new User();
   },
 
   methods: {
@@ -207,7 +204,7 @@ export default {
         this.$store.state.endUser.user.setEmail(this.input.email);
         this.$store.state.endUser.user.setPassword(this.input.password);
       } else if (this.input.username && this.input.password) {
-        this.$store.state.endUser.user.setUsername(this.input.username);
+        this.$store.state.endUser.user.setName(this.input.username);
         this.$store.state.endUser.user.setPassword(this.input.password);
       }
     },
