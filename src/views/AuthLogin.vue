@@ -80,16 +80,16 @@
                 <a href="">Forgot Password?</a>
               </span>
               <InputPass
-                :class="{ warning: isPasswordsEmpty }"
+                :class="{ warning: isPasswordEmpty }"
                 @dataUpdated="setPassword"
                 :disabled="isLoading"
                 :require="true"
                 placeholder="Password"
-                @input="this.isPasswordsEmpty = false"
+                @input="this.isPasswordEmpty = false"
               />
               <p
                 class="form__body__inputGroup--warningMessage"
-                v-show="this.isPasswordsEmpty"
+                v-show="isPasswordEmpty"
               >
                 Can't let be empty
               </p>
@@ -142,9 +142,13 @@ export default {
   data() {
     return {
       isLoading: false,
-      isError: false,
       isUsernameEmpty: false,
-      isPasswordsEmpty: false,
+      isPasswordEmpty: false,
+      input: {
+        email: "",
+        username: "",
+        password: "",
+      },
     };
   },
 
@@ -156,43 +160,79 @@ export default {
     setEmailOrUsername(value) {
       // check input type is email or username
       // email -> setEmail, username -> setUsername
-      let filter =
-        /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-      if (filter.test(value)) {
-        this.$store.state.endUser.user.setEmail(value);
-      } else {
-        this.$store.state.endUser.user.setUsername(value);
+      if (this.emailValidation(value)) {
+        this.input.email = value;
+        this.input.username = "";
+      } else if (this.usernameValidation(value)) {
+        this.input.email = "";
+        this.input.username = value;
       }
     },
 
-    setPassword(password) {
-      this.$store.state.endUser.user.setPassword(password);
+    setPassword(value) {
+      if (this.passwordValidation(value)) {
+        this.input.password = value;
+      }
+    },
+
+    emailValidation(value) {
+      let filter =
+        /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+      if (filter.test(value)) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+
+    usernameValidation(value) {
+      let filter = /^[a-z][^\W_]{7,14}$/i;
+      if (filter.test(value)) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+
+    passwordValidation(value) {
+      if (!value) {
+        return false;
+      } else {
+        return true;
+      }
+    },
+
+    setUser() {
+      if (this.input.email && this.input.password) {
+        this.$store.state.endUser.user.setEmail(this.input.email);
+        this.$store.state.endUser.user.setPassword(this.input.password);
+      } else if (this.input.username && this.input.password) {
+        this.$store.state.endUser.user.setUsername(this.input.username);
+        this.$store.state.endUser.user.setPassword(this.input.password);
+      }
+    },
+
+    repOK() {
+      if (!this.input.username && !this.input.email) {
+        this.isUsernameEmpty = true;
+        return false;
+      }
+      if (!this.input.password) {
+        this.isPasswordEmpty = true;
+        return false;
+      }
+      if (this.input.email && this.input.password) {
+        this.isPasswordEmpty = false;
+        return true;
+      } else if (this.input.username && this.input.password) {
+        this.isPasswordEmpty = false;
+        return true;
+      }
+      return false;
     },
 
     directSignUp() {
       this.$router.push("register");
-    },
-
-    checkEmailOrUsername() {
-      const input =
-        this.$store.state.endUser.user.getEmail() ||
-        this.$store.state.endUser.user.getUsername();
-      // console.log(input);
-      if (!input || input === "" || !input.trim()) {
-        this.isUsernameEmpty = true;
-        return false;
-      }
-      return true;
-    },
-
-    checkPassword() {
-      const input = this.$store.state.endUser.user.getPassword();
-      // console.log(input);
-      if (!input || input === "" || !input.trim()) {
-        this.isPasswordsEmpty = true;
-        return false;
-      }
-      return true;
     },
 
     // where ?
@@ -202,9 +242,11 @@ export default {
 
     async handleLogin() {
       // check empty
-      if (this.checkEmailOrUsername() && this.checkPassword()) {
-        this.isLoading = true;
+      if (this.repOK()) {
+        console.log(this.input);
         try {
+          this.setUser();
+          this.isLoading = true;
           const data = await login(this.$store.state.endUser.user);
 
           // add accessToken to localStorage
@@ -376,5 +418,9 @@ export default {
   margin-left: 1rem;
   margin-top: -0.9rem;
   font-size: 14px;
+}
+
+img {
+  width: 500px;
 }
 </style>

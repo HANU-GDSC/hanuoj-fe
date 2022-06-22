@@ -85,7 +85,7 @@
                 class="form__body__inputGroup--warningMessage"
                 v-show="isError.username"
               >
-                Username must have at least 8 character
+                Username must have at least 8 character and no longer than 15
               </p>
             </div>
             <!-- Password -->
@@ -127,7 +127,7 @@
             </div>
 
             <Button
-              des="login"
+              des="Sign up"
               :disabled="
                 isLoading ||
                 !input.email ||
@@ -135,8 +135,8 @@
                 !input.password ||
                 !input.confirmPassword
               "
-              @clicked="handleLogin"
-              text="Login"
+              @clicked="handleRegister"
+              text="Sign up"
               type="primary"
             />
           </form>
@@ -164,6 +164,7 @@ import LoadingIcon from "../components/general/LoadingIcon";
 import User from "../model/CoderAuth/User";
 import AuthLayout from "../components/authentication/AuthLayout.vue";
 import { register } from "../model/CoderAuth/domainLogic/User";
+import { login } from "../model/CoderAuth/domainLogic/User";
 
 export default {
   name: "AuthLogin",
@@ -232,7 +233,7 @@ export default {
     },
 
     setPassword(value) {
-      if (this.passWordValidation(value)) {
+      if (this.passwordValidation(value)) {
         this.input.password = value;
       }
     },
@@ -251,7 +252,7 @@ export default {
 
     usernameValidation(value) {
       let filter = /^[a-z][^\W_]{7,14}$/i;
-      if (filter.test(value) && value.length >= 8) {
+      if (filter.test(value)) {
         this.isError.username = false;
         return true;
       } else {
@@ -260,7 +261,7 @@ export default {
       }
     },
 
-    passWordValidation(value) {
+    passwordValidation(value) {
       // first letter is Uppercase
       let filter = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$$/;
       if (filter.test(value) && value.length >= 8) {
@@ -287,7 +288,7 @@ export default {
       if (
         this.emailValidation(this.input.email) &&
         this.usernameValidation(this.input.username) &&
-        this.passWordValidation(this.input.password) &&
+        this.passwordValidation(this.input.password) &&
         this.setConfirmPassword(this.input.confirmPassword)
       ) {
         return true;
@@ -295,15 +296,20 @@ export default {
       return false;
     },
 
-    async handleLogin() {
+    async handleRegister() {
       if (this.repOK()) {
         try {
           this.$store.state.endUser.user.setEmail(this.input.email);
           this.$store.state.endUser.user.setUsername(this.input.username);
           this.$store.state.endUser.user.setPassword(this.input.password);
           this.isLoading = true;
-          const response = await register(this.$store.state.endUser.user);
-          // console.log(response);
+          await register(this.$store.state.endUser.user);
+
+          // auto sign in after signup success
+          const data = await login(this.$store.state.endUser.user);
+
+          // add accessToken to localStorage
+          localStorage.setItem("accessToken", data);
           this.$router.go("dashboard");
           this.isLoading = false;
         } catch (error) {
@@ -472,5 +478,9 @@ export default {
 
 Button {
   margin-top: 10px;
+}
+
+img {
+  width: 500px;
 }
 </style>
